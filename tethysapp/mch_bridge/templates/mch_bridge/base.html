@@ -1,0 +1,86 @@
+{% extends "tethys_apps/app_base.html" %} 
+
+{% load static %} 
+
+{% block title %}
+  {{tethys_app.name }} 
+{% endblock %} 
+
+{% block app_icon %} 
+{# The path you provided in your app.py is accessible through the tethys_app.icon context variable #}
+
+<img src="{% if 'http' in tethys_app.icon %}{{ tethys_app.icon }}{% else %}{% static tethys_app.icon %}{% endif %}"/>
+{% endblock %} 
+
+{# The name you provided in your app.py is accessible through the tethys_app.name context variable #} 
+
+{% block app_title %}{{ tethys_app.name }}{%endblock %} 
+
+{% block app_navigation_items %} 
+
+{% endblock %}
+
+{% block app_content%} 
+
+{% endblock %} 
+
+
+{% block app_actions %} 
+
+{% endblock %} 
+{% block content_dependent_styles %} 
+
+{{ block.super }}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+crossorigin=""/>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css"
+  integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css"/>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+
+<link href="{% static 'mch_bridge/css/main.css' %}" rel="stylesheet" />
+
+
+{% endblock %} 
+
+{% block scripts %} 
+
+{{ block.super }}
+ <!-- Make sure you put this AFTER Leaflet's CSS -->
+ <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+<script src="https://unpkg.com/esri-leaflet@3.0.7/dist/esri-leaflet.js"
+integrity="sha512-ciMHuVIB6ijbjTyEdmy1lfLtBwt0tEHZGhKVXDzW7v7hXOe+Fo3UA1zfydjCLZ0/vLacHkwSARXB5DmtNaoL/g=="
+crossorigin=""></script>
+
+ <!-- Load Esri Leaflet Vector from CDN -->
+ <script src="https://unpkg.com/esri-leaflet-vector@3.1.2/dist/esri-leaflet-vector.js"
+   integrity="sha512-SnA/TobYvMdLwGPv48bsO+9ROk7kqKu/tI9TelKQsDe+KZL0TUUWml56TZIMGcpHcVctpaU6Mz4bvboUQDuU3w=="
+   crossorigin=""></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/danfojs@1.0.2/lib/bundle.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
+<script src="{% static 'mch_bridge/js/notify.min.js' %}" type="text/javascript"></script>
+
+<script src="{% static 'mch_bridge/js/main.js' %}" type="text/javascript"></script>
+{% endblock %} 
+
+{% block after_app_content %} 
+{{ block.super }} 
+
+{% include "mch_bridge/modals/add_data.html" %} 
+
+{% endblock %}

@@ -1,0 +1,61 @@
+.fake__btn {
+  padding: 4px;
+  background-color: black;
+  color: white;
+  border-radius: 5px;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.vertical__flex {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+
+.horizontal__flex {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.item {
+  height: 100%;
+  font-size: 18px;
+  vertical-align: middle;
+}
+
+.title__app__content {
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+.btns {
+  display: flex;
+}
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  height: 500px;
+  margin-top: 50px;
+  margin-bottom: 400px;
+}
+
+#metadata {
+  margin-top: 500px;
+  height: 30vh;
+  margin-bottom: 10px;
+}
