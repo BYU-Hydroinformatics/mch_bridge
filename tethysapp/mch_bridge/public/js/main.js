@@ -21,7 +21,9 @@
         map,
         markers = L.markerClusterGroup(),
         list_files,
-        current_index_files=0;
+        current_index_files=0,
+        isMapShowing=false,
+        isGraphsShowing= false;
 
     /************************************************************************
      *                    PRIVATE FUNCTION DECLARATIONS
@@ -33,10 +35,12 @@
         validate_stations,
         arrayEquals,
         preview_stnGroups,
+        only_tables,
         map_to_graph,
         graph_to_map,
         graph_something,
-        preview_time_series;
+        preview_time_series,
+        preview_variabletypestn;
 		// Object returned by the module
 
 
@@ -47,6 +51,8 @@
     
     preview_time_series = function(){
         map_to_graph();
+        $('#comodin__div').empty();
+
         var userFiles = document.getElementById("ts_csv").files;
         list_files =  Array.from(userFiles);
         console.log(userFiles);
@@ -61,35 +67,15 @@
             let date_index = df['$columns'].indexOf('Datee');
             let val_index = df['$columns'].indexOf('Valuee');
             if(date_index < 0 && val_index < 0 ){
+                $.notify( "Please, the columns containing the date and values should be called Datee and Valuee columns", "warn");
+
                 return // please provide the correct names to the Datee and Valuee columns
             }
             else{
                 dates = df['$dataIncolumnFormat'][date_index]
                 values = df['$dataIncolumnFormat'][val_index]
-                graph_something(dates,values,userFile.name,"Valuee","Datee");
+                graph_something(dates,values,userFile.name,"Datee","Valuee");
             }
-            // create table dinamycally //
-            // html_string = `<thead><tr>`
-            // df['$columns'].forEach(function (item, index) {
-            //     if(item != undefined){
-            //         html_string +=`<th>${item}</th>`
-            //     }
-            // });
-            // df['$data'].forEach(function (item, index) {
-
-            //         html_string += '<tr>'
-            //         item.forEach(function(value2){
-            //             html_string += `<td>${value2}</td>`;
-            //         })
-            //         html_string += '</tr>';
-            //   });
-            // html_string += '</tbody>'
-            // // // console.log(html_string);
-            // $('#csv_table').html(html_string);
-
-            // $('#csv_table').DataTable( {
-            //     "scrollX": true
-            // } );
 
         })
     }
@@ -118,22 +104,42 @@
           
           Plotly.newPlot('comodin__div', data, layout);
     }
+    only_tables = function(){
+        $("#map").hide();
+        isMapShowing = false;
+        markers = L.markerClusterGroup();
+        $("#next_plot").hide();
+        $("#last_plot").hide();
+        $("#comodin__div").show();
+        isGraphsShowing = true;
+        $("#instructions").hide();
 
+        $('#show_instructions').prop('checked', false);    
+    }
      map_to_graph = function(){
         $("#map").hide();
+        isMapShowing = false;
         markers = L.markerClusterGroup();
         $("#next_plot").show();
         $("#last_plot").show();
         $("#comodin__div").show();
+        isGraphsShowing = true;
+        $("#instructions").hide();
+
+        $('#show_instructions').prop('checked', false);
     }
 
     graph_to_map = function(){
         $("#map").show();
+        isGraphsShowing = false;
+        isMapShowing = true;
+        $("#instructions").hide();
         $("#next_plot").hide();
         $("#last_plot").hide();
         $("#comodin__div").hide();
         list_files = [];
         current_index_files=0;
+        $('#show_instructions').prop('checked', false);
     }
 
     //Get a CSRF cookie for request
@@ -178,7 +184,7 @@
             a.every((val, index) => val === b[index]);
     }
     initmap = function(){
-        map = L.map('map').setView([8.913648, -79.544706], 10);
+        map = L.map('map').setView([8.913648, -79.544706], 15);
 
         L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
             attribution: '©OpenStreetMap, ©CartoDB'
@@ -186,43 +192,26 @@
     }
     preview_stations = function(){
         graph_to_map();
+        $('#comodin__div').empty();
         let userFile = document.getElementById("stations_csv").files[0];
         let latlongs = []
-        // let html_string = ''
-        // html_string += '</tr></thead><tbody>'
+
         dfd.readCSV(userFile).then((df) => {
             console.log(df);
-            // create table dinamycally //
-            // html_string = `<thead><tr>`
-            // df['$columns'].forEach(function (item, index) {
-            //     if(item != undefined){
-            //         html_string +=`<th>${item}</th>`
-            //     }
-            // })
+
             df['$data'].forEach(function (item, index) {
                 if(item[8] != undefined && item[7] != undefined ){
                     console.log(typeof(item[8]), typeof(item[7]));
                     let marker = L.marker([parseFloat(item[8]), parseFloat(item[7])]).bindPopup(`${item[1]}`);
                     markers.addLayer(marker);
                     latlongs.push([parseFloat(item[8]), parseFloat(item[7])])
-                    // html_string += '<tr>'
-                    // item.forEach(function(value2){
-                    //     html_string += `<td>${value2}</td>`;
-                    // })
-                    // html_string += '</tr>';
+
                 }
               });
-            // html_string += '</tbody>'
-            // console.log(html_string);
-            // $('#csv_table').html(html_string);
+
             map.addLayer(markers);
             var bounds = new L.LatLngBounds(latlongs);
             map.fitBounds(bounds);
-
-
-            // $('#csv_table').DataTable( {
-            //     "scrollX": true
-            // } );
 
         })
     }
@@ -350,18 +339,89 @@
     
             // handle a successful response
             success: function (resp) {
+                $.notify( "Data is being loaded into database", "success");
                 console.log(resp);
             },
     
             // handle a non-successful response
             error: function (xhr, errmsg, err) {
+                $.notify( `${xhr.responseText}`, "error");
+
                 // $('#raw_data_results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: " + errmsg + ".</div>"); // add the error to the dom
                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
             }
         });
     }
     preview_stnGroups = function(){
-        $("#map").hide();
+        only_tables();
+        $('#comodin__div').empty();
+
+        var userFile = document.getElementById("stngroups_csv").files[0];
+        let html_string = '<table id="csv_table" class="display nowrap" style="width:100%"> </table>'
+        $('#comodin__div').html(html_string);
+
+        html_string += '</tr></thead><tbody>'
+        dfd.readCSV(userFile).then((df) => {
+
+            // create table dinamycally
+            html_string = `<thead><tr>`
+            df['$columns'].forEach(function (item, index) {
+                if(item != undefined){
+                    html_string +=`<th>${item}</th>`
+                }
+            });
+            df['$data'].forEach(function (item, index) {
+
+                    html_string += '<tr>'
+                    item.forEach(function(value2){
+                        html_string += `<td>${value2}</td>`;
+                    })
+                    html_string += '</tr>';
+              });
+            html_string += '</tbody>'
+            // // console.log(html_string);
+            $('#csv_table').html(html_string);
+
+            $('#csv_table').DataTable( {
+                "scrollX": true
+            } );
+
+        })
+    }
+    preview_variabletypestn = function(){
+        only_tables();
+        $('#comodin__div').empty();
+
+        var userFile = document.getElementById("variabletypestn_csv").files[0];
+        let html_string = '<table id="csv_table" class="display nowrap" style="width:100%"> </table>'
+        $('#comodin__div').html(html_string);
+
+        html_string += '</tr></thead><tbody>'
+        dfd.readCSV(userFile).then((df) => {
+
+            // create table dinamycally
+            html_string = `<thead><tr>`
+            df['$columns'].forEach(function (item, index) {
+                if(item != undefined){
+                    html_string +=`<th>${item}</th>`
+                }
+            });
+            df['$data'].forEach(function (item, index) {
+
+                    html_string += '<tr>'
+                    item.forEach(function(value2){
+                        html_string += `<td>${value2}</td>`;
+                    })
+                    html_string += '</tr>';
+              });
+            html_string += '</tbody>'
+            $('#csv_table').html(html_string);
+
+            $('#csv_table').DataTable( {
+                "scrollX": true
+            } );
+
+        })
     }
 
     /************************************************************************
@@ -381,6 +441,33 @@
 
     $(function() {
         initmap();
+        
+        $('#show_instructions').change(function(){
+
+            if(this.checked) {
+                $("#map").hide();
+                $("#instructions").show();
+                $("#next_plot").hide();
+                $("#last_plot").hide();
+                $("#comodin__div").hide(); 
+            }
+            else{
+                if(isGraphsShowing){
+                    $("#map").hide();
+                    $("#next_plot").show();
+                    $("#last_plot").show();
+                    $("#comodin__div").show();
+                }
+                if(isMapShowing){
+                    $("#map").show();
+                    $("#next_plot").hide();
+                    $("#last_plot").hide();
+                    $("#comodin__div").hide();
+                }
+                $("#instructions").hide();
+
+            }
+        })
         $("#last_plot").click(function(){
             current_index_files = current_index_files - 1;
             if(current_index_files < 0){
@@ -413,22 +500,52 @@
         })
 
         $('#stations_csv_button').click(function() {
-            upload_data("stations")
+            var files = document.getElementById("stations_csv").files;
+            if(Array.from(files).length < 1 ){
+                $.notify( "Please, submit a file to upload", "warn");
+            }
+            else{
+                upload_data("stations");
+            }
         })
 
         $('#stngroups_csv_button').click(function() {
-            upload_data("stngroups")
+            var files = document.getElementById("stngroups_csv").files;
+            if(Array.from(files).length < 1 ){
+                $.notify( "Please, submit a file to upload", "warn");
+            }
+            else{
+                upload_data("stngroups");
+            }
         })
         $('#variabletypestn_csv_button').click(function() {
-            upload_data("variablestationtype")
+            var files = document.getElementById("variabletypestn_csv").files;
+            if(Array.from(files).length < 1 ){
+                $.notify( "Please, submit a file to upload", "warn");
+            }
+            else{
+                upload_data("variablestationtype");
+            }
         })
 
         $('#ts_csv_button').click(function() {
-            upload_data("timeSeries")
+            var files = document.getElementById("ts_csv").files;
+            if(Array.from(files).length < 1 ){
+                $.notify( "Please, submit a file to upload", "warn");
+            }
+            else{
+                upload_data("timeSeries");
+            }
         })
         
        $("#stations_csv_button_preview").click(function() {
-            preview_stations()
+            var files = document.getElementById("stations_csv").files;
+            if(Array.from(files).length < 1 ){
+                $.notify( "Please, submit a file to preview", "warn");
+            }
+            else{
+                preview_stations();
+            }
         })
 
         
@@ -438,15 +555,33 @@
         });
 
         $("#stngroups_csv_button_preview").click(function() {
-            preview_stnGroups()
+            var files = document.getElementById("stngroups_csv").files;
+            if(Array.from(files).length < 1 ){
+                $.notify( "Please, submit a file to preview", "warn");
+            }
+            else{
+                preview_stnGroups();
+
+            }
+        })
+        $("#variabletypestn_csv_button_preview").click(function() {
+            var files = document.getElementById("variabletypestn_csv").files;
+            if(Array.from(files).length < 1 ){
+                $.notify( "Please, submit a file to preview", "warn");
+            }
+            else{
+                preview_variabletypestn();
+            }
         })
 
         $("#ts_csv_button_preview").click(function() {
-            preview_time_series();
-            // graph_something();
-        })
-        $("#next_plot").click(function(){
-            console.log(oye);
+            var files = document.getElementById("ts_csv").files;
+            if(Array.from(files).length < 1 ){
+                $.notify( "Please, submit a file to preview", "warn");
+            }
+            else{
+                preview_time_series();
+            }
         })
 
     });

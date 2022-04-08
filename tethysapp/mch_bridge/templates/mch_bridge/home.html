@@ -11,36 +11,55 @@
 
 <h3 class="title__app__content">Upload Data to MCH</h3>
   <div class="vertical__flex">
-  <div class="horizontal__flex">
-    <p class="item">Stations <i class="fa-solid fa-location-dot"></i></p>
-    <span class='fake__btn' id="addStations">
-      <i class="fa-solid fa-arrow-up-from-bracket"></i>
-    </span>
-  </div>
-  <div class="horizontal__flex">
-    <p class="item">Groups Stations <i class="fa-solid fa-dice-five"></i></p>
-    <span class='fake__btn' id="addGroupsStations">
-      <i class="fa-solid fa-arrow-up-from-bracket"></i>
-    </span>
-  </div>
-  <div class="horizontal__flex">
-    <p class="item">Variable Station Types <i class="fa-solid fa-dice-d6"></i></p>
-    <span class='fake__btn' id="addVariablesStation">
-      <i class="fa-solid fa-arrow-up-from-bracket"></i>
-    </span>
-  </div>
-  <div class="horizontal__flex">
-    <p class="item">Time Series <i class="fa-solid fa-chart-line"></i></p>
-    <span class='fake__btn' id="addTs">
-      <i class="fa-solid fa-arrow-up-from-bracket"></i>
-    </span>
-  </div>
+    <div class="horizontal__flex">
+      <p class="item">Instructions</p>
+      <label class="switch">
+        <input id="show_instructions" type="checkbox" checked>
+        <span class="slider round"></span>
+      </label>
+    </div>
+    <div class="horizontal__flex">
+      <p class="item">Stations <i class="fa-solid fa-location-dot"></i></p>
+      <span class='fake__btn' id="addStations">
+        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+      </span>
+    </div>
+    <div class="horizontal__flex">
+      <p class="item">Groups Stations <i class="fa-solid fa-dice-five"></i></p>
+      <span class='fake__btn' id="addGroupsStations">
+        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+      </span>
+    </div>
+    <div class="horizontal__flex">
+      <p class="item">Variable Station Types <i class="fa-solid fa-dice-d6"></i></p>
+      <span class='fake__btn' id="addVariablesStation">
+        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+      </span>
+    </div>
+    <div class="horizontal__flex">
+      <p class="item">Time Series <i class="fa-solid fa-chart-line"></i></p>
+      <span class='fake__btn' id="addTs">
+        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+      </span>
+    </div>
 </div>
 
 {% endblock %}
 
 {% block app_content%} 
   <div class="content_divided">
+    <div id="instructions">
+      <p>asfsafasfasfasfasfasfasfasfa</p>
+      <p>asfsafasfasfasfasfasfasfasfa</p>
+      <p>asfsafasfasfasfasfasfasfasfa</p>
+      <p>asfsafasfasfasfasfasfasfasfa</p>
+      <p>asfsafasfasfasfasfasfasfasfa</p>
+      <p>asfsafasfasfasfasfasfasfasfa</p>
+      <p>asfsafasfasfasfasfasfasfasfa</p>
+      <p>asfsafasfasfasfasfasfasfasfa</p>
+      <p>asfsafasfasfasfasfasfasfasfa</p>
+      <p>asfsafasfasfasfasfasfasfasfa</p>
+    </div>
     <div class="content_arrows">
       <span class='fake__btn' id="last_plot">
         <i class="fa-solid fa-angle-left"></i>
