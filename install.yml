@@ -8,8 +8,13 @@ requirements:
   skip: false
   conda:
     channels:
+      - conda-forge
     packages:
+      - aiomysql
+      - pandas
+      - numpy
 
   pip:
+    - asyncio
 
 post:

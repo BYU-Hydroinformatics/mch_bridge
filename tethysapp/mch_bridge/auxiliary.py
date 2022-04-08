@@ -1,4 +1,4 @@
-import pywaterml.waterML as pwml
+# import pywaterml.waterML as pwml
 import pandas as pd
 import os
 
@@ -117,23 +117,23 @@ def decdeg2dmstogether(dd):
 
 
 
-def _convert__WOFstations(WOF_URL):
-    """
-    Method to convert WOF GetSites response to a .csv file that can be used to 
-    upload data to the MCH Database.
-    """ 
+# def _convert__WOFstations(WOF_URL):
+#     """
+#     Method to convert WOF GetSites response to a .csv file that can be used to 
+#     upload data to the MCH Database.
+#     """ 
 
-    try:        
-        water = pwml.WaterMLOperations(url = WOF_URL)
-        sites = water.GetSites()
-        df = pd.DataFrame.from_dict(sites)
-        #Change the names of the station columns and sitecodes, and siteIDs"
-        df = assign_names(df)
-        df = assign_coordinates(df)
-        df = reConfigureDf(df)
-        #Save as a pandas dataFrame
-        # df.to_csv(path_save, index=False)
-    except Exception as e:
-        print(e)
+#     try:        
+#         water = pwml.WaterMLOperations(url = WOF_URL)
+#         sites = water.GetSites()
+#         df = pd.DataFrame.from_dict(sites)
+#         #Change the names of the station columns and sitecodes, and siteIDs"
+#         df = assign_names(df)
+#         df = assign_coordinates(df)
+#         df = reConfigureDf(df)
+#         #Save as a pandas dataFrame
+#         # df.to_csv(path_save, index=False)
+#     except Exception as e:
+#         print(e)
 
-    pass
+#     pass

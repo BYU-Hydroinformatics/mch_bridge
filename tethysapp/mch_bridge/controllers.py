@@ -1,5 +1,5 @@
 
-import pywaterml.waterML as pwml
+# import pywaterml.waterML as pwml
 import pandas as pd
 import os
 import asyncio
@@ -109,28 +109,28 @@ def upload__timeSeries(request):
     pass
 
 
-def convert__WOFstations(request):
-    """
-    Method to convert WOF GetSites response to a .csv file that can be used to 
-    upload data to the MCH Database.
-    """ 
+# def convert__WOFstations(request):
+#     """
+#     Method to convert WOF GetSites response to a .csv file that can be used to 
+#     upload data to the MCH Database.
+#     """ 
 
-    try:
-        WOF_URL = request.GET.get('wof_url')
+#     try:
+#         WOF_URL = request.GET.get('wof_url')
         
-        water = pwml.WaterMLOperations(url = WOF_URL)
-        sites = water.GetSites()
-        df = pd.DataFrame.from_dict(sites)
-        #Change the names of the station columns and sitecodes, and siteIDs"
-        df = assign_names(df)
-        df = assign_coordinates(df)
-        df = reConfigureDf(df)
-        #Save as a pandas dataFrame
-        # df.to_csv(path_save, index=False)
-    except Exception as e:
-        print(e)
+#         water = pwml.WaterMLOperations(url = WOF_URL)
+#         sites = water.GetSites()
+#         df = pd.DataFrame.from_dict(sites)
+#         #Change the names of the station columns and sitecodes, and siteIDs"
+#         df = assign_names(df)
+#         df = assign_coordinates(df)
+#         df = reConfigureDf(df)
+#         #Save as a pandas dataFrame
+#         # df.to_csv(path_save, index=False)
+#     except Exception as e:
+#         print(e)
 
-    pass
+#     pass
 
 
 async def upload_data_tables(cur,table_name,csv_file):
