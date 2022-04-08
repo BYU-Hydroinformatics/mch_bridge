@@ -7,9 +7,17 @@
 <script>
   // Function for the file upload
   $(document).ready(function () {
+    
       $("#{{ csv_id }}").change(function () {
-          console.log("hola")
-          const label = $("#{{ csv_id }}").val().replace(/\\/g, '/').replace(/.*\//, '');
+        // assuming there is a file input with the ID `my-input`...
+          var files = document.getElementById("{{ csv_id }}").files;
+          var str_file = '';
+          for (var i = 0; i < files.length; i++){
+            str_file += files[i].name + ' ';
+          }
+          console.log($("#{{ csv_id }}").val())
+          const label = str_file;
+         // const label = $("#{{ csv_id }}").val().replace(/\\/g, '/').replace(/.*\//, '');
           $("#{{ csv_id }}_display_box_id").val(label);
       });
   });
@@ -58,7 +66,7 @@
               </span>
               <input type="file" name="{{ csv_name }}" id="{{ csv_id }}" style="display: none;" accept=".csv" {{ isMultiple }}>
            </label>
-          <input type="text" id="{{ csv_id }}_display_box_id" class="form-control is-invalid" readonly="">
+          <input type="text" id="{{ csv_id }}_display_box_id" class="form-control is-invalid" readonly="" mulitple >
 
           </div>
           <br />
