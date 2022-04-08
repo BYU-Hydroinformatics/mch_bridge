@@ -19,7 +19,9 @@
      *************************************************************************/
     var public_interface,
         map,
-        markers = L.markerClusterGroup();
+        markers = L.markerClusterGroup(),
+        list_files,
+        current_index_files=0;
 
     /************************************************************************
      *                    PRIVATE FUNCTION DECLARATIONS
@@ -32,7 +34,10 @@
         preview_stations,
         validate_stations,
         arrayEquals,
-        preview_stnGroups;
+        preview_stnGroups,
+        map_to_graph,
+        graph_something,
+        preview_time_series;
 		// Object returned by the module
 
 
@@ -40,7 +45,87 @@
     /************************************************************************
      *                    PRIVATE FUNCTION IMPLEMENTATIONS
      *************************************************************************/
+    
+    preview_time_series = function(){
+        map_to_graph();
+        var userFiles = document.getElementById("ts_csv").files;
+        list_files =  Array.from(userFiles);
+        console.log(userFiles);
+        var userFile = userFiles[current_index_files];
+        let dates = [];
+        let values = [];
 
+        let html_string = ''
+        html_string += '</tr></thead><tbody>'
+        dfd.readCSV(userFile).then((df) => {
+            console.log(df);
+            let date_index = df['$columns'].indexOf('Datee');
+            let val_index = df['$columns'].indexOf('Valuee');
+            if(date_index < 0 && val_index < 0 ){
+                return // please provide the correct names to the Datee and Valuee columns
+            }
+            else{
+                dates = df['$dataIncolumnFormat'][date_index]
+                values = df['$dataIncolumnFormat'][val_index]
+                graph_something(dates,values,userFile.name,"Valuee","Datee");
+            }
+            // create table dinamycally //
+            // html_string = `<thead><tr>`
+            // df['$columns'].forEach(function (item, index) {
+            //     if(item != undefined){
+            //         html_string +=`<th>${item}</th>`
+            //     }
+            // });
+            // df['$data'].forEach(function (item, index) {
+
+            //         html_string += '<tr>'
+            //         item.forEach(function(value2){
+            //             html_string += `<td>${value2}</td>`;
+            //         })
+            //         html_string += '</tr>';
+            //   });
+            // html_string += '</tbody>'
+            // // // console.log(html_string);
+            // $('#csv_table').html(html_string);
+
+            // $('#csv_table').DataTable( {
+            //     "scrollX": true
+            // } );
+
+        })
+    }
+    graph_something = function(dates,values,title_graph,x_axis,y_axis){
+
+
+        var single_trace = {
+            x: dates,
+            y: values,
+            mode: 'lines',
+            name: 'Lines'
+          };
+          
+          var data = [single_trace];
+  
+          
+          var layout = {
+            title: title_graph,
+            xaxis: {
+              title: x_axis
+            },
+            yaxis: {
+              title: y_axis
+            }
+          };
+          
+          Plotly.newPlot('comodin__div', data, layout);
+    }
+
+     map_to_graph = function(){
+        $("#map").hide();
+        $("#next_plot").show();
+        $("#last_plot").show();
+        $("#comodin__div").show();
+    }
 
     //Get a CSRF cookie for request
     getCookie = function(name) {
@@ -287,7 +372,21 @@
 
     $(function() {
         initmap();
-
+        $("#last_plot").click(function(){
+            current_index_files = current_index_files - 1;
+            if(current_index_files < 0){
+                current_index_files = 0;
+            }
+            preview_time_series();
+        });
+        $("#next_plot").click(function(){
+            current_index_files = current_index_files + 1;
+            if(current_index_files > (list_files.length -1) ){
+                current_index_files = list_files.length -1;
+            }
+            preview_time_series();
+        });
+        
         $('#addStations').click(function() {
             $("#stations_modal").modal('show');
         })
@@ -332,6 +431,15 @@
         $("#stngroups_csv_button_preview").click(function() {
             preview_stnGroups()
         })
+
+        $("#ts_csv_button_preview").click(function() {
+            preview_time_series();
+            // graph_something();
+        })
+        $("#next_plot").click(function(){
+            console.log(oye);
+        })
+
     });
 
 

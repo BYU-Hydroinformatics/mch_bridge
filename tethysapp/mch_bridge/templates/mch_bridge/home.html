@@ -40,12 +40,24 @@
 {% endblock %}
 
 {% block app_content%} 
-  <div class="content_divided"> 
+  <div class="content_divided">
+    <div class="content_arrows">
+      <span class='fake__btn' id="last_plot">
+        <i class="fa-solid fa-angle-left"></i>
+      </span>
+      <span class='fake__btn' id="next_plot">
+        <i class="fa-solid fa-angle-right"></i>
+      </span>
+    </div>
+
     <div id="map"></div>
+    
+    <div id="comodin__div">
+    </div>
     <div id="metadata">
       <table id="csv_table" class="display nowrap" style="width:100%"> </table>
-
     </div>
+
   </div>
 
 {% endblock %} 

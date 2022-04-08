@@ -59,3 +59,22 @@
   height: 30vh;
   margin-bottom: 10px;
 }
+
+#comodin__div {
+  display: none;
+  height: 500px;
+}
+
+#next_plot {
+  display: none;
+  left: 0;
+}
+#last_plot {
+  display: none;
+  left: 0;
+}
+.content_arrows {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
