@@ -219,10 +219,31 @@
     }
     upload_data = function(type_upload){
         let formData = new FormData();
+        let userFile;
 
-        let userFile = document.getElementById("stations_csv").files[0];
+        if(type_upload == 'stations'){
+            userFile = document.getElementById("stations_csv").files[0];
+            formData.append('csv_file', userFile);
+
+        }
+        if(type_upload == 'stngroups'){
+            userFile = document.getElementById("stngroups_csv").files[0];
+            formData.append('csv_file', userFile);
+
+        }
+        if(type_upload == 'variablestaiontype'){
+            userFile = document.getElementById("variablestaiontype_csv").files[0];
+            formData.append('csv_file', userFile);
+
+        }
+        if(type_upload == 'timeSeries'){
+            $.each($("#ts_csv")[0].files, function(i, file) {
+                console.log(file);
+                formData.append("csv_file", file);
+            });
+            console.log(userFile);
+        }
     
-        formData.append('csv_file', userFile);
 
         formData.append('type_upload',type_upload);
         $.ajax({
@@ -278,6 +299,10 @@
         $('#addVariablesStation').click(function() {
             $("#variableTypesStations_modal").modal('show');
         })
+        $('#addTs').click(function() {
+            console.log("jkoalsf");
+            $("#ts_modal").modal('show');
+        })
 
         $('#stations_csv_button').click(function() {
             upload_data("stations")
@@ -288,6 +313,10 @@
         })
         $('#variabletypestn_csv_button').click(function() {
             upload_data("variablestationtype")
+        })
+
+        $('#ts_csv_button').click(function() {
+            upload_data("timeSeries")
         })
         
        $("#stations_csv_button_preview").click(function() {

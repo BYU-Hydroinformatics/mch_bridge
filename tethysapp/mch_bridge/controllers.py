@@ -36,15 +36,16 @@ def upload__data(request):
     print("upload_data")
     res_obj = {}
     try:
-        upload_type = request.POST.get('type_upload')
-        csv_file = request.FILES.get('csv_file', None)
+        upload_type = request.POST.get('type_upload')            
+        csv_file = request.FILES.getlist('csv_file', None)
+        print(csv_file)
         loop = asyncio.get_event_loop()
         loop.run_until_complete(quicker_upload(loop,upload_type,csv_file))
         res_obj['success'] = 'data is being uploaded ..'
 
     except Exception as e:
         print(e)
-        res_obj['error'] = 'an error ocurred whiel uploading the data in the database ..'
+        res_obj['error'] = 'an error ocurred while uploading the data in the database ..'
         
     return JsonResponse(res_obj)
 
@@ -134,21 +135,28 @@ def convert__WOFstations(request):
 
 async def upload_data_tables(cur,table_name,csv_file):
     
-    df = pd.read_csv(csv_file,index_col=False, dtype='str')
-    df = df.where(pd.notnull(df), None)
-    print(df)
-    columns = list(df.columns.values)
-    columns_string = ', '.join(columns)
-    print(len(columns))
-    print(columns_string)
-    placeholders = ', '.join(['%s'] * len(columns))
-    print(len(placeholders))
-    records_tuple = df.to_records(index=False)
-    records_list_tuples = list(records_tuple)
-    records_list_tuples = [tuple(i) for i in records_list_tuples]
-    sql = "INSERT INTO %s ( %s ) VALUES ( %s )" % (table_name, columns_string, placeholders)
-    print(sql)
-    await cur.executemany(sql, records_list_tuples)
+    for csv_indv in csv_file:
+        print(table_name)
+        table_name_insert = table_name
+        df = pd.read_csv(csv_indv,index_col=False, dtype='str')
+        if 'table_name' in df.columns and table_name_insert == 'timeSeries':
+            print('ey')
+            table_name_insert = df['table_name'][0]
+            df = df.drop('table_name', 1)
+        df = df.where(pd.notnull(df), None)
+        print(df)
+        columns = list(df.columns.values)
+        columns_string = ', '.join(columns)
+        print(len(columns))
+        print(columns_string)
+        placeholders = ', '.join(['%s'] * len(columns))
+        print(len(placeholders))
+        records_tuple = df.to_records(index=False)
+        records_list_tuples = list(records_tuple)
+        records_list_tuples = [tuple(i) for i in records_list_tuples]
+        sql = "INSERT INTO %s ( %s ) VALUES ( %s )" % (table_name_insert, columns_string, placeholders)
+        print(sql)
+        await cur.executemany(sql, records_list_tuples)
 
 
 async def quicker_upload(loop,table_name,csv_file):
