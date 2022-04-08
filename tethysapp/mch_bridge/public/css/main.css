@@ -49,20 +49,26 @@
   bottom: 0;
   right: 0;
   left: 0;
-  height: 500px;
+  /* height: 500px; */
   margin-top: 50px;
-  margin-bottom: 400px;
+  margin-bottom: 50px;
+  /* margin-bottom: 400px; */
 }
 
+.content_divided {
+  height: 100%;
+}
 #metadata {
-  margin-top: 500px;
-  height: 30vh;
-  margin-bottom: 10px;
+  height: 0px;
+  /* margin-top: 500px; */
+  /* height: 30vh; */
+  /* margin-bottom: 10px; */
 }
 
 #comodin__div {
   display: none;
   height: 500px;
+  margin-top: 10%;
 }
 
 #next_plot {

@@ -28,14 +28,13 @@
      *************************************************************************/
     var getCookie,
         upload_data,
-        upload_stngroups,
-        upload_variablesTypesStn,
         initmap,
         preview_stations,
         validate_stations,
         arrayEquals,
         preview_stnGroups,
         map_to_graph,
+        graph_to_map,
         graph_something,
         preview_time_series;
 		// Object returned by the module
@@ -122,9 +121,19 @@
 
      map_to_graph = function(){
         $("#map").hide();
+        markers = L.markerClusterGroup();
         $("#next_plot").show();
         $("#last_plot").show();
         $("#comodin__div").show();
+    }
+
+    graph_to_map = function(){
+        $("#map").show();
+        $("#next_plot").hide();
+        $("#last_plot").hide();
+        $("#comodin__div").hide();
+        list_files = [];
+        current_index_files=0;
     }
 
     //Get a CSRF cookie for request
@@ -176,44 +185,44 @@
           }).addTo(map);
     }
     preview_stations = function(){
-        
+        graph_to_map();
         let userFile = document.getElementById("stations_csv").files[0];
         let latlongs = []
-        let html_string = ''
-        html_string += '</tr></thead><tbody>'
+        // let html_string = ''
+        // html_string += '</tr></thead><tbody>'
         dfd.readCSV(userFile).then((df) => {
             console.log(df);
             // create table dinamycally //
-            html_string = `<thead><tr>`
-            df['$columns'].forEach(function (item, index) {
-                if(item != undefined){
-                    html_string +=`<th>${item}</th>`
-                }
-            })
+            // html_string = `<thead><tr>`
+            // df['$columns'].forEach(function (item, index) {
+            //     if(item != undefined){
+            //         html_string +=`<th>${item}</th>`
+            //     }
+            // })
             df['$data'].forEach(function (item, index) {
                 if(item[8] != undefined && item[7] != undefined ){
                     console.log(typeof(item[8]), typeof(item[7]));
                     let marker = L.marker([parseFloat(item[8]), parseFloat(item[7])]).bindPopup(`${item[1]}`);
                     markers.addLayer(marker);
                     latlongs.push([parseFloat(item[8]), parseFloat(item[7])])
-                    html_string += '<tr>'
-                    item.forEach(function(value2){
-                        html_string += `<td>${value2}</td>`;
-                    })
-                    html_string += '</tr>';
+                    // html_string += '<tr>'
+                    // item.forEach(function(value2){
+                    //     html_string += `<td>${value2}</td>`;
+                    // })
+                    // html_string += '</tr>';
                 }
               });
-            html_string += '</tbody>'
+            // html_string += '</tbody>'
             // console.log(html_string);
-            $('#csv_table').html(html_string);
+            // $('#csv_table').html(html_string);
             map.addLayer(markers);
             var bounds = new L.LatLngBounds(latlongs);
             map.fitBounds(bounds);
 
 
-            $('#csv_table').DataTable( {
-                "scrollX": true
-            } );
+            // $('#csv_table').DataTable( {
+            //     "scrollX": true
+            // } );
 
         })
     }
