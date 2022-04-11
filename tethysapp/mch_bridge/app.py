@@ -29,11 +29,6 @@ class MchBridge(TethysAppBase):
                 url='mch-bridge',
                 controller='mch_bridge.controllers.home'
             ),
-            # UrlMap(
-            #     name='upload_stations',
-            #     url='upload-stations/',
-            #     controller='mch_bridge.controllers.upload__stations'
-            # ),
             UrlMap(
                 name='upload_data',
                 url='upload-data/',

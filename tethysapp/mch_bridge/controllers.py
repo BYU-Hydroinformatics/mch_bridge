@@ -1,7 +1,6 @@
 
 # import pywaterml.waterML as pwml
 import pandas as pd
-import os
 import asyncio
 import aiomysql
 import numpy as np
