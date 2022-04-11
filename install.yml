@@ -13,6 +13,7 @@ requirements:
       - aiomysql
       - pandas
       - numpy
+      - setuptools
 
   pip:
     - asyncio
