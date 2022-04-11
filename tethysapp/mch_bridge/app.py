@@ -8,10 +8,10 @@ class MchBridge(TethysAppBase):
 
     name = 'Mch Bridge'
     index = 'mch_bridge:home'
-    icon = 'mch_bridge/images/icon.gif'
+    icon = 'mch_bridge/images/logo.svg'
     package = 'mch_bridge'
     root_url = 'mch-bridge'
-    color = '#2980b9'
+    color = '#71697a'
     description = ''
     tags = ''
     enable_feedback = False
