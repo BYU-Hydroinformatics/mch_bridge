@@ -9,3 +9,6 @@
 *.DS_Store
 .idea/
 services.yml
+.flake8
+.isort.cfg
+.trunk
