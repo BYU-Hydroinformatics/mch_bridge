@@ -15,6 +15,5 @@ requirements:
       - numpy
 
   pip:
-    - setuptools
 
 post:
