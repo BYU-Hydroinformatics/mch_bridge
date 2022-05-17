@@ -131,6 +131,7 @@
 
     graph_to_map = function(){
         $("#map").show();
+        map.invalidateSize();
         isGraphsShowing = false;
         isMapShowing = true;
         $("#instructions").hide();
@@ -460,6 +461,7 @@
                 }
                 if(isMapShowing){
                     $("#map").show();
+                    map.invalidateSize();
                     $("#next_plot").hide();
                     $("#last_plot").hide();
                     $("#comodin__div").hide();
