@@ -228,6 +228,9 @@
 
 {# Use the after_app_content block for modals #}
 {% block after_app_content %}
+<script>
+  var notification_ws = new WebSocket('ws://' + window.location.host + '/mch-bridge/upload-data/notifications/ws/');
+</script>
 {% include "mch_bridge/modals/add_data_template.html" with modal_id="stations_modal" title="Stations" description="Please Upload a csv file containing stations" div_id="station_csv_file_upload" csv_name="stations_csv" csv_id="stations_csv" isMultiple=""%}
 {% include "mch_bridge/modals/add_data_template.html" with modal_id="stngroups_modal" title="Station Groups" description="Please Upload a csv file containing stations groups" div_id="stn_group_csv_file_upload" csv_name="stngroups_csv" csv_id="stngroups_csv" isMultiple=""%}
 {% include "mch_bridge/modals/add_data_template.html" with modal_id="variableTypesStations_modal" title="Variable Types Stations" description="Please Upload a csv file containing variable types stations" div_id="vartypestn_file_upload" csv_name="variabletypestn_csv" csv_id="variabletypestn_csv" isMultiple=""%}

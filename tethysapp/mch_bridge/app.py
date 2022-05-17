@@ -33,6 +33,13 @@ class MchBridge(TethysAppBase):
                 url="upload-data/",
                 controller="mch_bridge.controllers.upload__data",
             ),
+            UrlMap(
+                name='adding_data_notifications',
+                url='upload-data/notifications',
+                controller='mch_bridge.consumers.AddingDataConsumer',
+                protocol='websocket'
+            ),
+
         )
 
         return url_maps
