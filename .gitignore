@@ -12,3 +12,4 @@ services.yml
 .flake8
 .isort.cfg
 .trunk
+docker_developer/mysql-data
