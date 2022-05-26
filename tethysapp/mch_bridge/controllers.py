@@ -37,7 +37,9 @@ def stations(request):
     Controller for the app home page.
     """
 
-    context = {}
+    context = {
+        "isStationView":True
+    }
 
     return render(request, "mch_bridge/stations.html", context)
 @login_required()
@@ -45,7 +47,6 @@ def groupStations(request):
     """
     Controller for the app home page.
     """
-
     context = {}
 
     return render(request, "mch_bridge/groupStations.html", context)
@@ -64,7 +65,9 @@ def timeSeries(request):
     Controller for the app home page.
     """
 
+
     context = {}
+
 
     return render(request, "mch_bridge/timeSeries.html", context)
 @login_required()

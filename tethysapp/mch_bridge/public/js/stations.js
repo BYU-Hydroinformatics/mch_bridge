@@ -185,8 +185,11 @@
     // the DOM tree finishes loading
 
     $(function() {
-        
-        // initmap();
+        var isStations = '{{ isStationView|yesno:"true,false" }}';
+        if(isStations){
+            initmap();
+        }
+
         $("#stations_csv_preview").change(function (evt) {
             evt.preventDefault();
             validate_stations('preview');
