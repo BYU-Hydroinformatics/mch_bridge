@@ -76,9 +76,7 @@ def instructions(request):
     context = {}
 
     return render(request, "mch_bridge/instructions.html", context)
-def upload__data2(request):
-    print('asfasfa')
-    pass
+
 
 def upload__files(request):
     upload_type = request.POST.get("type_upload")
@@ -91,7 +89,7 @@ def upload__files(request):
     for csv_indv in csv_file:
         df = pd.read_csv(csv_indv, index_col=False, dtype="str")
         df.to_csv(os.path.join(app_workspace_path,csv_indv.name),index=False)
-        id_html = csv_indv.name.replace('.','_') + str(randint(0, 100))
+        id_html = csv_indv.name.replace('.','_').replace(" ", "_") + str(randint(0, 100))
         respose_single = {
             "file":csv_indv.name,
             "count":len(df),

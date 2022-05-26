@@ -118,6 +118,11 @@
 .content_divided {
   height: 100%;
 }
+.content_divided_ts{
+  display: flex;
+  flex-direction: column;
+  margin-right:300px;
+}
 
 #sidebar{
   z-index: 2;
@@ -139,6 +144,10 @@
   /* margin-top: 10%; */
 }
 
+#comodin__div__timeseries__type{
+
+}
+
 #next_plot {
   display: none;
   left: 0;
@@ -150,7 +159,7 @@
 .content_arrows {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .switch {

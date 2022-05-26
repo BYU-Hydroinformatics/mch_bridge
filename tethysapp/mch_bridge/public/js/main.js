@@ -17,29 +17,29 @@
     /************************************************************************
      *                      MODULE LEVEL / GLOBAL VARIABLES
      *************************************************************************/
-    var public_interface,
-        map,
-        markers = L.markerClusterGroup(),
-        list_files,
-        current_index_files=0,
-        isMapShowing=false,
-        isGraphsShowing= false;
+    var public_interface;
+        // map,
+        // markers = L.markerClusterGroup(),
+        // list_files,
+        // current_index_files=0;
+        // isMapShowing=false,
+        // isGraphsShowing= false;
 
     /************************************************************************
      *                    PRIVATE FUNCTION DECLARATIONS
      *************************************************************************/
     var getCookie,
         upload_data,
-        initmap,
-        preview_stations,
-        validate_stations,
-        arrayEquals,
-        preview_stnGroups,
-        only_tables,
-        map_to_graph,
-        graph_to_map,
-        graph_something,
-        preview_time_series,
+        // initmap,
+        // preview_stations,
+        // validate_stations,
+        // arrayEquals,
+        // preview_stnGroups,
+        // only_tables,
+        // map_to_graph,
+        // graph_to_map,
+        // graph_something,
+        // preview_time_series,
         // preview_variabletypestn,
         startWS,
         sendNotification,
@@ -104,6 +104,7 @@
                 <td>${name_file}</td>
                 <td>${count_rows}/${total_count}</td>`
             if(data.status == "Failed"){
+                console.log("failed");
                 html_string += `<td> <i class="fa-solid fa-circle-xmark imcomplete"></i></td>`
                 $.notify(mssge , "info");
 
@@ -180,61 +181,61 @@
 
         }
     }
-    preview_time_series = function(){
-        map_to_graph();
-        $('#comodin__div').empty();
+    // preview_time_series = function(){
+    //     map_to_graph();
+    //     $('#comodin__div').empty();
 
-        var userFiles = document.getElementById("ts_csv").files;
-        list_files =  Array.from(userFiles);
-        console.log(userFiles);
-        var userFile = userFiles[current_index_files];
-        let dates = [];
-        let values = [];
+    //     var userFiles = document.getElementById("ts_csv").files;
+    //     list_files =  Array.from(userFiles);
+    //     console.log(userFiles);
+    //     var userFile = userFiles[current_index_files];
+    //     let dates = [];
+    //     let values = [];
 
-        let html_string = ''
-        html_string += '</tr></thead><tbody>'
-        dfd.readCSV(userFile).then((df) => {
-            console.log(df);
-            let date_index = df['$columns'].indexOf('Datee');
-            let val_index = df['$columns'].indexOf('Valuee');
-            if(date_index < 0 && val_index < 0 ){
-                $.notify( "Please, the columns containing the date and values should be called Datee and Valuee columns", "warn");
+    //     let html_string = ''
+    //     html_string += '</tr></thead><tbody>'
+    //     dfd.readCSV(userFile).then((df) => {
+    //         console.log(df);
+    //         let date_index = df['$columns'].indexOf('Datee');
+    //         let val_index = df['$columns'].indexOf('Valuee');
+    //         if(date_index < 0 && val_index < 0 ){
+    //             $.notify( "Please, the columns containing the date and values should be called Datee and Valuee columns", "warn");
 
-                return // please provide the correct names to the Datee and Valuee columns
-            }
-            else{
-                dates = df['$dataIncolumnFormat'][date_index]
-                values = df['$dataIncolumnFormat'][val_index]
-                graph_something(dates,values,userFile.name,"Datee","Valuee");
-            }
+    //             return // please provide the correct names to the Datee and Valuee columns
+    //         }
+    //         else{
+    //             dates = df['$dataIncolumnFormat'][date_index]
+    //             values = df['$dataIncolumnFormat'][val_index]
+    //             graph_something(dates,values,userFile.name,"Datee","Valuee");
+    //         }
 
-        })
-    }
-    graph_something = function(dates,values,title_graph,x_axis,y_axis){
+    //     })
+    // }
+    // graph_something = function(dates,values,title_graph,x_axis,y_axis){
 
 
-        var single_trace = {
-            x: dates,
-            y: values,
-            mode: 'lines',
-            name: 'Lines'
-          };
+    //     var single_trace = {
+    //         x: dates,
+    //         y: values,
+    //         mode: 'lines',
+    //         name: 'Lines'
+    //       };
           
-          var data = [single_trace];
+    //       var data = [single_trace];
   
           
-          var layout = {
-            title: title_graph,
-            xaxis: {
-              title: x_axis
-            },
-            yaxis: {
-              title: y_axis
-            }
-          };
+    //       var layout = {
+    //         title: title_graph,
+    //         xaxis: {
+    //           title: x_axis
+    //         },
+    //         yaxis: {
+    //           title: y_axis
+    //         }
+    //       };
           
-          Plotly.newPlot('comodin__div', data, layout);
-    }
+    //       Plotly.newPlot('comodin__div', data, layout);
+    // }
     // only_tables = function(){
     //     $("#map").hide();
     //     isMapShowing = false;
@@ -247,32 +248,32 @@
 
     //     $('#show_instructions').prop('checked', false);    
     // }
-     map_to_graph = function(){
-        $("#map").hide();
-        isMapShowing = false;
-        markers = L.markerClusterGroup();
-        $("#next_plot").show();
-        $("#last_plot").show();
-        $("#comodin__div").show();
-        isGraphsShowing = true;
-        $("#instructions").hide();
+    //  map_to_graph = function(){
+    //     $("#map").hide();
+    //     isMapShowing = false;
+    //     markers = L.markerClusterGroup();
+    //     $("#next_plot").show();
+    //     $("#last_plot").show();
+    //     $("#comodin__div").show();
+    //     isGraphsShowing = true;
+    //     $("#instructions").hide();
 
-        $('#show_instructions').prop('checked', false);
-    }
+    //     $('#show_instructions').prop('checked', false);
+    // }
 
-    graph_to_map = function(){
-        // $("#map").show();
-        // map.invalidateSize();
-        isGraphsShowing = false;
-        isMapShowing = true;
-        $("#instructions").hide();
-        $("#next_plot").hide();
-        $("#last_plot").hide();
-        // $("#comodin__div").show();
-        list_files = [];
-        current_index_files=0;
-        $('#show_instructions').prop('checked', false);
-    }
+    // graph_to_map = function(){
+    //     // $("#map").show();
+    //     // map.invalidateSize();
+    //     isGraphsShowing = false;
+    //     isMapShowing = true;
+    //     $("#instructions").hide();
+    //     $("#next_plot").hide();
+    //     $("#last_plot").hide();
+    //     // $("#comodin__div").show();
+    //     list_files = [];
+    //     current_index_files=0;
+    //     $('#show_instructions').prop('checked', false);
+    // }
 
     //Get a CSRF cookie for request
     getCookie = function(name) {
@@ -309,19 +310,19 @@
     }); //document ready
 
 
-    arrayEquals = function (a, b) {
-        return Array.isArray(a) &&
-            Array.isArray(b) &&
-            a.length === b.length &&
-            a.every((val, index) => val === b[index]);
-    }
-    initmap = function(){
-        map = L.map('map').setView([8.913648, -79.544706], 15);
+    // arrayEquals = function (a, b) {
+    //     return Array.isArray(a) &&
+    //         Array.isArray(b) &&
+    //         a.length === b.length &&
+    //         a.every((val, index) => val === b[index]);
+    // }
+    // initmap = function(){
+    //     map = L.map('map').setView([8.913648, -79.544706], 15);
 
-        L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
-            attribution: '©OpenStreetMap, ©CartoDB'
-          }).addTo(map);
-    }
+    //     L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
+    //         attribution: '©OpenStreetMap, ©CartoDB'
+    //       }).addTo(map);
+    // }
     // preview_stations = function(){
     //     graph_to_map();
     //     $('#comodin__div').empty();
@@ -458,7 +459,7 @@
 
         }
         if(type_upload == 'timeSeries'){
-            $.each($("#ts_csv_upload")[0].files, function(i, file) {
+            $.each($("#timeseries_csv_upload")[0].files, function(i, file) {
                 console.log(file);
                 formData.append("csv_file", file);
                 files_list.push(file['name'])
@@ -514,7 +515,7 @@
                 //     $(html_string).appendTo(`#${type_upload}_table_content`);
                 // }
                 $(html_string).appendTo(`#${type_upload}_table_content`);
-
+                
                 notification_ws.send(
                     JSON.stringify({
                         'type':'upload__data',
@@ -649,42 +650,25 @@
                 $("#comodin__div").hide(); 
             }
             else{
-                if(isGraphsShowing){
-                    $("#map").hide();
-                    $("#next_plot").show();
-                    $("#last_plot").show();
-                    $("#comodin__div").show();
-                }
-                if(isMapShowing){
-                    $("#map").show();
-                    map.invalidateSize();
-                    $("#next_plot").hide();
-                    $("#last_plot").hide();
-                    $("#comodin__div").hide();
-                }
+                // if(isGraphsShowing){
+                //     $("#map").hide();
+                //     $("#next_plot").show();
+                //     $("#last_plot").show();
+                //     $("#comodin__div").show();
+                // }
+                // if(isMapShowing){
+                //     $("#map").show();
+                //     map.invalidateSize();
+                //     $("#next_plot").hide();
+                //     $("#last_plot").hide();
+                //     $("#comodin__div").hide();
+                // }
                 $("#instructions").hide();
 
             }
         })
 
-        $("#back_going").click(function(){
 
-        })
-        $("#last_plot").click(function(){
-            current_index_files = current_index_files - 1;
-            if(current_index_files < 0){
-                current_index_files = 0;
-            }
-            preview_time_series();
-        });
-        $("#next_plot").click(function(){
-            current_index_files = current_index_files + 1;
-            if(current_index_files > (list_files.length -1) ){
-                current_index_files = list_files.length -1;
-            }
-            preview_time_series();
-        });
-        
         // $('#addStations').click(function() {
         //     console.log("ASFGASFAS");
         //     $("#stations_modal").modal('show');
@@ -695,13 +679,13 @@
         //     $("#stngroups_modal").modal('show');
         // })
 
-        $('#addVariablesStation').click(function() {
-            $("#variableTypesStations_modal").modal('show');
-        })
-        $('#addTs').click(function() {
-            console.log("jkoalsf");
-            $("#ts_modal").modal('show');
-        })
+        // $('#addVariablesStation').click(function() {
+        //     $("#variableTypesStations_modal").modal('show');
+        // })
+        // $('#addTs').click(function() {
+        //     console.log("jkoalsf");
+        //     $("#ts_modal").modal('show');
+        // })
 
         // $('#stations_csv_button').click(function() {
         //     console.log("ASASG");
@@ -723,25 +707,25 @@
         //         upload_data("stngroups");
         //     }
         // })
-        $('#variabletypestn_csv_button').click(function() {
-            var files = document.getElementById("variabletypestn_csv").files;
-            if(Array.from(files).length < 1 ){
-                $.notify( "Please, submit a file to upload", "warn");
-            }
-            else{
-                upload_data("variablestationtype");
-            }
-        })
+        // $('#variabletypestn_csv_button').click(function() {
+        //     var files = document.getElementById("variabletypestn_csv").files;
+        //     if(Array.from(files).length < 1 ){
+        //         $.notify( "Please, submit a file to upload", "warn");
+        //     }
+        //     else{
+        //         upload_data("variablestationtype");
+        //     }
+        // })
 
-        $('#ts_csv_button').click(function() {
-            var files = document.getElementById("ts_csv").files;
-            if(Array.from(files).length < 1 ){
-                $.notify( "Please, submit a file to upload", "warn");
-            }
-            else{
-                upload_data("timeSeries");
-            }
-        })
+        // $('#ts_csv_button').click(function() {
+        //     var files = document.getElementById("ts_csv").files;
+        //     if(Array.from(files).length < 1 ){
+        //         $.notify( "Please, submit a file to upload", "warn");
+        //     }
+        //     else{
+        //         upload_data("timeSeries");
+        //     }
+        // })
         
     //    $("#stations_csv_button_preview").click(function() {
     //         var files = document.getElementById("stations_csv").files;
@@ -769,25 +753,25 @@
 
         //     }
         // })
-        $("#variabletypestn_csv_button_preview").click(function() {
-            var files = document.getElementById("variabletypestn_csv").files;
-            if(Array.from(files).length < 1 ){
-                $.notify( "Please, submit a file to preview", "warn");
-            }
-            else{
-                preview_variabletypestn();
-            }
-        })
+        // $("#variabletypestn_csv_button_preview").click(function() {
+        //     var files = document.getElementById("variabletypestn_csv").files;
+        //     if(Array.from(files).length < 1 ){
+        //         $.notify( "Please, submit a file to preview", "warn");
+        //     }
+        //     else{
+        //         preview_variabletypestn();
+        //     }
+        // })
 
-        $("#ts_csv_button_preview").click(function() {
-            var files = document.getElementById("ts_csv").files;
-            if(Array.from(files).length < 1 ){
-                $.notify( "Please, submit a file to preview", "warn");
-            }
-            else{
-                preview_time_series();
-            }
-        })
+        // $("#ts_csv_button_preview").click(function() {
+        //     var files = document.getElementById("ts_csv").files;
+        //     if(Array.from(files).length < 1 ){
+        //         $.notify( "Please, submit a file to preview", "warn");
+        //     }
+        //     else{
+        //         preview_time_series();
+        //     }
+        // })
 
         ////////
         $('#stations_csv_upload_button').click(function() {
@@ -818,6 +802,16 @@
             }
             else{
                 upload_data("variablestationtype");
+            }
+        })
+        $('#timeseries_csv_upload_button').click(function() {
+            var files = document.getElementById("timeseries_csv_upload").files;
+            console.log(files);
+            if(Array.from(files).length < 1 ){
+                $.notify( "Please, submit a file to upload", "warn");
+            }
+            else{
+                upload_data("timeSeries");
             }
         })
         
