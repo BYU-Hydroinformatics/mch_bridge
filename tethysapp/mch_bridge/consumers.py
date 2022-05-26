@@ -1,6 +1,16 @@
 import json
+import logging
 
 from channels.generic.websocket import AsyncWebsocketConsumer
+
+import sys
+
+import threading
+
+from .controllers import upload__data
+
+logger = logging.getLogger(f'tethys.apps.mch_bridge')
+logger.setLevel(logging.INFO)
 
 
 class AddingDataConsumer(AsyncWebsocketConsumer):
@@ -13,7 +23,60 @@ class AddingDataConsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_discard("notifications", self.channel_name)
         print(f"Removed {self.channel_name} channel from notifications")
 
-    async def dam_notifications(self, event):
-        message = event["message"]
-        await self.send(text_data=json.dumps({"message": message}))
+    async def data_notifications(self, event):
+        print(event)
+        count = event["count"]
+        status = event["status"]
+        file = event["file"]
+        id_ = event["id"]
+        total_count = event["total"]
+        mssge = event["mssg"]
+
+
+        resp_obj = {
+            "count":count,
+            "status":status,
+            "file":file,
+            "id":id_,
+            "total":total_count,
+            "mssg":mssge
+        }
+        await self.send(text_data=json.dumps(resp_obj))
         print(f"Got message {event} at {self.channel_name}")
+
+    async def simple_notifications(self, event):
+        message = event['message']
+        await self.send(text_data=json.dumps({'message': message}))
+        print(f"Got message {event} at {self.channel_name}")
+
+    async def receive(self, text_data):
+        # logger.info(f"Received message {text_data} at {self.channel_name}")
+        text_data_json = json.loads(text_data)
+        print(text_data_json)
+        upload_type = text_data_json["type_upload"]
+        csv_file = text_data_json["csv_file"]
+        type_operation = text_data_json["type"]
+        ids =text_data_json["id"]
+
+        
+        if "type" in text_data_json:
+            thread = threading.Thread(target=getattr(sys.modules[__name__], type_operation),
+                                      args=(upload_type, csv_file,ids, self.channel_layer)
+                                    #   args=(upload_type,csv_file, self.channel_layer)
+
+                                      )
+            thread.start()
+        else:
+            logger.info("Can't redirect incoming message.")
+        
+
+
+        # text_data_json = json.loads(text_data)
+        
+        # if "type" in text_data_json:
+        #     thread = threading.Thread(target=getattr(sys.modules[__name__], text_data_json['type']),
+        #                               args=(text_data_json['data'], self.channel_layer)
+        #                               )
+        #     thread.start()
+        # else:
+        #     logger.info("Can't redirect incoming message.")
