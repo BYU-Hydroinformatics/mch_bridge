@@ -1,0 +1,66 @@
+{% extends "mch_bridge/base.html" %}
+{% load tethys_gizmos %}
+{% load static %}
+
+{% block header_buttons %}
+  <div class="header-button glyphicon-button" data-toggle="tooltip" data-placement="bottom" title="Help">
+    <a data-toggle="modal" data-target="#help-modal"><span class="glyphicon glyphicon-question-sign"></span></a>
+  </div>
+{% endblock %}
+
+
+{% block app_content%} 
+    <div id="sidebar">
+        <br>
+        <div class="horizontal__flex">
+          <span class='fake__btn' id="back_going">
+            <i class="fa-solid fa-arrow-left"></i>
+          </span>
+          <p class="item">Data Menu</p>
+        </div>
+        
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>File</th>
+                    <th>Rows</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+           
+            <tbody id="stations_table_content">
+  
+            </tbody>
+        </table>
+        <div class="horizontal__flex__button">
+          <span class='fake__btn btn__primary' id="uploadStations">
+            <i class="fa-solid fa-arrow-up-from-bracket"></i>
+            <span>Upload</span>
+            
+          </span>
+          <span class='fake__btn btn__secondary' id="previewStations">
+            <i class="fa-solid fa-magnifying-glass-location"></i>
+            <span>Preview</span>
+            
+          </span>
+        </div>
+
+    </div>
+    <div class="content_divided">
+
+      <div id="map"></div>
+    
+    </div>
+
+{% endblock %} 
+
+{# Use the after_app_content block for modals #}
+
+{% block after_app_content %} 
+{{ block.super }} 
+
+{% include "mch_bridge/modals/preview_template.html" with modal_id="stations_preview_modal" title="Stations" description="Please Upload a csv file containing stations" div_id="station_csv_file_preview" csv_name="stations_csv_preview" csv_id="stations_csv_preview" isMultiple=""%}
+{% include "mch_bridge/modals/upload_data_template.html" with modal_id="stations_upload_modal" title="Stations" description="Please Upload a csv file containing stations" div_id="station_csv_file_upload" csv_name="stations_csv_upload" csv_id="stations_csv_upload" isMultiple=""%}
+
+{% endblock %}
+
