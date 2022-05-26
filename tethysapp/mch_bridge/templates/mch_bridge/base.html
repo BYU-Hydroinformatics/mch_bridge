@@ -17,7 +17,38 @@
 {% block app_title %}{{ tethys_app.name }}{%endblock %} 
 
 {% block app_navigation_items %} 
+{% url 'mch_bridge:stations' as stations_url %}
+{% url 'mch_bridge:groupStations' as groupStations_url %}
+{% url 'mch_bridge:variableStationTypes' as variableStationTypes_url %}
+{% url 'mch_bridge:timeSeries' as timeSeries_url %}
+{% url 'mch_bridge:instructions' as instructions_url %}
 
+<h3 class="title__app__content">Upload Data to MCH</h3>
+  <div class="vertical__flex">
+    <div class="horizontal__flex">
+      <!-- <li class="{% if request.path == add_dam_url %}active{% endif %}"></li> -->
+      <p class="item"> Instructions</p>
+      <label class="switch">
+        <input id="show_instructions" type="checkbox" checked>
+        <span class="slider round"></span>
+      </label>
+    </div>
+    <div class="horizontal__flex" id="stations_tab">
+        <p class="item">  <a href="{{ stations_url }}"> Stations </a>  <i class="fa-solid fa-location-dot"></i></p>
+
+    </div>
+    <div class="horizontal__flex">
+      <p class="item"> <a href="{{ groupStations_url }}">Groups Stations </a><i class="fa-solid fa-dice-five"></i></p>
+
+    </div>
+    <div class="horizontal__flex">
+      <p class="item"> <a href="{{ variableStationTypes_url }}">Variable Station Types</a> <i class="fa-solid fa-dice-d6"></i></p>
+
+    </div>
+    <div class="horizontal__flex">
+      <p class="item">  <a href="{{ timeSeries_url }}">Time Series </a> <i class="fa-solid fa-chart-line"></i></p>
+    </div>
+</div>
 {% endblock %}
 
 {% block app_content%} 
@@ -52,7 +83,9 @@ crossorigin=""/>
 {% endblock %} 
 
 {% block scripts %} 
-
+<script>
+  const mchHomeUrl = "{% url 'mch_bridge:home' %}";
+</script>
 {{ block.super }}
  <!-- Make sure you put this AFTER Leaflet's CSS -->
  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
@@ -77,11 +110,13 @@ crossorigin=""></script>
 <script src="{% static 'mch_bridge/js/notify.min.js' %}" type="text/javascript"></script>
 
 <script src="{% static 'mch_bridge/js/main.js' %}" type="text/javascript"></script>
+<script src="{% static 'mch_bridge/js/stations.js' %}" type="text/javascript"></script>
+<script src="{% static 'mch_bridge/js/stationsGroups.js' %}" type="text/javascript"></script>
+<script src="{% static 'mch_bridge/js/variableStationTypes.js' %}" type="text/javascript"></script>
+
+
+
+
 {% endblock %} 
 
-{% block after_app_content %} 
-{{ block.super }} 
 
-{% include "mch_bridge/modals/add_data.html" %} 
-
-{% endblock %}

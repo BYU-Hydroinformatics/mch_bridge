@@ -29,13 +29,60 @@ class MchBridge(TethysAppBase):
                 name="home", url="mch-bridge", controller="mch_bridge.controllers.home"
             ),
             UrlMap(
+                name="stations", url="stations/", controller="mch_bridge.controllers.stations"
+            ),
+            # UrlMap(
+            #     name="stations-upload", url="stations/upload-data/", controller="mch_bridge.controllers.upload__data"
+            # ),
+            UrlMap(
+                name="groupStations", url="groupStations/", controller="mch_bridge.controllers.groupStations"
+            ),
+            # UrlMap(
+            #     name="groupStations-upload", url="groupStations/upload-data/", controller="mch_bridge.controllers.upload__data"
+            # ),
+            UrlMap(
+                name="variableStationTypes", url="variableStationTypes/", controller="mch_bridge.controllers.variableStationTypes"
+            ),
+            UrlMap(
+                name="variableStationTypes-upload", url="variableStationTypes/upload-data/", controller="mch_bridge.controllers.upload__data"
+            ),
+            UrlMap(
+                name="timeSeries", url="timeSeries/", controller="mch_bridge.controllers.timeSeries"
+            ),
+            UrlMap(
+                name="timeSeries-upload", url="timeSeries/upload-data/", controller="mch_bridge.controllers.upload__data"
+            ),
+            UrlMap(
+                name="instructions", url="isntructions/", controller="mch_bridge.controllers.instructions"
+            ),
+            UrlMap(
                 name="upload_data",
                 url="upload-data/",
                 controller="mch_bridge.controllers.upload__data",
             ),
             UrlMap(
+                name="stations-upload_files",
+                url="stations/upload-files/",
+                controller="mch_bridge.controllers.upload__files",
+            ),
+            UrlMap(
+                name="variableStationTypes-upload_files",
+                url="variableStationTypes/upload-files/",
+                controller="mch_bridge.controllers.upload__files",
+            ),
+            UrlMap(
+                name="timeSeries-upload_files",
+                url="timeSeries/upload-files/",
+                controller="mch_bridge.controllers.upload__files",
+            ),
+            UrlMap(
+                name="groupStations-upload_files",
+                url="groupStations/upload-files/",
+                controller="mch_bridge.controllers.upload__files",
+            ),
+            UrlMap(
                 name='adding_data_notifications',
-                url='upload-data/notifications',
+                url='upload-data/notifications/',
                 controller='mch_bridge.consumers.AddingDataConsumer',
                 protocol='websocket'
             ),
