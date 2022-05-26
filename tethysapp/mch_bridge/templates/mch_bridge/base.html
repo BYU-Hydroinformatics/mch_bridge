@@ -83,10 +83,11 @@ crossorigin=""/>
 {% endblock %} 
 
 {% block scripts %} 
+
+{{ block.super }}
 <script>
   const mchHomeUrl = "{% url 'mch_bridge:home' %}";
 </script>
-{{ block.super }}
  <!-- Make sure you put this AFTER Leaflet's CSS -->
  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
@@ -110,13 +111,6 @@ crossorigin=""></script>
 <script src="{% static 'mch_bridge/js/notify.min.js' %}" type="text/javascript"></script>
 
 <script src="{% static 'mch_bridge/js/main.js' %}" type="text/javascript"></script>
-<script src="{% static 'mch_bridge/js/stations.js' %}" type="text/javascript"></script>
-<script src="{% static 'mch_bridge/js/stationsGroups.js' %}" type="text/javascript"></script>
-<script src="{% static 'mch_bridge/js/variableStationTypes.js' %}" type="text/javascript"></script>
-<script src="{% static 'mch_bridge/js/timeseries.js' %}" type="text/javascript"></script>
-
-
-
 
 
 {% endblock %} 

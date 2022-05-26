@@ -1,5 +1,6 @@
 {% extends "mch_bridge/base.html" %}
 {% load tethys_gizmos %}
+{% load static %} 
 
 {% block header_buttons %}
   <div class="header-button glyphicon-button" data-toggle="tooltip" data-placement="bottom" title="Help">
@@ -61,3 +62,10 @@
 
 {% endblock %}
 
+{% block scripts %} 
+{{ block.super }} 
+
+<script src="{% static 'mch_bridge/js/stationsGroups.js' %}" type="text/javascript"></script>
+
+
+{% endblock %} 
