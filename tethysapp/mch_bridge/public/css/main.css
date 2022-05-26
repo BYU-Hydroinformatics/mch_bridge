@@ -1,3 +1,20 @@
+.complete{
+  color: #15803d;
+}
+.process{
+  color: #d97706;
+}
+.imcomplete{
+  color:#991b1b;
+}
+.not_started{
+  color: #78716c;
+
+}
+
+#stations_tab:hover{
+  cursor: pointer;
+}
 #stations_cols {
   -webkit-column-count: 5;
   -moz-column-count: 5;
@@ -5,20 +22,37 @@
 }
 
 .fake__btn {
-  padding: 4px;
+  padding: 8px;
   background-color: black;
   color: white;
   border-radius: 5px;
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
-  height: 30px;
-  width: 30px;
+  /* height: 30px;
+  width: 30px; */
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 }
 
+
+.btn__primary {
+  background-color: #6b21a8;
+  color: white;
+}
+.btn__secondary {
+  background-color: #9d174d;
+  color: white;
+}
+.btn__primary:hover {
+  background-color: #9333ea;
+  color: white;
+}
+.btn__secondary:hover {
+  background-color: #db2777;
+  color: white;
+}
 .vertical__flex {
   display: flex;
   flex-direction: column;
@@ -28,11 +62,22 @@
 }
 
 .horizontal__flex {
-  height: 100%;
+  /* height: 100%; */
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  padding: 5px;
+  border-radius: 2px;
+}
+.horizontal__flex__button {
+  /* height: 100%; */
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  padding: 5px;
+  border-radius: 2px;
 }
 
 .item {
@@ -40,7 +85,13 @@
   font-size: 18px;
   vertical-align: middle;
 }
-
+.item a{
+  color: #666;
+  text-decoration: none;
+}
+.horizontal__flex:hover{
+  background-color: white;
+}
 .title__app__content {
   margin-top: 10px;
   margin-bottom: 30px;
@@ -48,32 +99,43 @@
 
 .btns {
   display: flex;
+  justify-content: end;
 }
 #map {
   position: absolute;
-  display: none;
+  /* display: none; */
   top: 0;
   bottom: 0;
   right: 0;
   left: 0;
   margin-top: 50px;
   margin-bottom: 50px;
-  /* margin-bottom: 400px; */
+  /* margin-bottom: 300px; */
+  z-index: 1;
+
 }
 
 .content_divided {
   height: 100%;
 }
-/* #metadata {
-  height: 0px;
-  margin-top: 500px;
-  height: 30vh;
-  margin-bottom: 10px;
-} */
+
+#sidebar{
+  z-index: 2;
+  position: absolute;
+  top: 0;
+  right: 300px;
+  width: 300px;
+  height: 100%;
+  background: #efefef;
+  padding: 0 15px;
+  padding-top: 50px;
+}
 
 #comodin__div {
-  display: none;
-  height: 500px;
+  /* display: none; */
+  height: 300px;
+  /* position: absolute; */
+  /* bottom: 0; */
   /* margin-top: 10%; */
 }
 
