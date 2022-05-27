@@ -21,7 +21,8 @@
     /************************************************************************
      *                    PRIVATE FUNCTION DECLARATIONS
      *************************************************************************/
-    var preview_stnGroups;
+    var preview_stnGroups,
+        summary_data_load;
 		// Object returned by the module
 
 
@@ -37,10 +38,12 @@
         $('#show_instructions').prop('checked', false);    
 
         $('#comodin__div').empty();
-
+        var html_title = `<p>Group Stations Preview</p>`
+        $(html_title).appendTo('#comodin__div');
         var userFile = document.getElementById("groupStations_csv_preview").files[0];
         let html_string = '<table id="csv_table" class="display nowrap" style="width:100%"> </table>'
-        $('#comodin__div').html(html_string);
+        // $('#comodin__div').html(html_string);
+        $(html_string).appendTo('#comodin__div');
 
         html_string += '</tr></thead><tbody>'
         dfd.readCSV(userFile).then((df) => {
@@ -71,7 +74,21 @@
 
         })
     }
-  
+    summary_data_load = function(){
+        var summ_obj = JSON.parse(summary_String);
+        console.log(summ_obj);
+        $('#stngroups_summary__table_content').empty();
+
+        var html_string = '';
+        for (const [key, value] of Object.entries(summ_obj)) {
+            html_string += '<tr>'
+            html_string += `<td>${key}</td>`;
+            html_string += `<td>${value}</td>`;
+            html_string += '</tr>';
+        }
+        $(html_string).appendTo('#stngroups_summary__table_content');
+        
+    }
 
     /************************************************************************
      *                        DEFINE PUBLIC INTERFACE
@@ -89,8 +106,8 @@
     // the DOM tree finishes loading
 
     $(function() {
-        
-
+        summary_data_load()
+        console.log(summary_String);
         $('#previewGroupStation').click(function() {
             $("#groupStations_preview_modal").modal('show');
         });

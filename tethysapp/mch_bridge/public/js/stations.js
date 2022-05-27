@@ -27,6 +27,7 @@
         preview_stations,
         validate_stations,
         arrayEquals,
+        summary_data_load;
 		// Object returned by the module
 
 
@@ -48,6 +49,21 @@
         L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
             attribution: '©OpenStreetMap, ©CartoDB'
           }).addTo(map);
+    }
+    summary_data_load = function(){
+        var summ_obj = JSON.parse(summary_String);
+        console.log(summ_obj);
+        $('#stations_summary__table_content').empty();
+
+        var html_string = '';
+        for (const [key, value] of Object.entries(summ_obj)) {
+            html_string += '<tr>'
+            html_string += `<td>${key}</td>`;
+            html_string += `<td>${value}</td>`;
+            html_string += '</tr>';
+        }
+        $(html_string).appendTo('#stations_summary__table_content');
+        
     }
     preview_stations = function(){
         $('#comodin__div').empty();
@@ -188,6 +204,7 @@
         var isStations = '{{ isStationView|yesno:"true,false" }}';
         if(isStations){
             initmap();
+            summary_data_load();
         }
 
         $("#stations_csv_preview").change(function (evt) {

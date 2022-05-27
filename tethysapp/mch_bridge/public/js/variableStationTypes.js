@@ -21,7 +21,8 @@
     /************************************************************************
      *                    PRIVATE FUNCTION DECLARATIONS
      *************************************************************************/
-    var preview_variabletypestn;
+    var preview_variabletypestn,
+        summary_data_load;
 		// Object returned by the module
 
 
@@ -29,13 +30,32 @@
     /************************************************************************
      *                    PRIVATE FUNCTION IMPLEMENTATIONS
      *************************************************************************/
+     summary_data_load = function(){
+        var summ_obj = JSON.parse(summary_String);
+        console.log(summ_obj);
+        $('#variablestationtype_summary__table_content').empty();
+
+        var html_string = '';
+        for (const [key, value] of Object.entries(summ_obj)) {
+            html_string += '<tr>'
+            html_string += `<td>${key}</td>`;
+            html_string += `<td>${value}</td>`;
+            html_string += '</tr>';
+        }
+        $(html_string).appendTo('#variablestationtype_summary__table_content');
+        
+    }
 
 
      preview_variabletypestn = function(){
-        $('#comodin__div').empty();
+        $('#comodin__div__variable__type').empty();
+        var html_title = `<p> Variable Station Type Preview</p>`
+        $(html_title).appendTo('#comodin__div__variable__type');
+
         var userFile = document.getElementById("variableStationTypes_csv_preview").files[0];
         let html_string = '<table id="csv_table" class="display nowrap" style="width:100%"> </table>'
         $('#comodin__div__variable__type').html(html_string);
+        // $(html_string).appendTo('#comodin__div__variable__type');
 
         html_string += '</tr></thead><tbody>'
         dfd.readCSV(userFile).then((df) => {
@@ -81,7 +101,7 @@
     // the DOM tree finishes loading
 
     $(function() {
-        
+        summary_data_load();
 
         $('#previewVariableStationTypes').click(function() {
             $("#variableStationTypes_preview_modal").modal('show');

@@ -21,6 +21,74 @@
   column-count: 5;
 }
 
+.horizontal__div{
+  /* flex-direction: column; */
+  /* justify-content: space-between; */
+  margin-right: 300px;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-auto-rows: 1fr;
+  grid-column-gap: 10px;
+  grid-row-gap: 30px;
+  /* height: 100vh; */
+}
+.vertical__div{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-right: 300px;
+}
+#comodin__div__variable__type{
+  width: 100%;
+  padding: 10px;
+}
+#summary__variable_station_type{
+  width: 100%;
+  padding: 10px;
+}
+#summary__table_stn{
+  height: 300px;
+  overflow-y: auto;
+  display: block;
+  margin-top:  20px;
+  border-collapse: collapse;
+}
+#summary__table_stn th div { 
+  margin-top: -20px; 
+  position: absolute; 
+}
+/* #summary__table_stn tr { 
+  text-align: center; 
+} */
+
+#summary__table_stn tbody { 
+  display: table;
+  width: 100%;
+}
+
+#summary__table_stn thead { 
+  display: table;
+  width: 100%;
+}
+
+#summary__stngroup{
+  width: 100%;
+  flex: 1 1 0;
+  padding: 10px;
+}
+#summary__stn{
+  width: 100%;
+  /* flex: 1 1 0; */
+  padding: 10px;
+  
+}
+#comodin__div{
+  width: 100%;
+  flex: 1 1 0;
+  padding: 10px;
+  height: 100%;
+}
+
 .fake__btn {
   padding: 8px;
   background-color: black;
@@ -55,8 +123,8 @@
 }
 .vertical__flex {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  flex-wrap:wrap;
   justify-content: center;
   gap: 30px;
 }
@@ -102,26 +170,30 @@
   justify-content: end;
 }
 #map {
-  position: absolute;
+  /* position: absolute; */
   /* display: none; */
   top: 0;
   bottom: 0;
   right: 0;
   left: 0;
-  margin-top: 50px;
-  margin-bottom: 50px;
+  /* margin-top: 50px; */
+  /* margin-bottom: 50px; */
   /* margin-bottom: 300px; */
   z-index: 1;
+  height: 100%;
 
 }
 
-.content_divided {
+#content_divided {
   height: 100%;
+  /* flex: 1 1 0; */
+  width: 100%;
 }
 .content_divided_ts{
   display: flex;
   flex-direction: column;
   margin-right:300px;
+
 }
 
 #sidebar{
@@ -136,16 +208,12 @@
   padding-top: 50px;
 }
 
-#comodin__div {
-  /* display: none; */
-  height: 300px;
-  /* position: absolute; */
-  /* bottom: 0; */
-  /* margin-top: 10%; */
-}
 
 #comodin__div__timeseries__type{
 
+}
+.p__font__h1{
+  font-size: 16px;
 }
 
 #next_plot {

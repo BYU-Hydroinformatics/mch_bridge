@@ -21,18 +21,16 @@
 {% url 'mch_bridge:groupStations' as groupStations_url %}
 {% url 'mch_bridge:variableStationTypes' as variableStationTypes_url %}
 {% url 'mch_bridge:timeSeries' as timeSeries_url %}
-{% url 'mch_bridge:instructions' as instructions_url %}
 
 <h3 class="title__app__content">Upload Data to MCH</h3>
   <div class="vertical__flex">
-    <div class="horizontal__flex">
-      <!-- <li class="{% if request.path == add_dam_url %}active{% endif %}"></li> -->
+    <!-- <div class="horizontal__flex">
       <p class="item"> Instructions</p>
       <label class="switch">
         <input id="show_instructions" type="checkbox" checked>
         <span class="slider round"></span>
       </label>
-    </div>
+    </div> -->
     <div class="horizontal__flex" id="stations_tab">
         <p class="item">  <a href="{{ stations_url }}"> Stations </a>  <i class="fa-solid fa-location-dot"></i></p>
 
