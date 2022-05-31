@@ -49,9 +49,8 @@
 
      preview_variabletypestn = function(){
         $('#comodin__div__variable__type').empty();
-        var html_title = `<p class="p__font__h1"> Variable Station Type Preview</p>`
+        var html_title = `<p class="p__font__h1 my_flex"> Variable Station Type Preview <i id="go_back_var"class="fa-solid fa-chevron-right fake__btn"></i></p>`
         $(html_title).appendTo('#comodin__div__variable__type');
-
   
         var userFile = document.getElementById("variableStationTypes_csv_preview").files[0];
         let html_string = '<table id="csv_table" class="table table-striped"> </table>'
@@ -80,7 +79,16 @@
               });
             html_string += '</tbody>'
             $('#csv_table').html(html_string);
+            $('#comodin__div__variable__type').removeClass("hidden");
+            $('#go_back_var').click(function(){
+                $('#comodin__div__variable__type').addClass("hidden");
+                $('#go_up_var').removeClass("hidden");
+            });
+            $('#go_up_var').click(function(){
+                $('#comodin__div__variable__type').removeClass("hidden");
+                $('#go_up_var').addClass("hidden");
 
+            });
             // $('#csv_table').DataTable( {
             //     "scrollX": true
             // } );
@@ -104,8 +112,10 @@
     // the DOM tree finishes loading
 
     $(function() {
-        summary_data_load();
-
+        summary_data_load();go_up_var
+        $('#go_up_var').click(function(){
+            $('#comodin__div__variable__type').removeClass("hidden");
+        });
         $('#previewVariableStationTypes').click(function() {
             $("#variableStationTypes_preview_modal").modal('show');
         });
