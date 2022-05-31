@@ -120,6 +120,12 @@
     // the DOM tree finishes loading
 
     $(function() {
+        // Make tab available and active
+        var tab_lists = ["stations_tab","group_station_tab","variable_stn_tab","time_series_tab"];
+        tab_lists.forEach(function(item){
+            $(`#${item}`).removeClass("active_tab");
+        });
+        $(`#variable_stn_tab`).addClass("active_tab"); 
         summary_data_load();go_up_var
         // $('#go_up_var').click(function(){
         //     $('#comodin__div__variable__type').removeClass("hidden");

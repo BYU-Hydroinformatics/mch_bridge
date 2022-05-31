@@ -35,7 +35,6 @@
  
 
     preview_stnGroups = function(){
-        $('#show_instructions').prop('checked', false);    
 
         $('#comodin__div').empty();
         var html_title = `<p class="p__font__h1 my_flex">Group Stations Preview<i id="go_back_stn_gr"class="fa-solid fa-chevron-right fake__btn"></i></p>`;
@@ -128,7 +127,12 @@
     // the DOM tree finishes loading
 
     $(function() {
-        summary_data_load()
+        var tab_lists = ["stations_tab","group_station_tab","variable_stn_tab","time_series_tab"];
+        tab_lists.forEach(function(item){
+            $(`#${item}`).removeClass("active_tab");
+        });
+        $(`#group_station_tab`).addClass("active_tab"); 
+        summary_data_load();
         console.log(summary_String);
         $('#previewGroupStation').click(function() {
             $("#groupStations_preview_modal").modal('show');

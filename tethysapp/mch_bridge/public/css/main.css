@@ -229,6 +229,13 @@
 .horizontal__flex:hover{
   background-color: white;
 }
+
+.active_tab{
+  background-color: white;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
 .title__app__content {
   margin-top: 10px;
   margin-bottom: 30px;

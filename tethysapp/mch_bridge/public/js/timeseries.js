@@ -172,6 +172,13 @@
     // the DOM tree finishes loading
 
     $(function() {
+        // Make tab available and active
+        var tab_lists = ["stations_tab","group_station_tab","variable_stn_tab","time_series_tab"];
+        tab_lists.forEach(function(item){
+            $(`#${item}`).removeClass("active_tab");
+        });
+        $(`#time_series_tab`).addClass("active_tab"); 
+        
         // update the layout to expand to the available size
         // when the window is resized
         window.onresize = function() {

@@ -18,29 +18,13 @@
      *                      MODULE LEVEL / GLOBAL VARIABLES
      *************************************************************************/
     var public_interface;
-        // map,
-        // markers = L.markerClusterGroup(),
-        // list_files,
-        // current_index_files=0;
-        // isMapShowing=false,
-        // isGraphsShowing= false;
+
 
     /************************************************************************
      *                    PRIVATE FUNCTION DECLARATIONS
      *************************************************************************/
     var getCookie,
         upload_data,
-        // initmap,
-        // preview_stations,
-        // validate_stations,
-        // arrayEquals,
-        // preview_stnGroups,
-        // only_tables,
-        // map_to_graph,
-        // graph_to_map,
-        // graph_something,
-        // preview_time_series,
-        // preview_variabletypestn,
         startWS,
         sendNotification,
         notification_ws;
@@ -77,8 +61,7 @@
             console.log('failed');
 
         }
-        // n_content.append(new_element)
-        // $(`#install_notif_${notifCount}`).show("fast")
+       
     }
     startWS =  function(websocketServerLocation){
         notification_ws = new WebSocket(websocketServerLocation)
@@ -117,56 +100,7 @@
             }
             $(html_string).appendTo(`#${id_file}`);
 
-            // if(data.status == "Failed"){
-            //     console.log("failed");
-            //     var html_string = '';
-            //     var count_rows = data['count'];
-            //     var name_file = data['file'];
-            //     var id_file = data['id'];
-            //     var total_count = data['total'];
-            //     $(`#${id_file}`).empty();
-            //     html_string = `
-            //         <td>${name_file}</td>
-            //         <td>${count_rows}/${total_count}</td>
-            //         <td> <i class="fa-solid fa-circle-xmark imcomplete"></i></td>
-            //     `
-            //     $(html_string).appendTo(`#${id_file}`);
-            // }
-            // if(data.status == "complete"){
-            //     console.log("success");
-            //     var html_string = '';
-            //     var count_rows = data['count'];
-            //     var name_file = data['file'];
-            //     var id_file = data['id'];
-            //     var total_count = data['total'];
 
-            //     $(`#${id_file}`).empty();
-
-            //     html_string = `
-            //         <td>${name_file}</td>
-            //         <td>${count_rows}/${total_count}</td>
-            //         <td> <i class="fa-solid fa-circle-check complete"></i></td>
-            //     `
-            //     $(html_string).appendTo(`#${id_file}`);
-            // }
-            // if(data.status == "in process"){
-            //     console.log("processing");
-            //     var html_string = '';
-            //     var count_rows = data['count'];
-            //     var name_file = data['file'];
-            //     var id_file = data['id'];
-            //     var total_count = data['total'];
-
-            //     $(`#${id_file}`).empty();
-
-            //     html_string = `
-            //         <td>${name_file}</td>
-            //         <td>${count_rows}/${total_count}</td>
-            //         <td> <i class="fa-solid fa-circle-check complete"></i></td>
-            //     `
-            //     $(html_string).appendTo(`#${id_file}`);
-
-            // }
 
 
         }
@@ -181,99 +115,7 @@
 
         }
     }
-    // preview_time_series = function(){
-    //     map_to_graph();
-    //     $('#comodin__div').empty();
 
-    //     var userFiles = document.getElementById("ts_csv").files;
-    //     list_files =  Array.from(userFiles);
-    //     console.log(userFiles);
-    //     var userFile = userFiles[current_index_files];
-    //     let dates = [];
-    //     let values = [];
-
-    //     let html_string = ''
-    //     html_string += '</tr></thead><tbody>'
-    //     dfd.readCSV(userFile).then((df) => {
-    //         console.log(df);
-    //         let date_index = df['$columns'].indexOf('Datee');
-    //         let val_index = df['$columns'].indexOf('Valuee');
-    //         if(date_index < 0 && val_index < 0 ){
-    //             $.notify( "Please, the columns containing the date and values should be called Datee and Valuee columns", "warn");
-
-    //             return // please provide the correct names to the Datee and Valuee columns
-    //         }
-    //         else{
-    //             dates = df['$dataIncolumnFormat'][date_index]
-    //             values = df['$dataIncolumnFormat'][val_index]
-    //             graph_something(dates,values,userFile.name,"Datee","Valuee");
-    //         }
-
-    //     })
-    // }
-    // graph_something = function(dates,values,title_graph,x_axis,y_axis){
-
-
-    //     var single_trace = {
-    //         x: dates,
-    //         y: values,
-    //         mode: 'lines',
-    //         name: 'Lines'
-    //       };
-          
-    //       var data = [single_trace];
-  
-          
-    //       var layout = {
-    //         title: title_graph,
-    //         xaxis: {
-    //           title: x_axis
-    //         },
-    //         yaxis: {
-    //           title: y_axis
-    //         }
-    //       };
-          
-    //       Plotly.newPlot('comodin__div', data, layout);
-    // }
-    // only_tables = function(){
-    //     $("#map").hide();
-    //     isMapShowing = false;
-    //     markers = L.markerClusterGroup();
-    //     $("#next_plot").hide();
-    //     $("#last_plot").hide();
-    //     $("#comodin__div").show();
-    //     isGraphsShowing = true;
-    //     $("#instructions").hide();
-
-    //     $('#show_instructions').prop('checked', false);    
-    // }
-    //  map_to_graph = function(){
-    //     $("#map").hide();
-    //     isMapShowing = false;
-    //     markers = L.markerClusterGroup();
-    //     $("#next_plot").show();
-    //     $("#last_plot").show();
-    //     $("#comodin__div").show();
-    //     isGraphsShowing = true;
-    //     $("#instructions").hide();
-
-    //     $('#show_instructions').prop('checked', false);
-    // }
-
-    // graph_to_map = function(){
-    //     // $("#map").show();
-    //     // map.invalidateSize();
-    //     isGraphsShowing = false;
-    //     isMapShowing = true;
-    //     $("#instructions").hide();
-    //     $("#next_plot").hide();
-    //     $("#last_plot").hide();
-    //     // $("#comodin__div").show();
-    //     list_files = [];
-    //     current_index_files=0;
-    //     $('#show_instructions').prop('checked', false);
-    // }
 
     //Get a CSRF cookie for request
     getCookie = function(name) {
@@ -309,130 +151,6 @@
         });
     }); //document ready
 
-
-    // arrayEquals = function (a, b) {
-    //     return Array.isArray(a) &&
-    //         Array.isArray(b) &&
-    //         a.length === b.length &&
-    //         a.every((val, index) => val === b[index]);
-    // }
-    // initmap = function(){
-    //     map = L.map('map').setView([8.913648, -79.544706], 15);
-
-    //     L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
-    //         attribution: '©OpenStreetMap, ©CartoDB'
-    //       }).addTo(map);
-    // }
-    // preview_stations = function(){
-    //     graph_to_map();
-    //     $('#comodin__div').empty();
-    //     let userFile = document.getElementById("stations_csv").files[0];
-    //     let latlongs = []
-
-    //     dfd.readCSV(userFile).then((df) => {
-    //         console.log(df);
-
-    //         df['$data'].forEach(function (item, index) {
-    //             if(item[8] != undefined && item[7] != undefined ){
-    //                 console.log(typeof(item[8]), typeof(item[7]));
-    //                 let marker = L.marker([parseFloat(item[8]), parseFloat(item[7])]).bindPopup(`${item[1]}`);
-    //                 markers.addLayer(marker);
-    //                 latlongs.push([parseFloat(item[8]), parseFloat(item[7])])
-
-    //             }
-    //           });
-
-    //         map.addLayer(markers);
-    //         var bounds = new L.LatLngBounds(latlongs);
-    //         map.fitBounds(bounds);
-
-    //     })
-    // }
-    // validate_stations = function(){
-    //     let warning_et = 'The File format is correct'
-    //     let userFile = document.getElementById("stations_csv").files[0];
-    //     let columns_check = [
-    //         "Station",
-    //         "StationName",
-    //         "StationName2",
-    //         "TimeZone",
-    //         "Longitude",
-    //         "Latitude",
-    //         "Altitude",
-    //         "Longitude2",
-    //         "Latitude2",
-    //         "DMSLongitude",
-    //         "DMSLatitude",
-    //         "Statee",
-    //         "RegManagmt",
-    //         "Catchment",
-    //         "Subcatchment",
-    //         "OperatnlRegion",
-    //         "HydroReg",
-    //         "RH",
-    //         "Municipality",
-    //         "CodeB",
-    //         "CodeG",
-    //         "CodeCB",
-    //         "CodePB",
-    //         "CodeE",
-    //         "CodeCL",
-    //         "CodeHG",
-    //         "CodePG",
-    //         "CodeNw",
-    //         "Code1",
-    //         "Code2",
-    //         "Code3",
-    //         "MaxOrdStrgLvl",
-    //         "MaxOrdStrgVol",
-    //         "MaxExtStrgLvl",
-    //         "MaxExtStrgVol",
-    //         "SpillwayLevel",
-    //         "SpillwayStorage",
-    //         "FreeSpillwayLevel",
-    //         "FreeSpillwayStorage",
-    //         "DeadStrgLevel",
-    //         "DeadStrgCapac",
-    //         "UsableStorageCapLev",
-    //         "UsableStorage",
-    //         "HoldingStorage",
-    //         "Key1fil",
-    //         "Key2fil",
-    //         "Key3fil",
-    //         "CritLevelSta",
-    //         "MinLevelSta",
-    //         "MaxLevelSta",
-    //         "CritFlow",
-    //         "MinDischarge",
-    //         "MaxDischarge",
-    //         "Stream",
-    //         "Distance",
-    //         "Infrastructure",
-    //         "Type",
-    //         "Usee"
-    //     ]
-    //     dfd.readCSV(userFile).then((df) => {   
-    //         console.log(arrayEquals(columns_check, df['$columns']));
-    //         if(df['$columns'].length < 0){
-    //             warning_et = 'The CSV file is empty'
-    //             $.notify(warning_et, "warn");
-    //             return 
-    //         }
-    //         if(df['$columns'].length < 58 || df['$columns'].length > 58 ){
-    //             warning_et = 'Check the number of columns. It should be 58'
-    //             $.notify(warning_et, "warn");
-    //             return 
-    //         }
-    //         if(!arrayEquals(columns_check, df['$columns'])){
-    //             warning_et = 'The CSV file does not have the correct names in the columns. Please Check'
-    //             $.notify(warning_et, "warn");
-    //             return
-    //         }
-    //         $.notify(warning_et, "success");
-            
-
-    //     })
-    // }
     upload_data = function(type_upload){
         let formData = new FormData();
         let userFile;
@@ -537,81 +255,11 @@
             }
         });
     }
-    // preview_stnGroups = function(){
-    //     only_tables();
-    //     $('#comodin__div').empty();
-
-    //     var userFile = document.getElementById("stngroups_csv").files[0];
-    //     let html_string = '<table id="csv_table" class="display nowrap" style="width:100%"> </table>'
-    //     $('#comodin__div').html(html_string);
-
-    //     html_string += '</tr></thead><tbody>'
-    //     dfd.readCSV(userFile).then((df) => {
-
-    //         // create table dinamycally
-    //         html_string = `<thead><tr>`
-    //         df['$columns'].forEach(function (item, index) {
-    //             if(item != undefined){
-    //                 html_string +=`<th>${item}</th>`
-    //             }
-    //         });
-    //         df['$data'].forEach(function (item, index) {
-
-    //                 html_string += '<tr>'
-    //                 item.forEach(function(value2){
-    //                     html_string += `<td>${value2}</td>`;
-    //                 })
-    //                 html_string += '</tr>';
-    //           });
-    //         html_string += '</tbody>'
-    //         // // console.log(html_string);
-    //         $('#csv_table').html(html_string);
-
-    //         $('#csv_table').DataTable( {
-    //             "scrollX": true
-    //         } );
-
-    //     })
-    // }
-    // preview_variabletypestn = function(){
-    //     only_tables();
-    //     $('#comodin__div').empty();
-
-    //     var userFile = document.getElementById("variabletypestn_csv").files[0];
-    //     let html_string = '<table id="csv_table" class="display nowrap" style="width:100%"> </table>'
-    //     $('#comodin__div').html(html_string);
-
-    //     html_string += '</tr></thead><tbody>'
-    //     dfd.readCSV(userFile).then((df) => {
-
-    //         // create table dinamycally
-    //         html_string = `<thead><tr>`
-    //         df['$columns'].forEach(function (item, index) {
-    //             if(item != undefined){
-    //                 html_string +=`<th>${item}</th>`
-    //             }
-    //         });
-    //         df['$data'].forEach(function (item, index) {
-
-    //                 html_string += '<tr>'
-    //                 item.forEach(function(value2){
-    //                     html_string += `<td>${value2}</td>`;
-    //                 })
-    //                 html_string += '</tr>';
-    //           });
-    //         html_string += '</tbody>'
-    //         $('#csv_table').html(html_string);
-
-    //         $('#csv_table').DataTable( {
-    //             "scrollX": true
-    //         } );
-
-    //     })
-    // }
 
     /************************************************************************
      *                        DEFINE PUBLIC INTERFACE
      *************************************************************************/
+
 
     public_interface = {
 
@@ -625,16 +273,9 @@
     // the DOM tree finishes loading
 
     $(function() {
-        // initmap();
-        //websocker portion 
-        // var notification_ws = new WebSocket('ws://' + window.location.host + '/mch-bridge/ws/');
-        // $('#loader_id').modal('show');
         
         window.addEventListener("beforeunload", function (event) {
-            //your code goes here on location change 
             $('.loader').removeClass("hidden");
-
-
          });
         
       

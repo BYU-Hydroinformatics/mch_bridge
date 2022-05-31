@@ -59,7 +59,7 @@
         for (const [key, value] of Object.entries(summ_obj)) {
             html_string += '<tr>'
             html_string += `<td>${key}</td>`;
-            html_string += `<td>${value}</td>`;
+            html_string += `<td  class="mega_num">${value}</td>`;
             html_string += '</tr>';
         }
         $(html_string).appendTo('#stations_summary__table_content');
@@ -201,8 +201,13 @@
     // the DOM tree finishes loading
 
     $(function() {
-        $('.modal').modal('hide');
-        
+        // Make tab available and active
+        var tab_lists = ["stations_tab","group_station_tab","variable_stn_tab","time_series_tab"];
+        tab_lists.forEach(function(item){
+            $(`#${item}`).removeClass("active_tab");
+        });
+        $(`#stations_tab`).addClass("active_tab"); 
+
         var isStations = '{{ isStationView|yesno:"true,false" }}';
         if(isStations){
             initmap();
