@@ -135,6 +135,8 @@ def timeSeries(request):
     session = Session()
     sql_query = "SELECT table_name, table_rows FROM information_schema.tables WHERE table_name like 'da_%' or table_name like 'dc_%' or table_name like 'dd_%' or table_name like 'de_%' or table_name like 'dm_%' or table_name like 'ds_%' or table_name like 'na_%' or table_name like 'nc_%' or table_name like 'nd_%' or table_name like 'nm_%' or table_name like 'ns_%' AND TABLE_SCHEMA = 'mch';"
     exclude_list = ["data_locks","data_lock_waits","default_roles","ddavailability"]
+    # exclude_list = []
+
     actual_data_rows = session.execute(sql_query)
     result = [dict(row) for row in actual_data_rows]
     df = pd.DataFrame(result)
@@ -335,9 +337,9 @@ async def upload_data_tables(cur, table_name, csv_file,ids):
     )
     total_count = 0
     mssge_string = "success"
-    try:
-        print(table_name)
-        for csv_indv,csv_id in zip(csv_file,ids):
+    print(table_name)
+    for csv_indv,csv_id in zip(csv_file,ids):
+        try:
             print(table_name)
             table_name_insert = table_name
             path_to_read = os.path.join(app_workspace_path,csv_indv)
@@ -346,8 +348,9 @@ async def upload_data_tables(cur, table_name, csv_file,ids):
             if "table_name" in df.columns and table_name_insert == "timeSeries":
                 print("ey")
                 table_name_insert = df["table_name"][0]
+                print(table_name_insert)
                 df = df.drop("table_name", 1)
-            actual_data_count = session.execute(f'SELECT COUNT(*)FROM {table_name};').scalar()
+            actual_data_count = session.execute(f'SELECT COUNT(*)FROM {table_name_insert};').scalar()
             print("datacount",actual_data_count)
             total_count = len(df)
             await channel_layer.group_send(
@@ -356,11 +359,12 @@ async def upload_data_tables(cur, table_name, csv_file,ids):
                     "count": 0,
                     "total": total_count,
                     "status": status_type,
-                    "file": csv_file,
+                    "file": csv_indv,
                     "id":csv_id,
                     "mssg": mssge_string
                 }
             )
+            print(df)
             df = df.where(pd.notnull(df), None)
             print("ey2")
             print(df)
@@ -373,6 +377,7 @@ async def upload_data_tables(cur, table_name, csv_file,ids):
             records_tuple = df.to_records(index=False)
             records_list_tuples = list(records_tuple)
             records_list_tuples = [tuple(i) for i in records_list_tuples]
+            print(table_name_insert)
             sql = "INSERT INTO %s ( %s ) VALUES ( %s )" % (
                 table_name_insert,
                 columns_string,
@@ -382,6 +387,8 @@ async def upload_data_tables(cur, table_name, csv_file,ids):
             await cur.executemany(sql, records_list_tuples)
             new_data_count = session.execute(f'SELECT COUNT(*)FROM {table_name_insert};').scalar()
             summary_data_count = new_data_count - actual_data_count
+            print(summary_data_count,total_count)
+
             if summary_data_count == total_count:
                 status_type = "complete"
                 print(new_data_count,actual_data_count)
@@ -392,19 +399,71 @@ async def upload_data_tables(cur, table_name, csv_file,ids):
                         "count": summary_data_count,
                         "total": total_count,
                         "status": status_type,
-                        "file": csv_file,
+                        "file": csv_indv,
                         "id":csv_id,
                         "mssg": mssge_string
                     }
                 )       
-    except pymysql.IntegrityError as e:
-        if e.args[0] == 1062:
-            new_data_count = session.execute(f'SELECT COUNT(*)FROM {table_name};').scalar()
+        except pymysql.IntegrityError as e:
+            if e.args[0] == 1062:
+                new_data_count = session.execute(f'SELECT COUNT(*)FROM {table_name_insert};').scalar()
+                summary_data =  new_data_count - actual_data_count
+                print(new_data_count,summary_data)
+                # summary_data = abs(actual_data_count - total_count)
+                status_type = "Failed"
+                mssge_string = "The file contains data that is already in the database"
+                # if new_data_count == actual_data_count:
+                channel_layer = get_channel_layer()
+                await channel_layer.group_send(
+                    "notifications", {
+                        "type": "data_notifications",
+                        "count": summary_data,
+                        "total": total_count,
+                        "status": status_type,
+                        "file": csv_indv,
+                        "id":csv_id,
+                        "mssg": mssge_string
+                    }
+                )
+        except ProgrammingError as e:
+            mssge_string = str(e.args[0])
+
+            print("programming")
+            if "1146" in e.args[0]:
+                new_data_count = 0
+                actual_data_count = 0
+                mssge_string = "Table does not exits"
+            else:
+                new_data_count = session.execute(f'SELECT COUNT(*)FROM {table_name_insert};').scalar()
+
             summary_data =  new_data_count - actual_data_count
             print(new_data_count,summary_data)
             # summary_data = abs(actual_data_count - total_count)
             status_type = "Failed"
-            mssge_string = "The file contains stations that are already in the database"
+            # if new_data_count == actual_data_count:
+            channel_layer = get_channel_layer()
+            await channel_layer.group_send(
+                "notifications", {
+                    "type": "data_notifications",
+                    "count": summary_data,
+                    "total": total_count,
+                    "status": status_type,
+                    "file": csv_indv,
+                    "id":csv_id,
+                    "mssg": mssge_string
+                }
+            )
+                        
+        except Exception as e:
+            print("new excpetion")
+            print(type(e))
+
+            new_data_count = session.execute(f'SELECT COUNT(*)FROM {table_name_insert};').scalar()
+            summary_data =  new_data_count - actual_data_count
+            # summary_data = abs(actual_data_count - total_count)
+            status_type = "Failed"
+            mssge_string = str(e)
+
             # if new_data_count == actual_data_count:
             channel_layer = get_channel_layer()
             await channel_layer.group_send(
@@ -416,62 +475,10 @@ async def upload_data_tables(cur, table_name, csv_file,ids):
                     "file": csv_file,
                     "id":csv_id,
                     "mssg": mssge_string
+
+
                 }
-            )
-    except ProgrammingError as e:
-        mssge_string = str(e.args[0])
-
-        print("programming")
-        if "1146" in e.args[0]:
-            new_data_count = 0
-            actual_data_count = 0
-            mssge_string = "Table does not exits"
-        else:
-            new_data_count = session.execute(f'SELECT COUNT(*)FROM {table_name};').scalar()
-
-        summary_data =  new_data_count - actual_data_count
-        print(new_data_count,summary_data)
-        # summary_data = abs(actual_data_count - total_count)
-        status_type = "Failed"
-        # if new_data_count == actual_data_count:
-        channel_layer = get_channel_layer()
-        await channel_layer.group_send(
-            "notifications", {
-                "type": "data_notifications",
-                "count": summary_data,
-                "total": total_count,
-                "status": status_type,
-                "file": csv_file,
-                "id":csv_id,
-                "mssg": mssge_string
-            }
-        )
-                    
-    except Exception as e:
-        print("new excpetion")
-        print(type(e))
-
-        new_data_count = session.execute(f'SELECT COUNT(*)FROM {table_name};').scalar()
-        summary_data =  new_data_count - actual_data_count
-        # summary_data = abs(actual_data_count - total_count)
-        status_type = "Failed"
-        mssge_string = str(e)
-
-        # if new_data_count == actual_data_count:
-        channel_layer = get_channel_layer()
-        await channel_layer.group_send(
-            "notifications", {
-                "type": "data_notifications",
-                "count": summary_data,
-                "total": total_count,
-                "status": status_type,
-                "file": csv_file,
-                "id":csv_id,
-                "mssg": mssge_string
-
-
-            }
-        )       
+            )       
 
 
 async def quicker_upload(loop, table_name, csv_file,ids):
