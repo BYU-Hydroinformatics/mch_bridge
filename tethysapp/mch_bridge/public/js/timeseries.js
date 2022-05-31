@@ -25,7 +25,9 @@
      *                    PRIVATE FUNCTION DECLARATIONS
      *************************************************************************/
     var preview_time_series,
-        graph_something;
+        graph_something,
+        summary_data_load,
+        take_out_starts;
 		// Object returned by the module
 
 
@@ -33,9 +35,41 @@
     /************************************************************************
      *                    PRIVATE FUNCTION IMPLEMENTATIONS
      *************************************************************************/
-     preview_time_series = function(){
-        $('#comodin__div__timeseries').empty();
+    take_out_starts = function(word){
+        // array_not_allowed = ['da','dc','dd','de','dm','ds','na','nc','nd','nm','ns'];
+        var regex_expresion = /^(da |dc|dd|de|dm|ds|na|nc|nd|nm|ns).*/;
+        if(regex_expresion.test(word)){
+            return word.substring(2);
+        }
 
+    }
+     summary_data_load = function(){
+        var summ_obj = JSON.parse(summary_String);
+        console.log(summ_obj);
+        $('#timeseries_summary__table_content').empty();
+
+        var html_string = '';
+        var table_names = summ_obj["TABLE_NAME"];
+        var table_counts = summ_obj["TABLE_ROWS"];
+        console.log(Object.entries(summ_obj));
+        for(var i=0; i< table_names.length; ++i){
+            var variable_name = take_out_starts(table_names[i]);
+            html_string += '<tr>'
+            html_string += `<td>${table_names[i]}</td>`;
+            html_string += `<td>${variable_name}</td>`;
+            html_string += `<td>${table_counts[i]}</td>`;
+
+            html_string += '</tr>';
+        }
+
+        $(html_string).appendTo('#timeseries_summary__table_content');
+        
+    }
+     preview_time_series = function(){
+        // $('#comodin__div__timeseries').empty();
+        $("#comodin__div__timeseries").css("visibility", "hidden");
+        $("#next_plot").hide();
+        $("#last_plot").hide();
         var userFiles = document.getElementById("timeseries_csv_preview").files;
         list_files =  Array.from(userFiles);
         console.log(userFiles);
@@ -43,8 +77,7 @@
         let dates = [];
         let values = [];
 
-        let html_string = ''
-        html_string += '</tr></thead><tbody>'
+ 
         dfd.readCSV(userFile).then((df) => {
             console.log(df);
             let date_index = df['$columns'].indexOf('Datee');
@@ -60,8 +93,14 @@
                 graph_something(dates,values,userFile.name,"Datee","Valuee","comodin__div__timeseries");
 
             }
+            $('#content_divided_ts').removeClass("hidden");
+
+            $("#next_plot").show();
+            $("#last_plot").show();
+            $("#comodin__div__timeseries").css("visibility", "visible");
 
         })
+
     }
     graph_something = function(dates,values,title_graph,x_axis,y_axis,div_id){
 
@@ -70,7 +109,10 @@
             x: dates,
             y: values,
             mode: 'lines',
-            name: 'Lines'
+            line: {
+                color: '#312e81',
+                width: 1
+              }
           };
           
           var data = [single_trace];
@@ -78,12 +120,35 @@
           
           var layout = {
             title: title_graph,
+            autosize: true,
             xaxis: {
-              title: x_axis
-            },
-            yaxis: {
-              title: y_axis
+              autorange: true,
+              range: [dates[0], dates[dates.length-1]],
+              rangeselector: {buttons: [
+                  {
+                    count: 1,
+                    label: '1m',
+                    step: 'month',
+                    stepmode: 'backward'
+                  },
+                  {
+                    count: 6,
+                    label: '6m',
+                    step: 'month',
+                    stepmode: 'backward'
+                  },
+                  {
+                    count: 12,
+                    label: '1yr',
+                    step: 'month',
+                    stepmode: 'backward'
+                  },
+                  {step: 'all'}
+                ]},
+              rangeslider: {range: [dates[0], dates[dates.length-1]]},
+              type: 'date'
             }
+
           };
           
           Plotly.newPlot(div_id, data, layout);
@@ -104,8 +169,15 @@
     // the DOM tree finishes loading
 
     $(function() {
-        
-
+        // update the layout to expand to the available size
+        // when the window is resized
+        window.onresize = function() {
+            Plotly.relayout('comodin__div__timeseries', {
+                'xaxis.autorange': true,
+                'yaxis.autorange': true
+            });
+        };
+        summary_data_load();
         $('#previewtimeSeries').click(function() {
             $("#timeseries_preview_modal").modal('show');
         });
@@ -127,18 +199,25 @@
             }
         });
         $("#last_plot").click(function(){
+
             current_index_files = current_index_files - 1;
             if(current_index_files < 0){
                 current_index_files = 0;
+                return
+
             }
             preview_time_series();
         });
         $("#next_plot").click(function(){
+
             current_index_files = current_index_files + 1;
             if(current_index_files > (list_files.length -1) ){
                 current_index_files = list_files.length -1;
+                return 
+
             }
             preview_time_series();
+
         });
 
     });

@@ -38,10 +38,10 @@
         $('#show_instructions').prop('checked', false);    
 
         $('#comodin__div').empty();
-        var html_title = `<p>Group Stations Preview</p>`
+        var html_title = `<p class="p__font__h1">Group Stations Preview</p>`
         $(html_title).appendTo('#comodin__div');
         var userFile = document.getElementById("groupStations_csv_preview").files[0];
-        let html_string = '<table id="csv_table" class="display nowrap" style="width:100%"> </table>'
+        let html_string = '<table id="csv_table" class="table table-striped"> </table>'
         // $('#comodin__div').html(html_string);
         $(html_string).appendTo('#comodin__div');
 
@@ -51,15 +51,19 @@
             // create table dinamycally
             html_string = `<thead><tr>`
             df['$columns'].forEach(function (item, index) {
-                if(item != undefined){
+                if(item != undefined ){
                     html_string +=`<th>${item}</th>`
+
                 }
             });
             df['$data'].forEach(function (item, index) {
 
                     html_string += '<tr>'
                     item.forEach(function(value2){
-                        html_string += `<td>${value2}</td>`;
+                        console.log(value2,typeof(value2));
+                        if(value2 != null){
+                            html_string += `<td>${value2}</td>`;
+                        }
                     })
                     html_string += '</tr>';
               });
@@ -68,9 +72,9 @@
             // $(html_string).appendTo('#csv_table')
             $('#csv_table').html(html_string);
 
-            $('#csv_table').DataTable( {
-                "scrollX": true
-            } );
+            // $('#csv_table').DataTable( {
+            //     "scrollX": true
+            // } );
 
         })
     }
