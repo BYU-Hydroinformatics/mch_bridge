@@ -48,9 +48,28 @@
 
 
 <div class="vertical__div">
+  <div class="loader hidden">  
+  </div>
   <div id="summary__variable_station_type"  class="table-responsive"">
-    <p class="p__font__h1 my_flex">Variable Station Type Details <i id="go_up_var"class="fa-solid fa-chevron-left fake__btn hidden"></i></p>
+    <p class="p__font__h1 my_flex">Variable Station Type Database Information <i id="go_up_var"class="fa-solid fa-chevron-left fake__btn hidden"></i></p>
     <p><span>Table Name:</span> <span><b>variablestationtypes</b></span> </p>
+    
+    <p class="p__font__h1">Statistics</p>
+    <table class="table table-striped">
+      <thead>
+          <tr>
+              <th>Variable Station Type</th>
+              <th>Count</th>
+          </tr>
+      </thead>
+     
+      <tbody id="variablestationtype_summary__table_content">
+        
+      </tbody>
+
+  </table>
+  <p class="p__font__h1">Table Column Description</p>
+
     <table class="table table-striped">
       <thead>
           <tr>
@@ -77,21 +96,8 @@
   </table>
   <p>*Required columns</p>
 
-    <p class="p__font__h1">Statistics</p>
-    <table class="table table-striped">
-      <thead>
-          <tr>
-              <th>Variable Station Type</th>
-              <th>Count</th>
-          </tr>
-      </thead>
-     
-      <tbody id="variablestationtype_summary__table_content">
-        
-      </tbody>
-  </table>
   </div>
-  <div id="comodin__div__variable__type" class="hidden"> 
+  <div id="comodin__div__variable__type" class="hidden table-responsive"> 
     <p class="p__font__h1">Variable Station Type Preview</p>
   </div>
 </div>

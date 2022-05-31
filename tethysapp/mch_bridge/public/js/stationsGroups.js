@@ -38,7 +38,8 @@
         $('#show_instructions').prop('checked', false);    
 
         $('#comodin__div').empty();
-        var html_title = `<p class="p__font__h1">Group Stations Preview</p>`
+        var html_title = `<p class="p__font__h1 my_flex">Group Stations Preview<i id="go_back_stn_gr"class="fa-solid fa-chevron-right fake__btn"></i></p>`;
+
         $(html_title).appendTo('#comodin__div');
         var userFile = document.getElementById("groupStations_csv_preview").files[0];
         let html_string = '<table id="csv_table" class="table table-striped"> </table>'
@@ -71,10 +72,27 @@
             console.log(html_string);
             // $(html_string).appendTo('#csv_table')
             $('#csv_table').html(html_string);
+            $('#comodin__div').removeClass("hidden");
 
-            // $('#csv_table').DataTable( {
-            //     "scrollX": true
-            // } );
+            $('#go_back_stn_gr').click(function(){
+    
+                $('#comodin__div').addClass("fadeout");
+
+                setTimeout(function(){
+                    $('#go_up_stn_gr').removeClass("hidden");
+                    $('#comodin__div').addClass("hidden");
+                },300);
+            });
+            $('#go_up_stn_gr').click(function(){
+                $('#comodin__div').removeClass("fadeout");
+
+                $('#go_up_stn_gr').addClass("hidden");
+
+                setTimeout(function(){
+
+                    $('#comodin__div').removeClass("hidden");
+                },300);
+            });
 
         })
     }
@@ -87,7 +105,7 @@
         for (const [key, value] of Object.entries(summ_obj)) {
             html_string += '<tr>'
             html_string += `<td>${key}</td>`;
-            html_string += `<td>${value}</td>`;
+            html_string += `<td class="mega_num">${value}</td>`;
             html_string += '</tr>';
         }
         $(html_string).appendTo('#stngroups_summary__table_content');

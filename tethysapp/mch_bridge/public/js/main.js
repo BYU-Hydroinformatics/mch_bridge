@@ -628,7 +628,15 @@
         // initmap();
         //websocker portion 
         // var notification_ws = new WebSocket('ws://' + window.location.host + '/mch-bridge/ws/');
- 
+        // $('#loader_id').modal('show');
+        
+        window.addEventListener("beforeunload", function (event) {
+            //your code goes here on location change 
+            $('.loader').removeClass("hidden");
+
+
+         });
+        
       
         let protocol = "ws"
         if (location.protocol === "https:") {

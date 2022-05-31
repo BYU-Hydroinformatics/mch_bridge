@@ -201,6 +201,8 @@
     // the DOM tree finishes loading
 
     $(function() {
+        $('.modal').modal('hide');
+        
         var isStations = '{{ isStationView|yesno:"true,false" }}';
         if(isStations){
             initmap();

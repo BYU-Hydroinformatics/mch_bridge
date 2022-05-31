@@ -55,10 +55,13 @@
         for(var i=0; i< table_names.length; ++i){
             var variable_name = take_out_starts(table_names[i]);
             html_string += '<tr>'
-            html_string += `<td>${table_names[i]}</td>`;
             html_string += `<td>${variable_name}</td>`;
-            html_string += `<td>${table_counts[i]}</td>`;
+            html_string += `<td>${table_names[i]}</td>`;
+            html_string += `<td class="mega_num">${table_counts[i]}</td>`;
+            html_string += `<td><i  class="fa-solid fa-location-dot fake__btn"></i></td>`;
+           
 
+            
             html_string += '</tr>';
         }
 

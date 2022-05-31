@@ -46,9 +46,27 @@
 
 </div>
 <div class="vertical__div">
+  <div class="loader hidden">
+  </div>
   <div id="summary__stngroup"  class="table-responsive">
-    <p class="p__font__h1">Station Groups Details</p>
+    <p class="p__font__h1 my_flex">Station Groups Database Details <i id="go_up_stn_gr"class="fa-solid fa-chevron-left fake__btn hidden"></i></p>
     <p><span>Table Name:</span> <span><b>stngroups</b></span> </p>
+
+    <p class="p__font__h1">Statistics</p>
+    <table class="table table-striped">
+      <thead>
+          <tr>
+              <th>Station Group</th>
+              <th>Stations</th>
+          </tr>
+      </thead>
+     
+      <tbody id="stngroups_summary__table_content">
+        
+      </tbody>
+   </table>
+  <p class="p__font__h1">Table Column Description</p>
+
     <table class="table table-striped">
       <thead>
           <tr>
@@ -74,21 +92,8 @@
   </table>
   <p>*Required columns</p>
 
-    <p class="p__font__h1">Statistics</p>
-    <table class="table table-striped">
-      <thead>
-          <tr>
-              <th>Station Group</th>
-              <th>Stations</th>
-          </tr>
-      </thead>
-     
-      <tbody id="stngroups_summary__table_content">
-        
-      </tbody>
-  </table>
   </div>
-  <div id="comodin__div" class="table-responsive"> 
+  <div id="comodin__div" class="table-responsive hidden"> 
     <p class="p__font__h1">Group Stations Preview</p>
   </div>
 </div>

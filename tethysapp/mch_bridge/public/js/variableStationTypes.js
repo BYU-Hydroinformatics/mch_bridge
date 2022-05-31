@@ -39,7 +39,7 @@
         for (const [key, value] of Object.entries(summ_obj)) {
             html_string += '<tr>'
             html_string += `<td>${key}</td>`;
-            html_string += `<td>${value}</td>`;
+            html_string += `<td class="mega_num">${value}</td>`;
             html_string += '</tr>';
         }
         $(html_string).appendTo('#variablestationtype_summary__table_content');
@@ -70,9 +70,10 @@
             df['$data'].forEach(function (item, index) {
 
                     html_string += '<tr>'
-                    item.forEach(function(value2){
+                    item.forEach(function(value2,index){
                         if(value2 != null){
                             html_string += `<td>${value2}</td>`;
+
                         }
                     })
                     html_string += '</tr>';
@@ -81,17 +82,24 @@
             $('#csv_table').html(html_string);
             $('#comodin__div__variable__type').removeClass("hidden");
             $('#go_back_var').click(function(){
-                $('#comodin__div__variable__type').addClass("hidden");
-                $('#go_up_var').removeClass("hidden");
+    
+                $('#comodin__div__variable__type').addClass("fadeout");
+
+                setTimeout(function(){
+                    $('#go_up_var').removeClass("hidden");
+                    $('#comodin__div__variable__type').addClass("hidden");
+                },300);
             });
             $('#go_up_var').click(function(){
-                $('#comodin__div__variable__type').removeClass("hidden");
+                $('#comodin__div__variable__type').removeClass("fadeout");
+
                 $('#go_up_var').addClass("hidden");
 
+                setTimeout(function(){
+
+                    $('#comodin__div__variable__type').removeClass("hidden");
+                },300);
             });
-            // $('#csv_table').DataTable( {
-            //     "scrollX": true
-            // } );
 
         })
     }
@@ -113,9 +121,9 @@
 
     $(function() {
         summary_data_load();go_up_var
-        $('#go_up_var').click(function(){
-            $('#comodin__div__variable__type').removeClass("hidden");
-        });
+        // $('#go_up_var').click(function(){
+        //     $('#comodin__div__variable__type').removeClass("hidden");
+        // });
         $('#previewVariableStationTypes').click(function() {
             $("#variableStationTypes_preview_modal").modal('show');
         });
