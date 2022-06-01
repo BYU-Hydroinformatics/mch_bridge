@@ -98,6 +98,7 @@
 
 {% include "mch_bridge/modals/preview_template.html" with modal_id="timeseries_preview_modal" title="Time Series Data" description="Please Upload a csv file containing Time series for a variable" div_id="variableStationTypes_csv_file_preview" csv_name="timeseries_csv_preview" csv_id="timeseries_csv_preview" isMultiple="multiple"%}
 {% include "mch_bridge/modals/upload_data_template.html" with modal_id="timeseries_upload_modal" title="Time Series Data" description="Please Upload a csv file containing Time series for a variable" div_id="variableStationTypes_csv_file_upload" csv_name="timeseries_csv_upload" csv_id="timeseries_csv_upload" isMultiple="multiple"%}
+{% include "mch_bridge/modals/stn_vars.html" %}
 
 {% endblock %}
 

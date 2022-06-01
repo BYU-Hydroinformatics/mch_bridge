@@ -12,14 +12,41 @@ from asgiref.sync import async_to_sync
 from .app import MchBridge as app
 import sqlalchemy as db
 import pymysql
-from sqlalchemy.exc import OperationalError, ProgrammingError
-import re
+from sqlalchemy.exc import ProgrammingError
+
+from .auxiliary import stations_reload
 
 import json
 
 from sqlalchemy.orm import sessionmaker
 
 from random import randint
+
+@login_required()
+def get_stations_var(request):
+    station_selected = request.POST.get('variable')
+    response_obj = {}
+    host_db = app.get_custom_setting("Database host")
+    port_db = app.get_custom_setting("Database Port")
+    user_db = app.get_custom_setting("Database User")
+    password_db = app.get_custom_setting("Database Password")
+    db_name = app.get_custom_setting("Database Name")
+    engine = db.create_engine(f'mysql+pymysql://{user_db}:{password_db}@{host_db}:{port_db}/{db_name}')
+    database_metadata = db.MetaData(bind=engine)
+    database_metadata.reflect()
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    actual_data_rows = session.execute(f'SELECT * FROM {station_selected};')
+    result = [dict(row) for row in actual_data_rows]
+    df = pd.DataFrame(result)
+    print(df)
+    df_grouped_by_station = df.groupby(['Station']).size().reset_index(name='totals')
+    
+    print(df_grouped_by_station)
+    response_obj = {"list_stations":df_grouped_by_station.to_dict(orient='records')}
+    print(response_obj)
+
+    return JsonResponse(response_obj)
 
 @login_required()
 def home(request):
@@ -58,35 +85,6 @@ def home(request):
     return render(request, "mch_bridge/stations.html", context)
 
 
-def stations_reload(df_p):
-    try:
-        new_df_sum = df_p[['StationName','Longitude','Latitude','Altitude','Longitude2','Latitude2','DMSlongitude','DMSLatitude']].copy()
-        new_df_sum['latlng'] = new_df_sum.apply (lambda row: label_lat_long(row), axis=1)
-        new_df_sum2 = new_df_sum[['StationName','latlng']].copy()
-        df_dict = new_df_sum2.to_dict('records')
-        return df_dict
-    except Exception as e:
-        print(e)
-
-    return
-def dms2dd(s):
-    # example: s = """0°51'56.29"S"""
-    degrees, minutes, seconds, direction = re.split('[°\'"]+', s)
-    dd = float(degrees) + float(minutes)/60 + float(seconds)/(60*60);
-    if direction in ('S','W'):
-        dd*= -1
-    return dd
-def label_lat_long (row):
-   if row['Longitude2'] != '' and row['Latitude2']  != '' :
-      return [row['Longitude2'],row['Latitude2']]
-
-   if row['DMSlongitude'] != '' and row['DMSLatitude'] != '' :
-      return [dms2dd(row['DMSlongitude']),dms2dd(row['DMSLatitude'])]
-
-   if row['Longitude'] != '' and row['Latitude']  != '':
-      return ''
-
-   return 'none'
 
 @login_required()
 def stations(request):
@@ -197,7 +195,6 @@ def timeSeries(request):
     session = Session()
     sql_query = "SELECT table_name, table_rows FROM information_schema.tables WHERE table_name like 'da_%' or table_name like 'dc_%' or table_name like 'dd_%' or table_name like 'de_%' or table_name like 'dm_%' or table_name like 'ds_%' or table_name like 'na_%' or table_name like 'nc_%' or table_name like 'nd_%' or table_name like 'nm_%' or table_name like 'ns_%' AND TABLE_SCHEMA = 'mch';"
     exclude_list = ["data_locks","data_lock_waits","default_roles","ddavailability"]
-    # exclude_list = []
 
     actual_data_rows = session.execute(sql_query)
     result = [dict(row) for row in actual_data_rows]
@@ -206,12 +203,12 @@ def timeSeries(request):
     df_excluded_tables = df_with_vals.loc[~df_with_vals['TABLE_NAME'].isin(exclude_list)]
     
 
-    print(df)
-    print(df_excluded_tables)
+    # print(df)
+    # print(df_excluded_tables)
     
     df_dict = df_excluded_tables.to_dict(orient='list')
     df_dict_string = json.dumps(df_dict)
-    print(df_dict_string)
+    # print(df_dict_string)
     
 
     context = {

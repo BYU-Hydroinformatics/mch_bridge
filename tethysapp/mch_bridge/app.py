@@ -86,6 +86,11 @@ class MchBridge(TethysAppBase):
                 controller="mch_bridge.controllers.upload__files",
             ),
             UrlMap(
+                name="get-stations-var",
+                url="timeSeries/get-stations-var/",
+                controller="mch_bridge.controllers.get_stations_var",
+            ),
+            UrlMap(
                 name='adding_data_notifications',
                 url='upload-data/notifications/',
                 controller='mch_bridge.consumers.AddingDataConsumer',

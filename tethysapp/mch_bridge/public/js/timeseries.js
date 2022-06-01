@@ -58,15 +58,11 @@
             html_string += `<td>${variable_name}</td>`;
             html_string += `<td>${table_names[i]}</td>`;
             html_string += `<td class="mega_num">${table_counts[i]}</td>`;
-            html_string += `<td><i  class="fa-solid fa-location-dot fake__btn"></i></td>`;
-           
-
-            
+            html_string += `<td><i id="${table_names[i]}" class="fa-solid fa-location-dot fake__btn active_button"></i></td>`;
             html_string += '</tr>';
         }
 
         $(html_string).appendTo('#timeseries_summary__table_content');
-        
     }
      preview_time_series = function(){
         // $('#comodin__div__timeseries').empty();
@@ -188,6 +184,51 @@
             });
         };
         summary_data_load();
+
+        $('.active_button').click(function(){
+            var variable_stn = $(this).attr('id');
+            console.log(variable_stn);
+            var request_oj = {
+                'variable':variable_stn
+            }
+            $('.loader').removeClass("hidden");
+            $.ajax({
+                url: `get-stations-var/`,
+                type: "POST",
+                data: request_oj,
+                dataType: 'json',
+        
+                // handle a successful response
+                success: function (resp) {
+
+                    $("#stn_var_modal").modal('show');
+                    $('#tables_stn_vars').empty();
+                    var list_Stations = resp['list_stations'];
+                    var html_string = ''
+                    list_Stations.forEach(function(stn_inp){
+                        if(stn_inp['Station']!=''){
+                            html_string += '<tr>'
+                            html_string += `<td>${stn_inp['Station']}</td>`;
+                            html_string += `<td>${stn_inp['totals']}</td>`;
+                            html_string += '</tr>'; 
+                        }
+                    })
+                    $(html_string).appendTo('#tables_stn_vars');
+                    $('.loader').addClass("hidden");
+
+                    console.log(resp);
+            
+                },
+        
+                // handle a non-successful response
+                error: function (xhr, errmsg, err) {
+                    $.notify( `${xhr.responseText}`, "error");
+                    $('.loader').addClass("hidden");
+
+                    console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+                }
+            });
+        })
         $('#previewtimeSeries').click(function() {
             $("#timeseries_preview_modal").modal('show');
         });
