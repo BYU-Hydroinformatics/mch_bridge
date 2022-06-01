@@ -351,6 +351,8 @@
 {{ block.super }} 
 <script>
   var summary_String = '{{ summary_data|safe }}';
+  var summary_Plot = '{{ plot_data|safe }}';
+
 </script>
 <script src="{% static 'mch_bridge/js/stations.js' %}" type="text/javascript"></script>
 

@@ -1,6 +1,7 @@
 import asyncio
 from cmath import log
 import os
+from tkinter import E
 import aiomysql
 import pandas as pd
 from django.http.response import JsonResponse
@@ -12,6 +13,7 @@ from .app import MchBridge as app
 import sqlalchemy as db
 import pymysql
 from sqlalchemy.exc import OperationalError, ProgrammingError
+import re
 
 import json
 
@@ -24,11 +26,67 @@ def home(request):
     """
     Controller for the app home page.
     """
+    host_db = app.get_custom_setting("Database host")
+    port_db = app.get_custom_setting("Database Port")
+    user_db = app.get_custom_setting("Database User")
+    password_db = app.get_custom_setting("Database Password")
+    db_name = app.get_custom_setting("Database Name")
+    engine = db.create_engine(f'mysql+pymysql://{user_db}:{password_db}@{host_db}:{port_db}/{db_name}')
+    database_metadata = db.MetaData(bind=engine)
+    database_metadata.reflect()
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    actual_data_rows = session.execute('SELECT * FROM stations;')
+    result = [dict(row) for row in actual_data_rows]
+    df = pd.DataFrame(result)
+    df_dict_string2 = {}
+
+    if  len(df) > 0:
+        new_dict_df = stations_reload(df)
+        df_dict_string2 = json.dumps(new_dict_df)
+
+    total_count_dict = {
+        "Total Number of Stations": len(df)
+    }
+    df_dict_string = json.dumps(total_count_dict)
 
     context = {
+        "isStationView":True,
+        'summary_data':df_dict_string,
+        'plot_data':df_dict_string2
     }
+    return render(request, "mch_bridge/stations.html", context)
 
-    return render(request, "mch_bridge/home.html", context)
+
+def stations_reload(df_p):
+    try:
+        new_df_sum = df_p[['StationName','Longitude','Latitude','Altitude','Longitude2','Latitude2','DMSlongitude','DMSLatitude']].copy()
+        new_df_sum['latlng'] = new_df_sum.apply (lambda row: label_lat_long(row), axis=1)
+        new_df_sum2 = new_df_sum[['StationName','latlng']].copy()
+        df_dict = new_df_sum2.to_dict('records')
+        return df_dict
+    except Exception as e:
+        print(e)
+
+    return
+def dms2dd(s):
+    # example: s = """0°51'56.29"S"""
+    degrees, minutes, seconds, direction = re.split('[°\'"]+', s)
+    dd = float(degrees) + float(minutes)/60 + float(seconds)/(60*60);
+    if direction in ('S','W'):
+        dd*= -1
+    return dd
+def label_lat_long (row):
+   if row['Longitude2'] != '' and row['Latitude2']  != '' :
+      return [row['Longitude2'],row['Latitude2']]
+
+   if row['DMSlongitude'] != '' and row['DMSLatitude'] != '' :
+      return [dms2dd(row['DMSlongitude']),dms2dd(row['DMSLatitude'])]
+
+   if row['Longitude'] != '' and row['Latitude']  != '':
+      return ''
+
+   return 'none'
 
 @login_required()
 def stations(request):
@@ -48,9 +106,12 @@ def stations(request):
     actual_data_rows = session.execute('SELECT * FROM stations;')
     result = [dict(row) for row in actual_data_rows]
     df = pd.DataFrame(result)
-    # df_count = df['Station'].value_counts()
-    # print(df_count)
-    # df_dict = df_count.to_dict()
+    df_dict_string2 = {}
+
+    if  len(df) > 0:
+        new_dict_df = stations_reload(df)
+        df_dict_string2 = json.dumps(new_dict_df)
+
     total_count_dict = {
         "Total Number of Stations": len(df)
     }
@@ -58,7 +119,8 @@ def stations(request):
 
     context = {
         "isStationView":True,
-        'summary_data':df_dict_string
+        'summary_data':df_dict_string,
+        'plot_data':df_dict_string2
     }
 
     return render(request, "mch_bridge/stations.html", context)

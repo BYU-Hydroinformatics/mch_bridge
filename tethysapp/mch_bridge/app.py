@@ -43,22 +43,27 @@ class MchBridge(TethysAppBase):
             UrlMap(
                 name="variableStationTypes", url="variableStationTypes/", controller="mch_bridge.controllers.variableStationTypes"
             ),
-            UrlMap(
-                name="variableStationTypes-upload", url="variableStationTypes/upload-data/", controller="mch_bridge.controllers.upload__data"
-            ),
+            # UrlMap(
+            #     name="variableStationTypes-upload", url="variableStationTypes/upload-data/", controller="mch_bridge.controllers.upload__data"
+            # ),
             UrlMap(
                 name="timeSeries", url="timeSeries/", controller="mch_bridge.controllers.timeSeries"
             ),
-            UrlMap(
-                name="timeSeries-upload", url="timeSeries/upload-data/", controller="mch_bridge.controllers.upload__data"
-            ),
+            # UrlMap(
+            #     name="timeSeries-upload", url="timeSeries/upload-data/", controller="mch_bridge.controllers.upload__data"
+            # ),
             UrlMap(
                 name="instructions", url="isntructions/", controller="mch_bridge.controllers.instructions"
             ),
+            # UrlMap(
+            #     name="upload_data",
+            #     url="upload-data/",
+            #     controller="mch_bridge.controllers.upload__data",
+            # ),
             UrlMap(
-                name="upload_data",
-                url="upload-data/",
-                controller="mch_bridge.controllers.upload__data",
+                name="home-stations-upload_files",
+                url="upload-files/",
+                controller="mch_bridge.controllers.upload__files",
             ),
             UrlMap(
                 name="stations-upload_files",

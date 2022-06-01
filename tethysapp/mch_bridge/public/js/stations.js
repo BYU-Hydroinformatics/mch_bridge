@@ -19,7 +19,9 @@
      *************************************************************************/
     var public_interface,
         map,
-        markers = L.markerClusterGroup();
+        markers = L.markerClusterGroup(),
+        markers_summ = L.markerClusterGroup();
+
     /************************************************************************
      *                    PRIVATE FUNCTION DECLARATIONS
      *************************************************************************/
@@ -27,7 +29,8 @@
         preview_stations,
         validate_stations,
         arrayEquals,
-        summary_data_load;
+        summary_data_load,
+        summary_plot_load;
 		// Object returned by the module
 
 
@@ -49,6 +52,25 @@
         L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
             attribution: '©OpenStreetMap, ©CartoDB'
           }).addTo(map);
+    }
+    summary_plot_load = function(){
+        var summ_obj = JSON.parse(summary_Plot);
+        console.log(summ_obj);
+        let latlongs = []
+
+        summ_obj.forEach(function (item, index) {
+            var lat_lng_ob = item['latlng'];
+            console.log(typeof(lat_lng_ob[0]))
+            if(lat_lng_ob[0] != undefined && lat_lng_ob[1] != undefined ){
+                let marker = L.marker([parseFloat(lat_lng_ob[1]), parseFloat(lat_lng_ob[0])]).bindPopup(`${item['StationName']}`);
+                markers_summ.addLayer(marker);
+                latlongs.push([parseFloat(lat_lng_ob[1]), parseFloat(lat_lng_ob[0])])
+            }
+          });
+
+        map.addLayer(markers_summ);
+        var bounds = new L.LatLngBounds(latlongs);
+        map.fitBounds(bounds);
     }
     summary_data_load = function(){
         var summ_obj = JSON.parse(summary_String);
@@ -86,8 +108,10 @@
             map.addLayer(markers);
             var bounds = new L.LatLngBounds(latlongs);
             map.fitBounds(bounds);
+            markers_summ.clearLayers();
 
         })
+
     }
     validate_stations = function(type_func){
         let warning_et = 'The File format is correct';
@@ -202,6 +226,7 @@
 
     $(function() {
         // Make tab available and active
+        // console.log(summary_Plot);
         var tab_lists = ["stations_tab","group_station_tab","variable_stn_tab","time_series_tab"];
         tab_lists.forEach(function(item){
             $(`#${item}`).removeClass("active_tab");
@@ -212,6 +237,11 @@
         if(isStations){
             initmap();
             summary_data_load();
+            const noStations = Object.keys(JSON.parse(summary_Plot)).length === 0;
+            if(!noStations){
+                summary_plot_load();
+            }
+
         }
 
         $("#stations_csv_preview").change(function (evt) {
