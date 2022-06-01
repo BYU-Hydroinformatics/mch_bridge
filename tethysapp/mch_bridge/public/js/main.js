@@ -274,6 +274,21 @@
 
     $(function() {
         
+        $(".toggle-nav").click(function(){
+            console.log("hola");
+            if($("#app-content-wrapper").hasClass("show-nav")){
+                console.log("not hidden");
+                $("#sidebar").removeClass("side_zero");
+                $("#sidebar").addClass("side_margin");
+                
+            }
+            else{
+                console.log("i am hidden");
+                $("#sidebar").addClass("side_zero");
+                $("#sidebar").removeClass("side_margin");
+            }
+        })
+
         window.addEventListener("beforeunload", function (event) {
             $('.loader').removeClass("hidden");
          });

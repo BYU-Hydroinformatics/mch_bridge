@@ -50,6 +50,8 @@
      preview_variabletypestn = function(){
         $('#comodin__div__variable__type').empty();
         var html_title = `<p class="p__font__h1 my_flex"> Variable Station Type Preview <i id="go_back_var"class="fa-solid fa-chevron-right fake__btn"></i></p>`
+        // var html_title = `<p class="p__font__h1 my_flex">Variable Station Type Preview<i class="fa-solid fa-chevron-left fake__btn hide_bar2 hidden"></i></p>`;
+        
         $(html_title).appendTo('#comodin__div__variable__type');
   
         var userFile = document.getElementById("variableStationTypes_csv_preview").files[0];
@@ -100,6 +102,21 @@
                     $('#comodin__div__variable__type').removeClass("hidden");
                 },300);
             });
+            $('.hide_bar2').click(function(){
+                $('.vertical__div').addClass("margin_side");
+                $(".hide_bar_div").show();
+    
+                    if($("#comodin__div").is(":hidden")){
+    
+                        // $('.hide_bar2').addClass("hidden");
+                        $("#go_up_stn_gr").addClass("hidden");
+                    }
+                    else{
+                        // $('.hide_bar2').addClass("hidden");
+    
+                        $(".hide_bar2").addClass("hidden");
+                    }
+            })
 
         })
     }
@@ -120,6 +137,35 @@
     // the DOM tree finishes loading
 
     $(function() {
+        $('.hide_bar').click(function(){
+            $('.vertical__div').removeClass("margin_side");
+            $(".hide_bar_div").hide();
+            $('.hide_bar2').removeClass("hidden");
+            if($("#comodin__div").is(":hidden")){
+                $("#go_up_stn_gr").removeClass("hidden");
+            }
+            else{
+                $("#go_up_stn_gr").removeClass("hide_bar2");
+            }
+
+   
+        })
+
+        $('.hide_bar2').click(function(){
+            $('.vertical__div').addClass("margin_side");
+            $(".hide_bar_div").show();
+
+                if($("#comodin__div").is(":hidden")){
+
+                    // $('.hide_bar2').addClass("hidden");
+                    $("#go_up_stn_gr").addClass("hidden");
+                }
+                else{
+                    // $('.hide_bar2').addClass("hidden");
+
+                    $(".hide_bar2").addClass("hidden");
+                }
+        })
         // Make tab available and active
         var tab_lists = ["stations_tab","group_station_tab","variable_stn_tab","time_series_tab"];
         tab_lists.forEach(function(item){

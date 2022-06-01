@@ -24,6 +24,15 @@
 .margin_side{
   margin-right: 300px;
 }
+.side_zero{
+  /* right: 0px; */
+  transform: translate3d(300px, 0, 0);
+
+}
+.side_margin{
+  /* right: 300px; */
+  transform: translate3d(0px, 0, 0);
+}
 
 .horizontal__div{
   /* flex-direction: column; */
@@ -287,12 +296,10 @@
   background: #efefef;
   padding: 0 15px;
   padding-top: 50px;
+  transition: .2s ease-in-out all;
 }
 
 
-#comodin__div__timeseries__type{
-
-}
 .p__font__h1{
   font-size: 16px;
 }

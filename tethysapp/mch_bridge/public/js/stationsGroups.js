@@ -38,7 +38,7 @@
 
         $('#comodin__div').empty();
         // var html_title = `<p class="p__font__h1 my_flex">Group Stations Preview<i id="go_back_stn_gr"class="fa-solid fa-chevron-right fake__btn"></i></p>`;
-        var html_title = `<p class="p__font__h1 my_flex">Group Stations Preview<i class="fa-solid fa-chevron-left fake__btn hide_bar2 hidden"></i></p>`;
+        var html_title = `<p class="p__font__h1 my_flex">Group Stations Preview<i id="go_back_stn_gr" class="fa-solid fa-chevron-left fake__btn hide_bar2"></i></p>`;
         
 
         $(html_title).appendTo('#comodin__div');
@@ -101,12 +101,9 @@
     
                     if($("#comodin__div").is(":hidden")){
     
-                        // $('.hide_bar2').addClass("hidden");
                         $("#go_up_stn_gr").addClass("hidden");
                     }
-                    else{
-                        // $('.hide_bar2').addClass("hidden");
-    
+                    else{    
                         $(".hide_bar2").addClass("hidden");
                     }
             })
