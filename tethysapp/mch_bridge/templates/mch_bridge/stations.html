@@ -12,10 +12,10 @@
 {% block app_content%}
 
 
-    <div id="sidebar">
+    <div class="hide_bar_div" id="sidebar">
         <br>
         <div class="horizontal__flex">
-
+          <i class="fa-solid fa-chevron-right fake__btn hide_bar"></i>
           <p class="item">Data Menu</p>
         </div>
         
@@ -51,11 +51,15 @@
       <div id="map"></div>
     
     </div> -->
-    <div class="horizontal__div">
+    <div class="horizontal__div margin_side">
       <div class="loader hidden">  
       </div>
-      <div id="content_divided"> 
-        <p class="p__font__h1">Stations Preview</p>
+      <div id="content_divided">
+        <div class="horizontal__flex"> 
+          <p class="p__font__h1">Stations Preview</p>
+          <i class="fa-solid fa-chevron-left fake__btn hide_bar2 hidden"></i>
+        </div> 
+
         <div id="map"></div>
       </div>
       <div id="summary__stn"  class="table-responsive">

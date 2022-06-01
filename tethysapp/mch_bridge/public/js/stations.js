@@ -225,6 +225,23 @@
     // the DOM tree finishes loading
 
     $(function() {
+        // hide side_bar
+        $('.hide_bar').click(function(){
+
+            $('.horizontal__div').removeClass("margin_side");
+            $(".hide_bar_div").hide();
+            $('.hide_bar2').removeClass("hidden");
+   
+        })
+
+        $('.hide_bar2').click(function(){
+
+                $('.horizontal__div').addClass("margin_side");
+                $(".hide_bar_div").show();
+                $('.hide_bar2').addClass("hidden");
+            
+        })
+
         // Make tab available and active
         // console.log(summary_Plot);
         var tab_lists = ["stations_tab","group_station_tab","variable_stn_tab","time_series_tab"];
