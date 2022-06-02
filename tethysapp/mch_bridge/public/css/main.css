@@ -27,11 +27,18 @@
 .side_zero{
   /* right: 0px; */
   transform: translate3d(300px, 0, 0);
-
 }
 .side_margin{
   /* right: 300px; */
   transform: translate3d(0px, 0, 0);
+}
+.side_out{
+  /* right: 300px; */
+  transform: translate3d(300px, 0, 0);
+}
+.side_out_double{
+  /* right: 300px; */
+  transform: translate3d(600px, 0, 0);
 }
 
 .horizontal__div{
@@ -42,6 +49,8 @@
   grid-auto-rows: 1fr;
   grid-column-gap: 10px;
   grid-row-gap: 30px;
+  transition: .2s ease-in-out all;
+
   /* height: 100vh; */
 }
 .vertical__div{

@@ -275,17 +275,55 @@
     $(function() {
         
         $(".toggle-nav").click(function(){
-            console.log("hola");
+            //if nav bar is showing //
+
             if($("#app-content-wrapper").hasClass("show-nav")){
-                console.log("not hidden");
-                $("#sidebar").removeClass("side_zero");
-                $("#sidebar").addClass("side_margin");
-                
+
+                // side menu is showing
+                if($("#sidebar").hasClass("side_out")){
+                    console.log("nav bar showing and  showing menu");
+
+                    $("#sidebar").addClass("side_margin");
+                    $("#sidebar").removeClass("side_out");
+                }
+                // side menu is not showing
+
+                else{
+                    console.log("nav bar showing and  not showing menu");
+
+                    $("#sidebar").addClass("side_margin");
+
+                }
+
+                // $("#sidebar").removeClass("side_zero");
+                // $("#sidebar").addClass("side_margin");
+                // if($("#sidebar").hasClass("side_out")){
+                //     $("#sidebar").removeClass("side_out");
+
+                // }
             }
+            // nav bar not showing//
             else{
-                console.log("i am hidden");
-                $("#sidebar").addClass("side_zero");
-                $("#sidebar").removeClass("side_margin");
+
+                
+                // side menu is showing
+                if($("#sidebar").hasClass("side_out")){
+                    console.log("nav bar not showing  and showing menu");
+
+                    $("#sidebar").removeClass("side_out");
+                    $("#sidebar").addClass("side_out_double");
+                }
+                else{
+                    console.log("nav bar not showing and not showing menu");
+
+                    $("#sidebar").addClass("side_out");
+
+                    // $("#sidebar").removeClass("side_out");
+                    // $("#sidebar").addClass("side_out_double");
+
+                //  $("#sidebar").removeClass("side_margin");
+
+                }
             }
         })
 
