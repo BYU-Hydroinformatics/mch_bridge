@@ -49,8 +49,15 @@
 }
 .button_icon{
   background-color:#86198f !important;
-  
 }
+.button_icon_prev{
+  background-color:#155e75  !important;
+}
+.hide_bar_color{
+  background-color:#991b1b !important;
+
+}
+
 
 .horizontal__div{
   /* flex-direction: column; */

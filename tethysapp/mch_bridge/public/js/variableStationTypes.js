@@ -50,7 +50,7 @@
      preview_variabletypestn = function(){
         $('#comodin__div__variable__type').empty();
         // var html_title = `<p class="p__font__h1 my_flex"> Variable Station Type Preview <i id="go_back_var"class="fa-solid fa-chevron-right fake__btn"></i></p>`
-        var html_title = `<p class="p__font__h1 my_flex">Variable Station Type Preview <span class="flex_buttons"> <span id="go_back_var_prev" class="fake__btn"> <i class="fa-solid fa-xmark"></i></span> <span id="go_back_var_menu" class="fake__btn hidden">Menu <i class="fa-solid fa-chevron-right "></i></span> </span></p>`;
+        var html_title = `<p class="p__font__h1 my_flex">Variable Station Type Preview <span class="flex_buttons"> <span id="go_back_var_prev" class="fake__btn hide_bar_color"> <i class="fa-solid fa-xmark"></i></span> <span id="go_back_var_menu" class="fake__btn hidden button_icon">Menu <i class="fa-solid fa-chevron-right "></i></span> </span></p>`;
         
         // var html_title = `<p class="p__font__h1 my_flex">Variable Station Type Preview<i class="fa-solid fa-chevron-left fake__btn hide_bar2 hidden"></i></p>`;
         

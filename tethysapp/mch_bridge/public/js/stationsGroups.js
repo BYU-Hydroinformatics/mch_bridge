@@ -37,7 +37,7 @@
     preview_stnGroups = function(){
 
         $('#comodin__div').empty();
-        var html_title = `<p class="p__font__h1 my_flex">Group Stations Preview <span class="flex_buttons"> <span id="go_back_stn_gr_prev" class="fake__btn"> <i class="fa-solid fa-xmark"></i></span> <span id="go_back_stn_menu" class="fake__btn hidden">Menu <i class="fa-solid fa-chevron-right "></i></span> </span></p>`;
+        var html_title = `<p class="p__font__h1 my_flex">Group Stations Preview <span class="flex_buttons"> <span id="go_back_stn_gr_prev" class="fake__btn hide_bar_color"> <i class="fa-solid fa-xmark"></i></span> <span id="go_back_stn_menu" class="fake__btn hidden button_icon">Menu <i class="fa-solid fa-chevron-right "></i></span> </span></p>`;
         
         // var html_title = `<p class="p__font__h1 my_flex">Group Stations Preview <span> <i id="go_back_stn_gr_prev"class="fa-solid fa-chevron-right fake__btn"></i> <span id="go_back_stn_menu" class="fake__btn hidden">Menu <i class="fa-solid fa-chevron-right "></i></span> </span></p>`;
         // var html_title = `<p class="p__font__h1 my_flex">Group Stations Preview<i id="go_back_stn_gr"class="fa-solid fa-chevron-right fake__btn"></i></p>`;
