@@ -41,6 +41,10 @@
   transform: translate3d(600px, 0, 0);
 }
 
+.side_hidden{
+  transition: .2s ease-in-out all;
+}
+
 .horizontal__div{
   /* flex-direction: column; */
   /* justify-content: space-between; */
@@ -192,10 +196,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: fit-content;
+  width: auto;
   height: fit-content;
 }
 
+.flex_buttons{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
 
 .btn__primary {
   background-color: #6b21a8;

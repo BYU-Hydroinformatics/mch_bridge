@@ -16,8 +16,9 @@
   <div class="horizontal__flex">
 
     <div class="horizontal__flex">
-      <i class="fa-solid fa-chevron-right fake__btn hide_bar"></i>
       <p class="item">Data Menu</p>
+
+      <i class="fa-solid fa-xmark fake__btn hide_bar"></i>
     </div>
   </div>
   
@@ -52,7 +53,11 @@
   <div class="loader hidden">
   </div>
   <div id="summary__stngroup"  class="table-responsive">
-    <p class="p__font__h1 my_flex">Station Groups Database Details <i id="go_up_stn_gr"class="fa-solid fa-chevron-left fake__btn hide_bar2 hidden"></i></p>
+    <!-- <p class="p__font__h1 my_flex">Station Groups Database Details <i id="go_up_stn_gr" class="fa-solid fa-chevron-left fake__btn hidden"></i></p> -->
+    <p class="p__font__h1 my_flex">Station Groups Database Details  <span> <span id="go_up_stn_gr" class="fake__btn hidden"> Menu<i class="fa-solid fa-chevron-right"></i> </span> <span id="go_show_prev_stn" class="fake__btn hidden">Preview <i class="fa-solid fa-chevron-right "></i></span> </span></p>
+    
+   
+    
     <p><span>Table Name:</span> <span><b>stngroups</b></span> </p>
 
     <p class="p__font__h1">Statistics</p>
@@ -98,8 +103,12 @@
   </div>
   <div id="comodin__div" class="table-responsive hidden"> 
     <!-- <p class="p__font__h1">Group Stations Preview</p> -->
-    <p class="p__font__h1 my_flex">Group Stations Preview<i class="fa-solid fa-chevron-left fake__btn hide_bar2 hidden"></i></p>
-
+    <!-- <p class="p__font__h1 my_flex">Group Stations Preview<i id="go_up_stn_gr_backup" class="fa-solid fa-chevron-left fake__btn hidden"></i></p> -->
+    <!-- <p class="p__font__h1 my_flex">Group Stations Preview <span><i id="go_back_stn_gr_prev"class="fa-solid fa-chevron-right fake__btn"></i><i id="go_back_stn_menu"class="fa-solid fa-chevron-right fake__btn hidden"></i>  </span></p> -->
+    <!-- <p class="p__font__h1 my_flex">Group Stations Preview <span><i id="go_back_stn_gr_prev"class="fa-solid fa-chevron-right fake__btn"></i> <span id="go_back_stn_menu" class="fake__btn hidden">Menu <i class="fa-solid fa-chevron-right"></i></span> </span></p> -->
+    <p class="p__font__h1 my_flex">Group Stations Preview <span class="flex_buttons"><span id="go_back_stn_gr_prev" class="fake__btn hidden">Preview <i class="fa-solid fa-chevron-right "></i></span><span id="go_back_stn_menu" class="fake__btn hidden">Menu <i class="fa-solid fa-chevron-right"></i></span> </span></p>
+    
+    
   </div>
 </div>
 

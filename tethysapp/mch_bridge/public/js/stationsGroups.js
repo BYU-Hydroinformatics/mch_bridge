@@ -37,8 +37,12 @@
     preview_stnGroups = function(){
 
         $('#comodin__div').empty();
+        var html_title = `<p class="p__font__h1 my_flex">Group Stations Preview <span class="flex_buttons"> <span id="go_back_stn_gr_prev" class="fake__btn"> <i class="fa-solid fa-xmark"></i></span> <span id="go_back_stn_menu" class="fake__btn hidden">Menu <i class="fa-solid fa-chevron-right "></i></span> </span></p>`;
+        
+        // var html_title = `<p class="p__font__h1 my_flex">Group Stations Preview <span> <i id="go_back_stn_gr_prev"class="fa-solid fa-chevron-right fake__btn"></i> <span id="go_back_stn_menu" class="fake__btn hidden">Menu <i class="fa-solid fa-chevron-right "></i></span> </span></p>`;
         // var html_title = `<p class="p__font__h1 my_flex">Group Stations Preview<i id="go_back_stn_gr"class="fa-solid fa-chevron-right fake__btn"></i></p>`;
-        var html_title = `<p class="p__font__h1 my_flex">Group Stations Preview<i id="go_back_stn_gr" class="fa-solid fa-chevron-left fake__btn hide_bar2"></i></p>`;
+        
+        // var html_title = `<p class="p__font__h1 my_flex">Group Stations Preview<i id="go_up_stn_gr_backup" class="fa-solid fa-chevron-left fake__btn"></i></p>`;
         
 
         $(html_title).appendTo('#comodin__div');
@@ -75,37 +79,72 @@
             $('#csv_table').html(html_string);
             $('#comodin__div').removeClass("hidden");
 
-            $('#go_back_stn_gr').click(function(){
+            $('#go_back_stn_gr_prev').click(function(){
     
                 $('#comodin__div').addClass("fadeout");
-
+                // 
                 setTimeout(function(){
-                    $('#go_up_stn_gr').removeClass("hidden");
+                    // $('#go_up_stn_gr').removeClass("hidden");
+                    $('#go_show_prev_stn').removeClass("hidden");
+
+                    //not sure
+                    if($("#sidebar").hasClass("side_hidden")){
+                        $('#go_up_stn_gr').addClass("hidden");
+                    }
+
                     $('#comodin__div').addClass("hidden");
                 },300);
             });
-            $('#go_up_stn_gr').click(function(){
+            $('#go_show_prev_stn').click(function(){
                 $('#comodin__div').removeClass("fadeout");
 
                 $('#go_up_stn_gr').addClass("hidden");
 
                 setTimeout(function(){
+                    $('#go_show_prev_stn').addClass("hidden");
 
                     $('#comodin__div').removeClass("hidden");
                 },300);
             });
 
-            $('.hide_bar2').click(function(){
+            // $('#go_up_stn_gr_backup').removeClass("hidden");
+
+            // $('.hide_bar2').click(function(){
+            //     $('.vertical__div').addClass("margin_side");
+            //     $(".hide_bar_div").show();
+    
+            //         if($("#comodin__div").is(":hidden")){
+    
+            //             $("#go_up_stn_gr").addClass("hidden");
+            //         }
+            //         else{    
+            //             $(".hide_bar2").addClass("hidden");
+            //         }
+            // })
+            $('#go_back_stn_menu').click(function(){
+                if($("#app-content-wrapper").hasClass("show-nav")){
+                    console.log("nav bar showing menu apearing");
+                    $("#sidebar").removeClass("side_out");
+                    $("#sidebar").removeClass("side_out_double");
+                    $("#sidebar").addClass("side_margin");
+                    $("#sidebar").addClass("side_hidden");
+
+                }
+                //nav_bar not showing
+                else{
+                    console.log("nav bar not showing menu apearing");
+                    $("#sidebar").removeClass("side_out_double");
+                    $("#sidebar").addClass("side_margin");
+                    $("#sidebar").addClass("side_out");
+                    $("#sidebar").addClass("side_hidden");
+
+    
+    
+                }
+                $('#go_back_stn_menu').addClass("hidden");
                 $('.vertical__div').addClass("margin_side");
-                $(".hide_bar_div").show();
     
-                    if($("#comodin__div").is(":hidden")){
     
-                        $("#go_up_stn_gr").addClass("hidden");
-                    }
-                    else{    
-                        $(".hide_bar2").addClass("hidden");
-                    }
             })
 
         })
@@ -142,35 +181,73 @@
     // the DOM tree finishes loading
 
     $(function() {
-        $('.hide_bar').click(function(){
-            $('.vertical__div').removeClass("margin_side");
-            $(".hide_bar_div").hide();
-            $('.hide_bar2').removeClass("hidden");
-            if($("#comodin__div").is(":hidden")){
-                $("#go_up_stn_gr").removeClass("hidden");
+
+
+        $('#go_up_stn_gr').click(function(){
+            if($("#app-content-wrapper").hasClass("show-nav")){
+                console.log("nav bar showing menu apearing");
+                $("#sidebar").removeClass("side_out");
+                $("#sidebar").removeClass("side_out_double");
+                $("#sidebar").addClass("side_margin");
+                $("#sidebar").removeClass("side_hidden");
+
             }
+            //nav_bar not showing
             else{
-                $("#go_up_stn_gr").removeClass("hide_bar2");
+                console.log("nav bar not showing menu apearing");
+                $("#sidebar").removeClass("side_out_double");
+                $("#sidebar").addClass("side_margin");
+                $("#sidebar").addClass("side_out");
+                $("#sidebar").removeClass("side_hidden");
+
             }
-
-   
-        })
-
-        $('.hide_bar2').click(function(){
+            $('#go_up_stn_gr').addClass("hidden");
             $('.vertical__div').addClass("margin_side");
-            $(".hide_bar_div").show();
 
-                if($("#comodin__div").is(":hidden")){
 
-                    // $('.hide_bar2').addClass("hidden");
-                    $("#go_up_stn_gr").addClass("hidden");
-                }
-                else{
-                    // $('.hide_bar2').addClass("hidden");
-
-                    $(".hide_bar2").addClass("hidden");
-                }
         })
+
+
+        $(".hide_bar").click(function(){
+                //nav bar showing
+                if($("#app-content-wrapper").hasClass("show-nav")){
+                    console.log("nav bar showing not showing menu");
+                    $("#sidebar").addClass("side_margin");
+                    $("#sidebar").addClass("side_out_double");
+                    $("#sidebar").removeClass("side_out");
+                    $("#sidebar").addClass("side_hidden");
+
+                }
+                //nav_bar not showing
+                else{
+                    console.log("nav bar not showing not showing menu");
+    
+                    $("#sidebar").addClass("side_out_double");
+                    $("#sidebar").addClass("side_margin");
+                    $("#sidebar").addClass("side_out");
+                    $("#sidebar").addClass("side_hidden");
+
+
+                }
+
+                $('.vertical__div').removeClass("margin_side");
+                // $('.hide_bar2').removeClass("hidden");
+
+                if($("#comodin__div").hasClass("hidden")){
+                    console.log("preview widnow is hidden");
+                    $('#go_up_stn_gr').removeClass("hidden");
+                }
+                //if preview is showing
+                else{
+                    console.log("preview widnow is showing");
+                    $('#go_up_stn_gr').addClass("hidden");
+                    $('#go_back_stn_menu').removeClass("hidden");
+
+                    
+                }
+
+        });
+
         var tab_lists = ["stations_tab","group_station_tab","variable_stn_tab","time_series_tab"];
         tab_lists.forEach(function(item){
             $(`#${item}`).removeClass("active_tab");

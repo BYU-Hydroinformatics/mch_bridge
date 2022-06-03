@@ -49,7 +49,9 @@
 
      preview_variabletypestn = function(){
         $('#comodin__div__variable__type').empty();
-        var html_title = `<p class="p__font__h1 my_flex"> Variable Station Type Preview <i id="go_back_var"class="fa-solid fa-chevron-right fake__btn"></i></p>`
+        // var html_title = `<p class="p__font__h1 my_flex"> Variable Station Type Preview <i id="go_back_var"class="fa-solid fa-chevron-right fake__btn"></i></p>`
+        var html_title = `<p class="p__font__h1 my_flex">Variable Station Type Preview <span class="flex_buttons"> <span id="go_back_var_prev" class="fake__btn"> <i class="fa-solid fa-xmark"></i></span> <span id="go_back_var_menu" class="fake__btn hidden">Menu <i class="fa-solid fa-chevron-right "></i></span> </span></p>`;
+        
         // var html_title = `<p class="p__font__h1 my_flex">Variable Station Type Preview<i class="fa-solid fa-chevron-left fake__btn hide_bar2 hidden"></i></p>`;
         
         $(html_title).appendTo('#comodin__div__variable__type');
@@ -83,40 +85,119 @@
             html_string += '</tbody>'
             $('#csv_table').html(html_string);
             $('#comodin__div__variable__type').removeClass("hidden");
-            $('#go_back_var').click(function(){
+
+            $('#go_back_var_prev').click(function(){
     
                 $('#comodin__div__variable__type').addClass("fadeout");
+                // 
+                // setTimeout(function(){
+                    // $('#go_up_stn_gr').removeClass("hidden");
+                    $('#go_show_prev_var').removeClass("hidden");
 
-                setTimeout(function(){
-                    $('#go_up_var').removeClass("hidden");
+                    //not sure
+                    if($("#sidebar").hasClass("side_hidden")){
+                        console.log("side_bar hidden");
+                        // $('#go_up_var').addClass("hidden");
+                        // $('#go_up_var').removeClass("hidden");
+                        if(!$("#comodin__div__variable__type").hasClass("hidden")){
+                            $('#go_up_var').removeClass("hidden");
+
+                            
+                        }
+                        else{
+                            $('#go_up_var').addClass("hidden");
+                            $('#go_back_var_menu').removeClass("hidden");
+
+                        }
+                    }
+
                     $('#comodin__div__variable__type').addClass("hidden");
-                },300);
+                // },300);
             });
-            $('#go_up_var').click(function(){
+            $('#go_show_prev_var').click(function(){
                 $('#comodin__div__variable__type').removeClass("fadeout");
 
                 $('#go_up_var').addClass("hidden");
 
-                setTimeout(function(){
+                // setTimeout(function(){
+                    if(!$("#sidebar").hasClass("side_hidden")){
+                        // $('#go_up_var').addClass("hidden");
+                        $('#go_back_var_menu').addClass("hidden");
 
-                    $('#comodin__div__variable__type').removeClass("hidden");
-                },300);
-            });
-            $('.hide_bar2').click(function(){
-                $('.vertical__div').addClass("margin_side");
-                $(".hide_bar_div").show();
-    
-                    if($("#comodin__div").is(":hidden")){
-    
-                        // $('.hide_bar2').addClass("hidden");
-                        $("#go_up_stn_gr").addClass("hidden");
+                        go_back_var_menu
+                        // if(!$("#comodin__div__variable__type").hasClass("hidden")){
+                        //     $('#go_up_var').removeClass("hidden");
+                        // }
                     }
                     else{
-                        // $('.hide_bar2').addClass("hidden");
-    
-                        $(".hide_bar2").addClass("hidden");
+                        $('#go_back_var_menu').removeClass("hidden");
                     }
+
+
+                    $('#go_show_prev_var').addClass("hidden");
+
+                    $('#comodin__div__variable__type').removeClass("hidden");
+                // },300);
+            });
+
+            $('#go_back_var_menu').click(function(){
+                if($("#app-content-wrapper").hasClass("show-nav")){
+                    console.log("nav bar showing menu apearing");
+                    $("#sidebar").removeClass("side_out");
+                    $("#sidebar").removeClass("side_out_double");
+                    $("#sidebar").addClass("side_margin");
+                    $("#sidebar").removeClass("side_hidden");
+
+                }
+                //nav_bar not showing
+                else{
+                    console.log("nav bar not showing menu apearing");
+                    $("#sidebar").removeClass("side_out_double");
+                    $("#sidebar").addClass("side_margin");
+                    $("#sidebar").addClass("side_out");
+                    $("#sidebar").removeClass("side_hidden");
+    
+    
+                }
+                $('#go_back_var_menu').addClass("hidden");
+                $('.vertical__div').addClass("margin_side");
+
             })
+            // $('#go_back_var').click(function(){
+    
+            //     $('#comodin__div__variable__type').addClass("fadeout");
+
+            //     setTimeout(function(){
+            //         $('#go_up_var').removeClass("hidden");
+            //         $('#comodin__div__variable__type').addClass("hidden");
+            //     },300);
+            // });
+            // $('#go_up_var').click(function(){
+            //     $('#comodin__div__variable__type').removeClass("fadeout");
+
+            //     $('#go_up_var').addClass("hidden");
+
+            //     setTimeout(function(){
+
+            //         $('#comodin__div__variable__type').removeClass("hidden");
+            //     },300);
+            // });
+
+            // $('.hide_bar2').click(function(){
+            //     $('.vertical__div').addClass("margin_side");
+            //     $(".hide_bar_div").show();
+    
+            //         if($("#comodin__div").is(":hidden")){
+    
+            //             // $('.hide_bar2').addClass("hidden");
+            //             $("#go_up_stn_gr").addClass("hidden");
+            //         }
+            //         else{
+            //             // $('.hide_bar2').addClass("hidden");
+    
+            //             $(".hide_bar2").addClass("hidden");
+            //         }
+            // })
 
         })
     }
@@ -137,35 +218,99 @@
     // the DOM tree finishes loading
 
     $(function() {
-        $('.hide_bar').click(function(){
-            $('.vertical__div').removeClass("margin_side");
-            $(".hide_bar_div").hide();
-            $('.hide_bar2').removeClass("hidden");
-            if($("#comodin__div").is(":hidden")){
-                $("#go_up_stn_gr").removeClass("hidden");
-            }
-            else{
-                $("#go_up_stn_gr").removeClass("hide_bar2");
-            }
+        // $('.hide_bar').click(function(){
+        //     $('.vertical__div').removeClass("margin_side");
+        //     $(".hide_bar_div").hide();
+        //     $('.hide_bar2').removeClass("hidden");
+        //     if($("#comodin__div").is(":hidden")){
+        //         $("#go_up_stn_gr").removeClass("hidden");
+        //     }
+        //     else{
+        //         $("#go_up_stn_gr").removeClass("hide_bar2");
+        //     }
 
    
-        })
+        // })
 
-        $('.hide_bar2').click(function(){
+        $(".hide_bar").click(function(){
+            //nav bar showing
+            if($("#app-content-wrapper").hasClass("show-nav")){
+                console.log("nav bar showing not showing menu");
+                $("#sidebar").addClass("side_margin");
+                $("#sidebar").addClass("side_out_double");
+                $("#sidebar").removeClass("side_out");
+                $("#sidebar").addClass("side_hidden");
+
+            }
+            //nav_bar not showing
+            else{
+                console.log("nav bar not showing not showing menu");
+
+                $("#sidebar").addClass("side_out_double");
+                $("#sidebar").addClass("side_margin");
+                $("#sidebar").addClass("side_out");
+                $("#sidebar").addClass("side_hidden");
+
+            }
+
+            $('.vertical__div').removeClass("margin_side");
+            // $('.hide_bar2').removeClass("hidden");
+
+            if($("#comodin__div__variable__type").hasClass("hidden")){
+                console.log("preview widnow is hidden");
+                $('#go_up_var').removeClass("hidden");
+            }
+            //if preview is showing
+            else{
+                console.log("preview widnow is showing");
+                $('#go_up_var').addClass("hidden");
+                $('#go_back_var_menu').removeClass("hidden");
+
+                
+            }
+
+    });
+
+
+        $('#go_up_var').click(function(){
+            if($("#app-content-wrapper").hasClass("show-nav")){
+                console.log("nav bar showing menu apearing");
+                $("#sidebar").removeClass("side_out");
+                $("#sidebar").removeClass("side_out_double");
+                $("#sidebar").addClass("side_margin");
+                $("#sidebar").removeClass("side_hidden");
+
+            }
+            //nav_bar not showing
+            else{
+                console.log("nav bar not showing menu apearing");
+                $("#sidebar").removeClass("side_out_double");
+                $("#sidebar").addClass("side_margin");
+                $("#sidebar").addClass("side_out");
+                $("#sidebar").removeClass("side_hidden");
+            }
+            $('#go_up_var').addClass("hidden");
             $('.vertical__div').addClass("margin_side");
-            $(".hide_bar_div").show();
-
-                if($("#comodin__div").is(":hidden")){
-
-                    // $('.hide_bar2').addClass("hidden");
-                    $("#go_up_stn_gr").addClass("hidden");
-                }
-                else{
-                    // $('.hide_bar2').addClass("hidden");
-
-                    $(".hide_bar2").addClass("hidden");
-                }
         })
+
+        // $('.hide_bar2').click(function(){
+        //     $('.vertical__div').addClass("margin_side");
+        //     $(".hide_bar_div").show();
+
+        //         if($("#comodin__div").is(":hidden")){
+
+        //             // $('.hide_bar2').addClass("hidden");
+        //             $("#go_up_stn_gr").addClass("hidden");
+        //         }
+        //         else{
+        //             // $('.hide_bar2').addClass("hidden");
+
+        //             $(".hide_bar2").addClass("hidden");
+        //         }
+        // })
+
+
+
         // Make tab available and active
         var tab_lists = ["stations_tab","group_station_tab","variable_stn_tab","time_series_tab"];
         tab_lists.forEach(function(item){
