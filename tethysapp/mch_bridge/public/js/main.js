@@ -273,7 +273,11 @@
     // the DOM tree finishes loading
 
     $(function() {
-        
+        if(!$("#app-content-wrapper").hasClass("show-nav")){
+            console.log("jola");
+            $("#sidebar").addClass("side_out");
+
+        }
         $(".toggle-nav").click(function(){
             //if nav bar is showing //
 
