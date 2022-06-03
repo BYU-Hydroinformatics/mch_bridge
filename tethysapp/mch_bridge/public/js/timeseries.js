@@ -58,7 +58,7 @@
             html_string += `<td>${variable_name}</td>`;
             html_string += `<td>${table_names[i]}</td>`;
             html_string += `<td class="mega_num">${table_counts[i]}</td>`;
-            html_string += `<td><i id="${table_names[i]}" class="fa-solid fa-location-dot fake__btn active_button"></i></td>`;
+            html_string += `<td><i id="${table_names[i]}" class="fa-solid fa-location-dot fake__btn2 active_button"></i></td>`;
             html_string += '</tr>';
         }
 
@@ -168,6 +168,51 @@
     // the DOM tree finishes loading
 
     $(function() {
+        $('.hide_bar2').click(function(){
+            if($("#app-content-wrapper").hasClass("show-nav")){
+                console.log("nav bar showing menu apearing");
+                $("#sidebar").removeClass("side_out");
+                $("#sidebar").removeClass("side_out_double");
+                $("#sidebar").addClass("side_margin");
+            }
+            //nav_bar not showing
+            else{
+                console.log("nav bar not showing menu apearing");
+                $("#sidebar").removeClass("side_out_double");
+                $("#sidebar").addClass("side_margin");
+                $("#sidebar").addClass("side_out");
+
+
+            }
+            $('.hide_bar2').addClass("hidden");
+            $('.horizontal__div').addClass("margin_side");
+
+        })
+
+        $(".hide_bar").click(function(){
+                //nav bar showing
+                if($("#app-content-wrapper").hasClass("show-nav")){
+                    console.log("nav bar showing not showing menu");
+                    $("#sidebar").addClass("side_margin");
+                    $("#sidebar").addClass("side_out_double");
+                    $("#sidebar").removeClass("side_out");
+                }
+                //nav_bar not showing
+                else{
+                    console.log("nav bar not showing not showing menu");
+    
+                    $("#sidebar").addClass("side_out_double");
+                    $("#sidebar").addClass("side_margin");
+                    $("#sidebar").addClass("side_out");
+
+                }
+
+                $('.horizontal__div').removeClass("margin_side");
+                $('.hide_bar2').removeClass("hidden");
+
+        })
+
+
         // Make tab available and active
         var tab_lists = ["stations_tab","group_station_tab","variable_stn_tab","time_series_tab"];
         tab_lists.forEach(function(item){

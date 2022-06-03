@@ -11,11 +11,13 @@
 
 {% block app_content%} 
 
-  <div id="sidebar" class="side_margin">
+  <div id="sidebar" class="hide_bar_div side_margin">
     <br>
     <div class="horizontal__flex">
 
       <p class="item">Data Menu</p>
+
+      <i class="fa-solid fa-xmark fake__btn hide_bar"></i>
     </div>
     
     <table class="table table-striped">
@@ -68,7 +70,13 @@
       </div>
     </div>
     <div id="summary__timeseries" class="table-responsive">
-      <p class="p__font__h1">Time Series Database Details</p>
+      <!-- <p class="p__font__h1">Time Series Database Details</p> -->
+      <div class="horizontal__flex"> 
+        <p class="p__font__h1">Time Series Database Details</p>
+        <!-- <i class="fa-solid fa-chevron-right fake__btn hide_bar2 hidden"></i> -->
+        <span class="fake__btn hide_bar2 hidden button_icon"> Menu<i class="fa-solid fa-chevron-right"></i>
+
+      </div> 
       <p class="p__font__h1"> Statistics</p>
       <table class="table table-striped">
         <thead>

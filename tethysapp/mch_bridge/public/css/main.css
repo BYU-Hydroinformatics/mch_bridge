@@ -213,7 +213,24 @@
   width: auto;
   height: fit-content;
 }
+.fake__btn2 {
+  padding: 8px;
+  /* background-color: black; */
+  background-color: #555;
 
+  color: white;
+  border-radius: 5px;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  /* height: 30px;
+  width: 30px; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: fit-content;
+  height: fit-content;
+}
 .flex_buttons{
   display: flex;
   flex-direction: column;
