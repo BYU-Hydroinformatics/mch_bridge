@@ -124,7 +124,7 @@
                         // $('#go_up_var').addClass("hidden");
                         $('#go_back_var_menu').addClass("hidden");
 
-                        go_back_var_menu
+                        // go_back_var_menu
                         // if(!$("#comodin__div__variable__type").hasClass("hidden")){
                         //     $('#go_up_var').removeClass("hidden");
                         // }
@@ -132,7 +132,6 @@
                     else{
                         $('#go_back_var_menu').removeClass("hidden");
                     }
-
 
                     $('#go_show_prev_var').addClass("hidden");
 
