@@ -10,7 +10,7 @@
  *                      LIBRARY WRAPPER
  *****************************************************************************/
 
- var LIBRARY_OBJECT = (function() {
+ var MAIN_OBJECT = (function() {
     // Wrap the library in a package function
     "use strict"; // And enable strict mode for this library
 
@@ -90,10 +90,23 @@
                 console.log("failed");
                 html_string += `<td> <i class="fa-solid fa-circle-xmark imcomplete"></i></td>`
                 $.notify(mssge , "info");
+                notification_ws.send(
+                    JSON.stringify({
+                        'type':'delete_file_workspaces',
+                        'csv_file':name_file
+                    })
+                )
 
             }
             if(data.status == "complete"){
                 html_string += `<td> <i class="fa-solid fa-circle-check complete"></i></td>`
+                console.log("complete");
+                notification_ws.send(
+                    JSON.stringify({
+                        'type':'delete_file_workspaces',
+                        'csv_file':name_file
+                    })
+                )
             }
             if(data.status == "in process"){
                 html_string += `<td> <i class="fas fa-sync fa-spin process"></i></td>`

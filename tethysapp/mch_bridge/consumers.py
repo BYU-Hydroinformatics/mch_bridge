@@ -1,3 +1,4 @@
+from cmath import log
 import json
 import logging
 
@@ -7,7 +8,7 @@ import sys
 
 import threading
 
-from .controllers import upload__data
+from .controllers import upload__data, delete_file_workspaces
 
 logger = logging.getLogger(f'tethys.apps.mch_bridge')
 logger.setLevel(logging.INFO)
@@ -51,22 +52,29 @@ class AddingDataConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         # logger.info(f"Received message {text_data} at {self.channel_name}")
+        print("RECEIVING")
         text_data_json = json.loads(text_data)
         print(text_data_json)
-        upload_type = text_data_json["type_upload"]
-        csv_file = text_data_json["csv_file"]
         type_operation = text_data_json["type"]
-        ids =text_data_json["id"]
+        csv_file = text_data_json["csv_file"]
+        print(csv_file)
+        if "type" in text_data_json and text_data_json['type'] == 'upload__data':
+            ids =text_data_json["id"]
+            upload_type = text_data_json["type_upload"]
+
 
         
-        if "type" in text_data_json:
+        # if "type" in text_data_json:
             thread = threading.Thread(target=getattr(sys.modules[__name__], type_operation),
                                       args=(upload_type, csv_file,ids, self.channel_layer)
                                     #   args=(upload_type,csv_file, self.channel_layer)
 
                                       )
             thread.start()
-        else:
+        if "type" in text_data_json and text_data_json['type'] == 'delete_file_workspaces':
+            thread = threading.Thread(target=getattr(sys.modules[__name__], type_operation),args=(csv_file,))
+            thread.start()
+        if "type" not in text_data_json:
             logger.info("Can't redirect incoming message.")
         
 

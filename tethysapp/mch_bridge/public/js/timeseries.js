@@ -10,7 +10,7 @@
  *                      LIBRARY WRAPPER
  *****************************************************************************/
 
- var LIBRARY_OBJECT = (function() {
+ var TIMESERIES_OBJECT = (function() {
     // Wrap the library in a package function
     "use strict"; // And enable strict mode for this library
 

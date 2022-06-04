@@ -3,6 +3,7 @@ from cmath import log
 import os
 from tkinter import E
 import aiomysql
+from matplotlib.pyplot import contour
 import pandas as pd
 from django.http.response import JsonResponse
 from django.shortcuts import render, redirect, reverse
@@ -286,98 +287,6 @@ def upload__data(upload_type, csv_file,ids, channel_layer):
     # pass
 
 
-def upload__stations(request):
-    """
-    Method to upload Stations to the MCH Database.
-    """
-    res_obj = {}
-    try:
-        upload_type = request.POST.get("type_upload")
-        csv_file = request.FILES.get("csv_file", None)
-        loop = asyncio.get_event_loop()
-        loop.run_until_complete(quicker_upload(loop, upload_type, csv_file))
-        res_obj["success"] = "data is being uploaded .."
-
-    except Exception as e:
-        res_obj[
-            "error"
-        ] = "an error ocurred while uploading the data in the database:" + str(e)
-
-    return JsonResponse(res_obj)
-
-
-def upload__stnGroups(request):
-    """
-    Method to upload Stations Groups to the MCH Database.
-    """
-    res_obj = {}
-    try:
-        upload_type = request.POST.get("type_upload")
-        csv_file = request.FILES.get("csv_file", None)
-        loop = asyncio.get_event_loop()
-        loop.run_until_complete(quicker_upload(loop, upload_type, csv_file))
-        res_obj["success"] = "data is being uploaded .."
-
-    except Exception as e:
-        res_obj[
-            "error"
-        ] = "an error ocurred while uploading the data in the database:" + str(e)
-
-    return JsonResponse(res_obj)
-
-
-def upload__variableStnTypes(request):
-    """
-    Method to upload Variable Station Types to the MCH Database.
-    """
-    res_obj = {}
-    try:
-        upload_type = request.POST.get("type_upload")
-        csv_file = request.FILES.get("csv_file", None)
-        loop = asyncio.get_event_loop()
-        loop.run_until_complete(quicker_upload(loop, upload_type, csv_file))
-        res_obj["success"] = "data is being uploaded .."
-
-    except Exception as e:
-        res_obj[
-            "error"
-        ] = "an error ocurred while uploading the data in the database:" + str(e)
-
-    return JsonResponse(res_obj)
-
-
-def upload__timeSeries(request):
-    """
-    Method to upload Time Series to the MCH Database.
-    """
-
-    pass
-
-
-# def convert__WOFstations(request):
-#     """
-#     Method to convert WOF GetSites response to a .csv file that can be used to
-#     upload data to the MCH Database.
-#     """
-
-#     try:
-#         WOF_URL = request.GET.get('wof_url')
-
-#         water = pwml.WaterMLOperations(url = WOF_URL)
-#         sites = water.GetSites()
-#         df = pd.DataFrame.from_dict(sites)
-#         #Change the names of the station columns and sitecodes, and siteIDs"
-#         df = assign_names(df)
-#         df = assign_coordinates(df)
-#         df = reConfigureDf(df)
-#         #Save as a pandas dataFrame
-#         # df.to_csv(path_save, index=False)
-#     except Exception as e:
-#         print(e)
-
-#     passcsv_file
-
-
 async def upload_data_tables(cur, table_name, csv_file,ids):
     host_db = app.get_custom_setting("Database host")
     port_db = app.get_custom_setting("Database Port")
@@ -560,3 +469,13 @@ async def quicker_upload(loop, table_name, csv_file,ids):
             await upload_data_tables(cur, table_name, csv_file,ids)
     pool.close()
     await pool.wait_closed()
+
+
+def delete_file_workspaces(filename):
+    print("sfasf")
+    app_workspace_path = os.path.join(
+        os.path.dirname(os.path.realpath(__file__)), "workspaces", "app_workspace"
+    )
+    path_file = os.path.join(app_workspace_path,filename)
+    os.remove(path_file)
+    pass
