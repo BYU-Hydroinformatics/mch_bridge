@@ -1,0 +1,134 @@
+<div
+class="modal fade"
+id="data-prep-modal"
+tabindex="-1"
+role="dialog"
+aria-labelledby="data-modal-label"
+>
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button
+        type="button"
+        class="close"
+        data-dismiss="modal"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h5 class="modal-title" id="data-modal-label">
+        Data Preparation
+      </h5>
+    </div>
+    <div class="modal-body">
+      <div id="data_prep_id" >
+        <p>The CSV files must have the following header columns for the stations, station groups, variable types stations, and time series tables</p>
+        <p>Otherwise, data will not be uplaoded properly</p>    
+        <p>Sample files can be found <a href="https://github.com/BYU-Hydroinformatics/mch_bridge/tree/main/tethysapp/mch_bridge/data_test">here</a> for the different tables</p>
+        <p><strong>Stations</strong></p>
+        <p>The data file containing the stations data should have the following columns</p>
+          <p>
+          StationName2,
+          Longitude,
+          Latitude,
+          Altitude,
+          Longitude2,
+          Latitude2,
+          DMSLongitude,
+          DMSLatitude,
+          Statee,
+          Catchment,
+          Subcatchment,
+          RegManagmt,
+          OperatnlRegion,
+          HydroReg,
+          RH,
+          Municipality,
+          CodeB,
+          CodeG,
+          CodeCB,
+          CodePB,
+          CodeE,
+          CodeCL,
+          CodeHG,
+          CodePG,  
+          CodeNw,  
+          Code1,  
+          Code2,  
+          Code3,  
+          MaxOrdStrgLvl,  
+          MaxOrdStrgVol,  
+          MaxExtStrgLvl,
+          MaxExtStrgVol,  
+          SpillwayLevel,  
+          SpillwayStorage,  
+          FreeSpillwayLevel,  
+          FreeSpillwayStorage,  
+          DeadStrgLevel,
+          DeadStrgCapac,  
+          UsableStorageCapLev,  
+          UsableStorage,  
+          Key1fil,
+          Key2fil,  
+          Key3fil,  
+          CritLevelSta,  
+          CritLevelSta,  
+          MinLevelSta,
+          MaxLevelSta,  
+          CritFlow,  
+          MinDischarge,  
+          MaxDischarge,  
+          Distance,  
+          Infrastructure,  
+          Type,  
+          Usee
+        </p>
+        <p><strong>Stations Groups</strong></p>
+        <p>The data file containing the stations groups data should have the following columns</p>
+        <ul>
+          <li>
+            <p>
+              StnGroup
+            </p>
+          </li>
+          <li>
+            <p>
+              Sequen
+            </p>
+          </li>
+          <li>
+            <p>
+              Station
+            </p>
+          </li>
+        </ul>
+        <p><strong> Variable Types Stations</strong></p>
+        <p>The data file containing the variable types stations data should have the following columns</p>
+        <ul>
+          <li>
+            <p>
+              StationType
+            </p>
+          </li>
+          <li>
+            <p>
+              Sequen
+            </p>
+          </li>
+          <li>
+            <p>
+              Variable
+            </p>
+          </li>
+        </ul>
+        <p><strong>Time Series</strong></p>
+        <p>The data files containing the time series might have different columns, but all of them should have a column called <strong>table_name</strong> with at
+        least the first cell containing the name of the table to insert in the MCH database. For example, for daily precipitation data the name of the table is <strong>ddprecipitation</strong></p>
+        <p>  <b>It is strongly suggested that the user knows the name of the table associated with the type of variable that one wants to uploads</b> </p>
+      </div>
+    </div>
+    <div class="modal-footer">
+    </div>
+  </div>
+</div>
+</div>
