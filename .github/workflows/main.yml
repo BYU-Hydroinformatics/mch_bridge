@@ -1,9 +1,9 @@
+# trunk-ignore(prettier)
 name: tethys-app-installation
-
 on:
   push:
     tags:
-      - "*"
+      - '*'
   workflow_dispatch:
     inputs:
       git-ref:
@@ -31,7 +31,7 @@ jobs:
           select: E,W,F # check for pep8 and pyflakes errors
           maxlinelength: 120
           repotoken: ${{ secrets.GITHUB_TOKEN }}
-  
+
   deployment:
     runs-on: ubuntu-latest
     name: Deployment Tethys Staging
@@ -44,8 +44,8 @@ jobs:
         id: deploy
         uses: fjogeleit/http-request-action@master
         with:
-          method: "POST"
-          url: "https://tethys-staging.byu.edu/apps/app-store/install/git/"
+          method: 'POST'
+          url: 'https://tethys-staging.byu.edu/apps/app-store/install/git/'
           data: '{"url": "https://github.com/${{ github.repository }}.git", "branch": "${{ steps.vars.outputs.short_ref }}"}'
           timeout: 10000
           customHeaders: '{"Authorization": "Token ${{ secrets.TETHYS_BYU_AUTH_TOKEN }}"}'
@@ -58,10 +58,10 @@ jobs:
         id: status
         uses: msouff/tethys-app-status@v1
         with:
-          url: "https://tethys-staging.byu.edu/apps/app-store/install/git/status"
-          install_id: "${{ steps.iid.outputs.IID }}"
-          tethys_auth_token: "${{ secrets.TETHYS_BYU_AUTH_TOKEN }}"
-  
+          url: 'https://tethys-staging.byu.edu/apps/app-store/install/git/status'
+          install_id: '${{ steps.iid.outputs.IID }}'
+          tethys_auth_token: '${{ secrets.TETHYS_BYU_AUTH_TOKEN }}'
+
   deployment_indhri:
     runs-on: ubuntu-latest
     name: Deployment Indhri Portal
@@ -74,8 +74,8 @@ jobs:
         id: deploy
         uses: fjogeleit/http-request-action@master
         with:
-          method: "POST"
-          url: "https://indhri-hydro-apps.westus2.cloudapp.azure.com/apps/app-store/install/git/"
+          method: 'POST'
+          url: 'https://indhri-hydro-apps.westus2.cloudapp.azure.com/apps/app-store/install/git/'
           data: '{"url": "https://github.com/${{ github.repository }}.git", "branch": "${{ steps.vars.outputs.short_ref }}"}'
           timeout: 10000
           customHeaders: '{"Authorization": "Token ${{ secrets.TETHYS_INDHRI_AUTH_TOKEN }}"}'
@@ -88,6 +88,6 @@ jobs:
         id: status
         uses: msouff/tethys-app-status@v1
         with:
-          url: "https://indhri-hydro-apps.westus2.cloudapp.azure.com/apps/app-store/install/git/status"
-          install_id: "${{ steps.iid.outputs.IID }}"
-          tethys_auth_token: "${{ secrets.TETHYS_INDHRI_AUTH_TOKEN }}"
+          url: 'https://indhri-hydro-apps.westus2.cloudapp.azure.com/apps/app-store/install/git/status'
+          install_id: '${{ steps.iid.outputs.IID }}'
+          tethys_auth_token: '${{ secrets.TETHYS_INDHRI_AUTH_TOKEN }}'
