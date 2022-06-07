@@ -1,0 +1,123 @@
+{% extends "mch_bridge/base.html" %}
+{% load tethys_gizmos %}
+{% load static %} 
+
+
+
+
+{% block app_content%} 
+
+  <div id="sidebar" class="hide_bar_div side_margin">
+    <br>
+    <div class="horizontal__flex">
+
+      <p class="item">Data Menu</p>
+
+      <i class="fa-solid fa-xmark fake__btn hide_bar"></i>
+    </div>
+    
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>File</th>
+                <th>Rows</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+       
+        <tbody id="timeSeries_table_content">
+          
+        </tbody>
+    </table>
+    <div class="horizontal__flex__button">
+      <span class='fake__btn btn__primary' id="uploadtimeSeries">
+        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+        <span>Upload</span>
+        
+      </span>
+      <span class='fake__btn btn__secondary' id="previewtimeSeries">
+        <i class="fa-solid fa-chart-line"></i>
+        <span>Preview</span>
+        
+      </span>
+    </div>
+  
+  </div>
+  <!-- <div class="content_divided_ts"> 
+
+
+  </div> -->
+
+  <div class="horizontal__div margin_side">
+    <div class="loader hidden">  
+    </div>
+    <div id="content_divided_ts" class="hidden"> 
+      <!-- <p class="p__font__h1">Time Series Preview</p> -->
+      <div class="horizontal__flex"> 
+        <p class="p__font__h1">Time Series Preview</p>
+        <span class="fake__btn hide_bar3 hidden button_icon"> Menu<i class="fa-solid fa-chevron-right"></i>
+
+      </div> 
+
+
+      <div id="comodin__div__timeseries"> </div>
+      <div class="content_arrows">
+        <span class='fake__btn' id="last_plot">
+          <i class="fa-solid fa-angle-left"></i>
+          Last
+        </span>
+        <span class='fake__btn' id="next_plot">
+          Next
+          <i class="fa-solid fa-angle-right"></i>
+        </span>
+      </div>
+    </div>
+    <div id="summary__timeseries" class="table-responsive">
+      <!-- <p class="p__font__h1">Time Series Database Details</p> -->
+      <div class="horizontal__flex"> 
+        <p class="p__font__h1">Time Series Database Details</p>
+        <!-- <i class="fa-solid fa-chevron-right fake__btn hide_bar2 hidden"></i> -->
+        <span class="fake__btn hide_bar2 hidden button_icon"> Menu<i class="fa-solid fa-chevron-right"></i>
+
+      </div> 
+      <p class="p__font__h1"> Statistics</p>
+      <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Variable Name</th>
+                <th>Table Name</th>
+                <th>Count</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+       
+        <tbody id="timeseries_summary__table_content">
+          
+        </tbody>
+    </table>
+    </div>
+
+
+  </div>
+
+{% endblock %} 
+
+{# Use the after_app_content block for modals #}
+
+{% block after_app_content %} 
+{{ block.super }} 
+
+{% include "mch_bridge/modals/preview_template.html" with modal_id="timeseries_preview_modal" title="Time Series Data" description="Please Upload a csv file containing Time series for a variable" div_id="variableStationTypes_csv_file_preview" csv_name="timeseries_csv_preview" csv_id="timeseries_csv_preview" isMultiple="multiple"%}
+{% include "mch_bridge/modals/upload_data_template.html" with modal_id="timeseries_upload_modal" title="Time Series Data" description="Please Upload a csv file containing Time series for a variable" div_id="variableStationTypes_csv_file_upload" csv_name="timeseries_csv_upload" csv_id="timeseries_csv_upload" isMultiple="multiple"%}
+{% include "mch_bridge/modals/stn_vars.html" %}
+
+{% endblock %}
+
+{% block scripts %} 
+{{ block.super }} 
+<script>
+  var summary_String = '{{ summary_data|safe }}';
+</script>
+<script src="{% static 'mch_bridge/js/timeseries.js' %}" type="text/javascript"></script>
+
+{% endblock %} 

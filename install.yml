@@ -9,6 +9,7 @@ requirements:
       - conda-forge
     packages:
       - aiomysql
+      - pymysql
   pip:
 
 post:

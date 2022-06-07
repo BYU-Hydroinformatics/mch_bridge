@@ -1,0 +1,177 @@
+
+
+<div
+class="modal fade"
+id="help-modal"
+tabindex="-1"
+role="dialog"
+aria-labelledby="data-modal-label"
+>
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button
+        type="button"
+        class="close"
+        data-dismiss="modal"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h5 class="modal-title" id="data-modal-label">
+        Getting Started
+      </h5>
+    </div>
+    <div class="modal-body">
+      <h5><strong>Overview</strong> </h5>
+      <p>The application MCH bridge allows users to connect to a current MCH database instance to upload and preview csv files of:</p>
+      <ul>
+        <li>
+          <p>
+            Stations
+        </p>
+        </li>
+        <li>
+          <p>
+            Station Groups
+          </p>
+        </li>
+        <li>
+          <p>
+            Variable Types Stations
+          </p>
+        </li>
+        <li>
+          <p>
+            Time Series (e.g. detail, daily data)
+          </p>
+        </li>
+      </ul>
+      <p>There are two main menus: <b> MCH Database Tables</b> and <b>Data</b> menus</p>
+      <p>MCH Database Tables Menu provides information about the data in the MCH instance that is connected to the app while the
+        Data menu allows to upload and preview data in each of the MCH tables of the MCH Database Tables Menu.
+      </p>
+      <h6><strong>MCH Database Tables Menu</strong> </h6>
+
+      <div class="vertical_div_modal spacer_padding">
+        <div class="vertical__flex side_menu">
+
+          <div class="horizontal__flex">
+              <p class="item">  <a href=""> Stations </a>  <i class="fa-solid fa-location-dot"></i></p>
+          </div>
+          <div class="horizontal__flex" >
+            <p class="item"> <a href="">Groups Stations </a><i class="fa-solid fa-dice-five"></i></p>
+          </div>
+          <div class="horizontal__flex" >
+            <p class="item"> <a href="">Variable Station Types</a> <i class="fa-solid fa-dice-d6"></i></p>
+          </div>
+          <div class="horizontal__flex" >
+            <p class="item">  <a href="">Time Series </a> <i class="fa-solid fa-chart-line"></i></p>
+          </div>
+       </div>
+
+        <div class="colum_explain_menu">
+
+          <p><b>Stations Tab</b></p>
+          <p>Provides visualization and total count of the current stations found in the MCH instance (specifically in the stations table)</p>
+          <p><b>Stations Group Tab</b></p>
+          <p>Provides a summary table with a count of the stations in the different station groups </p>
+          <p><b>Variable Station Types Tab</b></p>
+          <p>Provides a summary table with a count of the station groups in the different variable station types </p>
+          <p><b>Time Series tab</b> </p>
+          <p>Provides a total count of data points and table details for the variable tables containing data</p>
+        </div>
+
+      </div>
+      <h5><strong>Data Menu</strong> </h5>
+      <p></p>
+      <p>
+        The Data menu allows to upload data asynchronously using a the right data menu (through web sockets and django channels) 
+      </p>
+      <p>
+        Data is uploaded to an MCH instance concurrently, and the user can track the progress of the upload.
+      </p>
+
+      <p>
+        Only time series data uploading allows for multiple csv files. Data uploading of Stations, Station groups, and variable station types only allows one csv file at a time.
+      </p>
+      <p>Similarly data can be previewed for the different data files:</p>
+
+      <div class="vertical_div_modal spacer_padding">
+        <div id="sidebar_getting_started" class="side_menu">
+          <br>
+          <div class="horizontal__flex">
+            <p class="item">Data Menu</p>
+  
+            <i class="fa-solid fa-xmark fake__btn"></i>
+          </div>
+          
+          <table class="table table-striped">
+              <thead>
+                  <tr>
+                      <th>File</th>
+                      <th>Rows</th>
+                      <th>Status</th>
+                  </tr>
+              </thead>
+             
+              <tbody>
+                <tr >
+                  <td>precip.csv</td>
+                  <td>0/30</td>
+                  <td> <i class="fas fa-sync fa-spin process"></i></i></td>
+                </tr>
+                <tr >
+                  <td>precip2.csv</td>
+                  <td>90/90</td>
+                  <td> <i class="fas fa-circle-check complete"></i></i></td>
+                </tr>                
+                <tr >
+                  <td>wl.csv</td>
+                  <td>20/30</td>
+                  <td> <i class="fa-solid fa-circle-xmark imcomplete"></i></i></td>
+                </tr>
+              </tbody>
+          </table>
+          <div class="horizontal__flex__button">
+            <span class='fake__btn btn__primary'>
+              <i class="fa-solid fa-arrow-up-from-bracket"></i>
+              <span>Upload</span>
+              
+            </span>
+            <span class='fake__btn btn__secondary'>
+              <i class="fa-solid fa-magnifying-glass-location"></i>
+              <span>Preview</span>
+              
+            </span>
+          </div>
+  
+      </div>
+        <div id="instructions" >
+            <p><b>Stations</b></p>
+            <p>Data file containing stations can be previewed in a map that shows the name of the each stations after clicking on each of them.</p>
+            <p><b>Station Groups and Variable Types Stations</b></p>
+            <p>
+              Data file containing stations groups or variable types stations are previewed by providing a table with the content of the file.
+            </p>
+            <p><b>Time Series</b></p>
+            <p>
+              Data files for each time series are plotted in order to be previewed.
+            </p>      
+        </div>
+      </div>
+
+      <div class="footer_icons">
+      <p><strong>Source Code</strong> <a href="https://github.com/BYU-Hydroinformatics/mch_bridge"><i class="fa-brands fa-github"></i></a>  </p>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+

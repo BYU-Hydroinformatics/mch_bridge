@@ -16,13 +16,55 @@
 
 {% block app_title %}{{ tethys_app.name }}{%endblock %} 
 
-{% block app_navigation_items %} 
 
+{% block header_buttons %}
+  {{ block.super }} 
+
+  <div class="header-button glyphicon-button" data-toggle="tooltip" data-placement="bottom" title="Getting Started">
+    <a data-toggle="modal" data-target="#help-modal"><i class="fa-solid fa-question"></i></a>
+  </div>
+  <div class="header-button glyphicon-button" data-toggle="tooltip" data-placement="bottom" title="Data Prep">
+    <a data-toggle="modal" data-target="#data-prep-modal"><i class="fa-solid fa-file-signature"></i></span></a>
+  </div>
+{% endblock %}
+
+{% block app_navigation_items %} 
+{% url 'mch_bridge:stations' as stations_url %}
+{% url 'mch_bridge:groupStations' as groupStations_url %}
+{% url 'mch_bridge:variableStationTypes' as variableStationTypes_url %}
+{% url 'mch_bridge:timeSeries' as timeSeries_url %}
+
+<h3 class="title__app__content">MCH Database Tables</h3>
+  <div class="vertical__flex">
+
+    <div class="horizontal__flex active_tab" id="stations_tab">
+        <p class="item">  <a href="{{ stations_url }}"> Stations </a>  <i class="fa-solid fa-location-dot"></i></p>
+    </div>
+    <div class="horizontal__flex" id="group_station_tab">
+      <p class="item"> <a href="{{ groupStations_url }}">Groups Stations </a><i class="fa-solid fa-dice-five"></i></p>
+    </div>
+    <div class="horizontal__flex" id="variable_stn_tab">
+      <p class="item"> <a href="{{ variableStationTypes_url }}">Variable Station Types</a> <i class="fa-solid fa-dice-d6"></i></p>
+    </div>
+    <div class="horizontal__flex" id="time_series_tab">
+      <p class="item">  <a href="{{ timeSeries_url }}">Time Series </a> <i class="fa-solid fa-chart-line"></i></p>
+    </div>
+</div>
 {% endblock %}
 
 {% block app_content%} 
 
 {% endblock %} 
+
+{% block after_app_content %} 
+{{ block.super }}
+
+
+{% include "mch_bridge/modals/getting_started.html"%}
+{% include "mch_bridge/modals/data_prep.html"%}
+
+
+{% endblock %}
 
 
 {% block app_actions %} 
@@ -54,6 +96,9 @@ crossorigin=""/>
 {% block scripts %} 
 
 {{ block.super }}
+<script>
+  const mchHomeUrl = "{% url 'mch_bridge:home' %}";
+</script>
  <!-- Make sure you put this AFTER Leaflet's CSS -->
  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
@@ -75,13 +120,12 @@ crossorigin=""></script>
 <script src="https://cdn.plot.ly/plotly-2.11.1.min.js"></script>
 
 <script src="{% static 'mch_bridge/js/notify.min.js' %}" type="text/javascript"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/frappe-charts@1.2.4/dist/frappe-charts.min.iife.js"></script>
+<!-- or -->
+<script src="https://unpkg.com/frappe-charts@1.2.4/dist/frappe-charts.min.iife.js"></script>
 <script src="{% static 'mch_bridge/js/main.js' %}" type="text/javascript"></script>
+
+
 {% endblock %} 
 
-{% block after_app_content %} 
-{{ block.super }} 
 
-{% include "mch_bridge/modals/add_data.html" %} 
-
-{% endblock %}
