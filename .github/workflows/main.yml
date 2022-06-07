@@ -31,9 +31,10 @@ jobs:
           select: E,W,F # check for pep8 and pyflakes errors
           maxlinelength: 120
           repotoken: ${{ secrets.GITHUB_TOKEN }}
+  
   deployment:
     runs-on: ubuntu-latest
-    name: Deployment
+    name: Deployment Tethys Staging
     needs: app-lint
     steps:
       - name: Get Variables
@@ -60,6 +61,7 @@ jobs:
           url: "https://tethys-staging.byu.edu/apps/app-store/install/git/status"
           install_id: "${{ steps.iid.outputs.IID }}"
           tethys_auth_token: "${{ secrets.TETHYS_BYU_AUTH_TOKEN }}"
+  
   deployment_indhri:
     runs-on: ubuntu-latest
     name: Deployment Indhri Portal
