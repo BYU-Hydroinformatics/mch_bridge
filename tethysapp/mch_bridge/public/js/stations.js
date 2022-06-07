@@ -339,6 +339,8 @@
         if(isStations){
             initmap();
             summary_data_load();
+            // console.log(summary_Plot);
+            // console.log(JSON.parse(summary_Plot));
             const noStations = Object.keys(JSON.parse(summary_Plot)).length === 0;
             if(!noStations){
                 summary_plot_load();

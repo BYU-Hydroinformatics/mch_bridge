@@ -49,8 +49,8 @@
         $('#timeseries_summary__table_content').empty();
 
         var html_string = '';
-        var table_names = summ_obj["TABLE_NAME"];
-        var table_counts = summ_obj["TABLE_ROWS"];
+        var table_names = summ_obj['table_name'];
+        var table_counts = summ_obj['table_rows'];
         console.log(Object.entries(summ_obj));
         for(var i=0; i< table_names.length; ++i){
             var variable_name = take_out_starts(table_names[i]);
