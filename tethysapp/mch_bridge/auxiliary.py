@@ -19,6 +19,8 @@ def stations_reload(df_p):
         new_df_sum = df_p[['StationName','Longitude','Latitude','Altitude','Longitude2','Latitude2','DMSlongitude','DMSLatitude']].copy()
         new_df_sum['latlng'] = new_df_sum.apply (lambda row: label_lat_long(row), axis=1)
         new_df_sum2 = new_df_sum[['StationName','latlng']].copy()
+        new_df_sum2 = new_df_sum2[new_df_sum2['StationName'].notna()]
+
         df_dict = new_df_sum2.to_dict('records')
         return df_dict
     except Exception as e:
