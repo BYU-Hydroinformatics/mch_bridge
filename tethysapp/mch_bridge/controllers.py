@@ -518,5 +518,8 @@ def delete_file_workspaces(filename):
         os.path.dirname(os.path.realpath(__file__)), "workspaces", "app_workspace"
     )
     path_file = os.path.join(app_workspace_path,filename)
-    os.remove(path_file)
+    try:
+        os.remove(path_file)
+    except Exception as e:
+        print(e)
     pass
