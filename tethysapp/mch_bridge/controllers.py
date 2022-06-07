@@ -49,12 +49,12 @@ def get_stations_var(request):
     mydb = Database()
     query_string = f'SELECT * FROM {station_selected};'
     df = mydb.df_from_execute_statement(query_string)    
-    print(df)
+    # print(df)
     df_grouped_by_station = df.groupby(['Station']).size().reset_index(name='totals')
     
-    print(df_grouped_by_station)
+    # print(df_grouped_by_station)
     response_obj = {"list_stations":df_grouped_by_station.to_dict(orient='records')}
-    print(response_obj)
+    # print(response_obj)
 
     return JsonResponse(response_obj)
 
@@ -174,7 +174,7 @@ def groupStations(request):
     df = df[df['StnGroup'].notna()]
 
     df_count = df['StnGroup'].value_counts()
-    print(df_count)
+    # print(df_count)
     df_dict = df_count.to_dict()
     df_dict_string = json.dumps(df_dict)
 
@@ -208,7 +208,7 @@ def variableStationTypes(request):
     df = df[df['StationType'].notna()]
 
     df_count = df['StationType'].value_counts()
-    print(df_count)
+    # print(df_count)
     df_dict = df_count.to_dict()
     df_dict_string = json.dumps(df_dict)
 
@@ -242,7 +242,7 @@ def timeSeries(request):
     df = mydb.df_from_execute_statement(sql_query)
 
 
-    print(df)
+    # print(df)
     mycolrow = 'table_rows'
     if 'TABLE_ROWS' in df:
         mycol = 'TABLE_ROWS'
@@ -308,7 +308,7 @@ def upload__data(upload_type, csv_file,ids, channel_layer):
     try:
         # upload_type = request.POST.get("type_upload")
         # csv_file = request.FILES.getlist("csv_file", None)
-        print(csv_file)
+        # print(csv_file)
 
         loop = asyncio.get_event_loop()
         loop.run_until_complete(quicker_upload(loop, upload_type, csv_file,ids))
@@ -346,21 +346,21 @@ async def upload_data_tables(cur, table_name, csv_file,ids):
     )
     total_count = 0
     mssge_string = "success"
-    print(table_name)
+    # print(table_name)
     for csv_indv,csv_id in zip(csv_file,ids):
         try:
-            print(table_name)
+            # print(table_name)
             table_name_insert = table_name
             path_to_read = os.path.join(app_workspace_path,csv_indv)
             df = pd.read_csv(path_to_read, index_col=False, dtype="str")
             # df = pd.read_csv(csv_indv, index_col=False, dtype="str")
             if "table_name" in df.columns and table_name_insert == "timeSeries":
-                print("ey")
+                # print("ey")
                 table_name_insert = df["table_name"][0]
-                print(table_name_insert)
+                # print(table_name_insert)
                 df = df.drop("table_name", 1)
             actual_data_count = session.execute(f'SELECT COUNT(*)FROM {table_name_insert};').scalar()
-            print("datacount",actual_data_count)
+            # print("datacount",actual_data_count)
             total_count = len(df)
             await channel_layer.group_send(
                 "notifications", {
@@ -373,34 +373,34 @@ async def upload_data_tables(cur, table_name, csv_file,ids):
                     "mssg": mssge_string
                    }
             )
-            print(df)  
+            # print(df)  
             df = df.where(pd.notnull(df), None)
-            print("ey2")
-            print(df)
+            # print("ey2")
+            # print(df)
             columns = list(df.columns.values)
             columns_string = ", ".join(columns)
-            print(len(columns))
-            print(columns_string)
+            # print(len(columns))
+            # print(columns_string)
             placeholders = ", ".join(["%s"] * len(columns))
-            print(len(placeholders))
+            # print(len(placeholders))
             records_tuple = df.to_records(index=False)
             records_list_tuples = list(records_tuple)
             records_list_tuples = [tuple(i) for i in records_list_tuples]
-            print(table_name_insert)
+            # print(table_name_insert)
             sql = "INSERT INTO %s ( %s ) VALUES ( %s )" % (
                 table_name_insert,
                 columns_string,
                 placeholders,
             )
-            print(sql)
+            # print(sql)
             await cur.executemany(sql, records_list_tuples)
             new_data_count = session.execute(f'SELECT COUNT(*)FROM {table_name_insert};').scalar()
             summary_data_count = new_data_count - actual_data_count
-            print(summary_data_count,total_count)
+            # print(summary_data_count,total_count)
 
             if summary_data_count == total_count:
                 status_type = "complete"
-                print(new_data_count,actual_data_count)
+                # print(new_data_count,actual_data_count)
 
                 await channel_layer.group_send(
                     "notifications", {
@@ -417,7 +417,7 @@ async def upload_data_tables(cur, table_name, csv_file,ids):
             if e.args[0] == 1062:
                 new_data_count = session.execute(f'SELECT COUNT(*)FROM {table_name_insert};').scalar()
                 summary_data =  new_data_count - actual_data_count
-                print(new_data_count,summary_data)
+                # print(new_data_count,summary_data)
                 # summary_data = abs(actual_data_count - total_count)
                 status_type = "Failed"
                 mssge_string = "The file contains data that is already in the database"
@@ -437,7 +437,7 @@ async def upload_data_tables(cur, table_name, csv_file,ids):
         except ProgrammingError as e:
             mssge_string = str(e.args[0])
 
-            print("programming")
+            # print("programming")
             if "1146" in e.args[0]:
                 new_data_count = 0
                 actual_data_count = 0
@@ -446,7 +446,7 @@ async def upload_data_tables(cur, table_name, csv_file,ids):
                 new_data_count = session.execute(f'SELECT COUNT(*)FROM {table_name_insert};').scalar()
 
             summary_data =  new_data_count - actual_data_count
-            print(new_data_count,summary_data)
+            # print(new_data_count,summary_data)
             # summary_data = abs(actual_data_count - total_count)
             status_type = "Failed"
             # if new_data_count == actual_data_count:
@@ -513,7 +513,7 @@ async def quicker_upload(loop, table_name, csv_file,ids):
 
 
 def delete_file_workspaces(filename):
-    print("sfasf")
+    # print("sfasf")
     app_workspace_path = os.path.join(
         os.path.dirname(os.path.realpath(__file__)), "workspaces", "app_workspace"
     )
