@@ -1,50 +1,58 @@
 # import pywaterml.waterML as pwml
 # import pandas as pd
 import os
-
 import re
-
-
-
-
-
 
 WOF_URL = "http://128.187.106.131/app/index.php/dr/services/cuahsi_1_1.asmx?WSDL"
 path_save = os.path.join(os.getcwd(), "sites.csv")
 
 
-
 def stations_reload(df_p):
     try:
-        new_df_sum = df_p[['StationName','Longitude','Latitude','Altitude','Longitude2','Latitude2','DMSlongitude','DMSLatitude']].copy()
-        new_df_sum['latlng'] = new_df_sum.apply (lambda row: label_lat_long(row), axis=1)
-        new_df_sum2 = new_df_sum[['StationName','latlng']].copy()
-        new_df_sum2 = new_df_sum2[new_df_sum2['StationName'].notna()]
+        new_df_sum = df_p[
+            [
+                "StationName",
+                "Longitude",
+                "Latitude",
+                "Altitude",
+                "Longitude2",
+                "Latitude2",
+                "DMSlongitude",
+                "DMSLatitude",
+            ]
+        ].copy()
+        new_df_sum["latlng"] = new_df_sum.apply(lambda row: label_lat_long(row), axis=1)
+        new_df_sum2 = new_df_sum[["StationName", "latlng"]].copy()
+        new_df_sum2 = new_df_sum2[new_df_sum2["StationName"].notna()]
 
-        df_dict = new_df_sum2.to_dict('records')
+        df_dict = new_df_sum2.to_dict("records")
         return df_dict
     except Exception as e:
         print(e)
 
     return
+
+
 def dms2dd(s):
     # example: s = """0°51'56.29"S"""
-    degrees, minutes, seconds, direction = re.split('[°\'"]+', s)
-    dd = float(degrees) + float(minutes)/60 + float(seconds)/(60*60);
-    if direction in ('S','W'):
-        dd*= -1
+    degrees, minutes, seconds, direction = re.split("[°'\"]+", s)
+    dd = float(degrees) + float(minutes) / 60 + float(seconds) / (60 * 60)
+    if direction in ("S", "W"):
+        dd *= -1
     return dd
-def label_lat_long (row):
-   if row['Longitude2'] != '' and row['Latitude2']  != '' :
-      return [row['Longitude2'],row['Latitude2']]
 
-   if row['DMSlongitude'] != '' and row['DMSLatitude'] != '' :
-      return [dms2dd(row['DMSlongitude']),dms2dd(row['DMSLatitude'])]
 
-   if row['Longitude'] != '' and row['Latitude']  != '':
-      return ''
+def label_lat_long(row):
+    if row["Longitude2"] != "" and row["Latitude2"] != "":
+        return [row["Longitude2"], row["Latitude2"]]
 
-   return 'none'
+    if row["DMSlongitude"] != "" and row["DMSLatitude"] != "":
+        return [dms2dd(row["DMSlongitude"]), dms2dd(row["DMSLatitude"])]
+
+    if row["Longitude"] != "" and row["Latitude"] != "":
+        return ""
+
+    return "none"
 
 
 def assign_names(df):
