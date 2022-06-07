@@ -23,23 +23,32 @@ from sqlalchemy.orm import sessionmaker
 
 from random import randint
 
+from .single_db import Database
+
+
 @login_required()
 def get_stations_var(request):
+
     station_selected = request.POST.get('variable')
     response_obj = {}
-    host_db = app.get_custom_setting("Database host")
-    port_db = app.get_custom_setting("Database Port")
-    user_db = app.get_custom_setting("Database User")
-    password_db = app.get_custom_setting("Database Password")
-    db_name = app.get_custom_setting("Database Name")
-    engine = db.create_engine(f'mysql+pymysql://{user_db}:{password_db}@{host_db}:{port_db}/{db_name}')
-    database_metadata = db.MetaData(bind=engine)
-    database_metadata.reflect()
-    Session = sessionmaker(bind=engine)
-    session = Session()
-    actual_data_rows = session.execute(f'SELECT * FROM {station_selected};')
-    result = [dict(row) for row in actual_data_rows]
-    df = pd.DataFrame(result)
+
+    # host_db = app.get_custom_setting("Database host")
+    # port_db = app.get_custom_setting("Database Port")
+    # user_db = app.get_custom_setting("Database User")
+    # password_db = app.get_custom_setting("Database Password")
+    # db_name = app.get_custom_setting("Database Name")
+    # engine = db.create_engine(f'mysql+pymysql://{user_db}:{password_db}@{host_db}:{port_db}/{db_name}')
+    # database_metadata = db.MetaData(bind=engine)
+    # database_metadata.reflect()
+    # Session = sessionmaker(bind=engine)
+    # session = Session()
+    # actual_data_rows = session.execute(f'SELECT * FROM {station_selected};')
+    # result = [dict(row) for row in actual_data_rows]
+    # df = pd.DataFrame(result)
+
+    mydb = Database()
+    query_string = f'SELECT * FROM {station_selected};'
+    df = mydb.df_from_execute_statement(query_string)    
     print(df)
     df_grouped_by_station = df.groupby(['Station']).size().reset_index(name='totals')
     
@@ -54,57 +63,75 @@ def home(request):
     """
     Controller for the app home page.
     """
-    host_db = app.get_custom_setting("Database host")
-    port_db = app.get_custom_setting("Database Port")
-    user_db = app.get_custom_setting("Database User")
-    password_db = app.get_custom_setting("Database Password")
-    db_name = app.get_custom_setting("Database Name")
-    engine = db.create_engine(f'mysql+pymysql://{user_db}:{password_db}@{host_db}:{port_db}/{db_name}')
-    database_metadata = db.MetaData(bind=engine)
-    database_metadata.reflect()
-    Session = sessionmaker(bind=engine)
-    session = Session()
-    actual_data_rows = session.execute('SELECT * FROM stations;')
-    result = [dict(row) for row in actual_data_rows]
-    df = pd.DataFrame(result)
-    df_dict_string2 = {}
+    # host_db = app.get_custom_setting("Database host")
+    # port_db = app.get_custom_setting("Database Port")
+    # user_db = app.get_custom_setting("Database User")
+    # password_db = app.get_custom_setting("Database Password")
+    # db_name = app.get_custom_setting("Database Name")
+    # engine = db.create_engine(f'mysql+pymysql://{user_db}:{password_db}@{host_db}:{port_db}/{db_name}?charset=utf8')
+    # database_metadata = db.MetaData(bind=engine)
+    # database_metadata.reflect()
+    # Session = sessionmaker(bind=engine)
+    # session = Session()
+    # actual_data_rows = session.execute('SELECT * FROM stations;')
+    # result = [dict(row) for row in actual_data_rows]
+    # df = pd.DataFrame(result)
+    try:
+        mydb = Database()
+        query_string = 'SELECT * FROM stations;'
+        df = mydb.df_from_execute_statement(query_string)
+        df = df[df['Station'].notna()]
 
-    if  len(df) > 0:
-        new_dict_df = stations_reload(df)
-        df_dict_string2 = json.dumps(new_dict_df)
+        df_dict_string2 = {}
 
-    total_count_dict = {
-        "Total Number of Stations": len(df)
-    }
-    df_dict_string = json.dumps(total_count_dict)
+        if  len(df) > 0:
+            new_dict_df = stations_reload(df)
+            df_dict_string2 = json.dumps(new_dict_df)
 
-    context = {
-        "isStationView":True,
-        'summary_data':df_dict_string,
-        'plot_data':df_dict_string2
-    }
-    return render(request, "mch_bridge/stations.html", context)
+        total_count_dict = {
+            "Total Number of Stations": len(df)
+        }
+        df_dict_string = json.dumps(total_count_dict)
 
-
+        context = {
+            "isStationView":True,
+            'summary_data':df_dict_string,
+            'plot_data':df_dict_string2
+        }
+        return render(request, "mch_bridge/stations.html", context)
+    except Exception as e:
+        print(e)
+        context = {
+            "isStationView":True,
+            'summary_data':{},
+            'plot_data':{}
+        }
+        return render(request, "mch_bridge/stations.html", context)
 
 @login_required()
 def stations(request):
     """
     Controller for the app home page.
     """
-    host_db = app.get_custom_setting("Database host")
-    port_db = app.get_custom_setting("Database Port")
-    user_db = app.get_custom_setting("Database User")
-    password_db = app.get_custom_setting("Database Password")
-    db_name = app.get_custom_setting("Database Name")
-    engine = db.create_engine(f'mysql+pymysql://{user_db}:{password_db}@{host_db}:{port_db}/{db_name}')
-    database_metadata = db.MetaData(bind=engine)
-    database_metadata.reflect()
-    Session = sessionmaker(bind=engine)
-    session = Session()
-    actual_data_rows = session.execute('SELECT * FROM stations;')
-    result = [dict(row) for row in actual_data_rows]
-    df = pd.DataFrame(result)
+    mydb = Database()
+
+    # host_db = app.get_custom_setting("Database host")
+    # port_db = app.get_custom_setting("Database Port")
+    # user_db = app.get_custom_setting("Database User")
+    # password_db = app.get_custom_setting("Database Password")
+    # db_name = app.get_custom_setting("Database Name")
+    # engine = db.create_engine(f'mysql+pymysql://{user_db}:{password_db}@{host_db}:{port_db}/{db_name}?charset=utf8')
+    # database_metadata = db.MetaData(bind=engine)
+    # database_metadata.reflect()
+    # Session = sessionmaker(bind=engine)
+    # session = Session()
+    # actual_data_rows = session.execute('SELECT * FROM stations;')
+    # result = [dict(row) for row in actual_data_rows]
+    # df = pd.DataFrame(result)
+    query_string = 'SELECT * FROM stations;'
+    df = mydb.df_from_execute_statement(query_string)
+    df = df[df['Station'].notna()]
+
     df_dict_string2 = {}
 
     if  len(df) > 0:
@@ -128,19 +155,24 @@ def groupStations(request):
     """
     Controller for the app home page.
     """
-    host_db = app.get_custom_setting("Database host")
-    port_db = app.get_custom_setting("Database Port")
-    user_db = app.get_custom_setting("Database User")
-    password_db = app.get_custom_setting("Database Password")
-    db_name = app.get_custom_setting("Database Name")
-    engine = db.create_engine(f'mysql+pymysql://{user_db}:{password_db}@{host_db}:{port_db}/{db_name}')
-    database_metadata = db.MetaData(bind=engine)
-    database_metadata.reflect()
-    Session = sessionmaker(bind=engine)
-    session = Session()
-    actual_data_rows = session.execute('SELECT * FROM stngroups;')
-    result = [dict(row) for row in actual_data_rows]
-    df = pd.DataFrame(result)
+    # host_db = app.get_custom_setting("Database host")
+    # port_db = app.get_custom_setting("Database Port")
+    # user_db = app.get_custom_setting("Database User")
+    # password_db = app.get_custom_setting("Database Password")
+    # db_name = app.get_custom_setting("Database Name")
+    # engine = db.create_engine(f'mysql+pymysql://{user_db}:{password_db}@{host_db}:{port_db}/{db_name}?charset=utf8')
+    # database_metadata = db.MetaData(bind=engine)
+    # database_metadata.reflect()
+    # Session = sessionmaker(bind=engine)
+    # session = Session()
+    # actual_data_rows = session.execute('SELECT * FROM stngroups;')
+    # result = [dict(row) for row in actual_data_rows]
+    # df = pd.DataFrame(result)
+    mydb = Database()
+    query_string = 'SELECT * FROM stngroups;'
+    df = mydb.df_from_execute_statement(query_string)
+    df = df[df['StnGroup'].notna()]
+
     df_count = df['StnGroup'].value_counts()
     print(df_count)
     df_dict = df_count.to_dict()
@@ -156,19 +188,25 @@ def variableStationTypes(request):
     """
     Controller for the app home page.
     """
-    host_db = app.get_custom_setting("Database host")
-    port_db = app.get_custom_setting("Database Port")
-    user_db = app.get_custom_setting("Database User")
-    password_db = app.get_custom_setting("Database Password")
-    db_name = app.get_custom_setting("Database Name")
-    engine = db.create_engine(f'mysql+pymysql://{user_db}:{password_db}@{host_db}:{port_db}/{db_name}')
-    database_metadata = db.MetaData(bind=engine)
-    database_metadata.reflect()
-    Session = sessionmaker(bind=engine)
-    session = Session()
-    actual_data_rows = session.execute('SELECT * FROM variablestationtype;')
-    result = [dict(row) for row in actual_data_rows]
-    df = pd.DataFrame(result)
+    # host_db = app.get_custom_setting("Database host")
+    # port_db = app.get_custom_setting("Database Port")
+    # user_db = app.get_custom_setting("Database User")
+    # password_db = app.get_custom_setting("Database Password")
+    # db_name = app.get_custom_setting("Database Name")
+    # engine = db.create_engine(f'mysql+pymysql://{user_db}:{password_db}@{host_db}:{port_db}/{db_name}?charset=utf8')
+    # database_metadata = db.MetaData(bind=engine)
+    # database_metadata.reflect()
+    # Session = sessionmaker(bind=engine)
+    # session = Session()
+    # actual_data_rows = session.execute('SELECT * FROM variablestationtype;')
+    # result = [dict(row) for row in actual_data_rows]
+    # df = pd.DataFrame(result)
+
+    mydb = Database()
+    query_string = 'SELECT * FROM variablestationtype;'
+    df = mydb.df_from_execute_statement(query_string)
+    df = df[df['StationType'].notna()]
+
     df_count = df['StationType'].value_counts()
     print(df_count)
     df_dict = df_count.to_dict()
@@ -184,24 +222,35 @@ def timeSeries(request):
     """
     Controller for the app home page.
     """
-    host_db = app.get_custom_setting("Database host")
-    port_db = app.get_custom_setting("Database Port")
-    user_db = app.get_custom_setting("Database User")
-    password_db = app.get_custom_setting("Database Password")
-    db_name = app.get_custom_setting("Database Name")
-    engine = db.create_engine(f'mysql+pymysql://{user_db}:{password_db}@{host_db}:{port_db}/{db_name}')
-    database_metadata = db.MetaData(bind=engine)
-    database_metadata.reflect()
-    Session = sessionmaker(bind=engine)
-    session = Session()
+    # host_db = app.get_custom_setting("Database host")
+    # port_db = app.get_custom_setting("Database Port")
+    # user_db = app.get_custom_setting("Database User")
+    # password_db = app.get_custom_setting("Database Password")
+    # db_name = app.get_custom_setting("Database Name")
+    # engine = db.create_engine(f'mysql+pymysql://{user_db}:{password_db}@{host_db}:{port_db}/{db_name}?charset=utf8')
+    # database_metadata = db.MetaData(bind=engine)
+    # database_metadata.reflect()
+    # Session = sessionmaker(bind=engine)
+    # session = Session()
     sql_query = "SELECT table_name, table_rows FROM information_schema.tables WHERE table_name like 'da_%' or table_name like 'dc_%' or table_name like 'dd_%' or table_name like 'de_%' or table_name like 'dm_%' or table_name like 'ds_%' or table_name like 'na_%' or table_name like 'nc_%' or table_name like 'nd_%' or table_name like 'nm_%' or table_name like 'ns_%' AND TABLE_SCHEMA = 'mch';"
     exclude_list = ["data_locks","data_lock_waits","default_roles","ddavailability"]
 
-    actual_data_rows = session.execute(sql_query)
-    result = [dict(row) for row in actual_data_rows]
-    df = pd.DataFrame(result)
-    df_with_vals = df.loc[df['TABLE_ROWS'] > 0 ]
-    df_excluded_tables = df_with_vals.loc[~df_with_vals['TABLE_NAME'].isin(exclude_list)]
+    # actual_data_rows = session.execute(sql_query)
+    # result = [dict(row) for row in actual_data_rows]
+    # df = pd.DataFrame(result)
+    mydb = Database()
+    df = mydb.df_from_execute_statement(sql_query)
+
+
+    print(df)
+    mycolrow = 'table_rows'
+    if 'TABLE_ROWS' in df:
+        mycol = 'TABLE_ROWS'
+    mycolname = 'table_name'
+    if 'TABLE_NAME' in df:
+        mycol = 'TABLE_NAME'
+    df_with_vals = df.loc[df[mycolrow] > 0 ]
+    df_excluded_tables = df_with_vals.loc[~df_with_vals[mycolname].isin(exclude_list)]
     
 
     # print(df)
@@ -218,15 +267,6 @@ def timeSeries(request):
 
 
     return render(request, "mch_bridge/timeSeries.html", context)
-@login_required()
-def instructions(request):
-    """
-    Controller for the app home page.
-    """
-
-    context = {}
-
-    return render(request, "mch_bridge/instructions.html", context)
 
 
 def upload__files(request):
@@ -269,7 +309,6 @@ def upload__data(upload_type, csv_file,ids, channel_layer):
         # upload_type = request.POST.get("type_upload")
         # csv_file = request.FILES.getlist("csv_file", None)
         print(csv_file)
-        print("pomo")
 
         loop = asyncio.get_event_loop()
         loop.run_until_complete(quicker_upload(loop, upload_type, csv_file,ids))
@@ -288,16 +327,18 @@ def upload__data(upload_type, csv_file,ids, channel_layer):
 
 
 async def upload_data_tables(cur, table_name, csv_file,ids):
-    host_db = app.get_custom_setting("Database host")
-    port_db = app.get_custom_setting("Database Port")
-    user_db = app.get_custom_setting("Database User")
-    password_db = app.get_custom_setting("Database Password")
-    db_name = app.get_custom_setting("Database Name")
-    engine = db.create_engine(f'mysql+pymysql://{user_db}:{password_db}@{host_db}:{port_db}/{db_name}')
-    database_metadata = db.MetaData(bind=engine)
-    database_metadata.reflect()
-    Session = sessionmaker(bind=engine)
-    session = Session()
+    # host_db = app.get_custom_setting("Database host")
+    # port_db = app.get_custom_setting("Database Port")
+    # user_db = app.get_custom_setting("Database User")
+    # password_db = app.get_custom_setting("Database Password")
+    # db_name = app.get_custom_setting("Database Name")
+    # engine = db.create_engine(f'mysql+pymysql://{user_db}:{password_db}@{host_db}:{port_db}/{db_name}')
+    # database_metadata = db.MetaData(bind=engine)
+    # database_metadata.reflect()
+    # Session = sessionmaker(bind=engine)
+    # session = Session()
+    mydb = Database()
+    session = mydb.session
     channel_layer = get_channel_layer()
     status_type = "in process"
     app_workspace_path = os.path.join(
@@ -330,9 +371,9 @@ async def upload_data_tables(cur, table_name, csv_file,ids):
                     "file": csv_indv,
                     "id":csv_id,
                     "mssg": mssge_string
-                }
+                   }
             )
-            print(df)
+            print(df)  
             df = df.where(pd.notnull(df), None)
             print("ey2")
             print(df)
