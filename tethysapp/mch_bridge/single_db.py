@@ -22,7 +22,7 @@ from .app import MchBridge as app
 class Database(object):
 
     engine = None
-    session = None
+    session=None
     imcomplete_settings = False
     try:
         host_db = app.get_custom_setting("Database host")
@@ -65,22 +65,53 @@ class Database(object):
         if Database.engine is None and Database.imcomplete_settings is False:
             try:
                 Database.engine = db.create_engine(
-                    f"mysql+pymysql://{self.user_db}:{self.password_db}@{self.host_db}:{self.port_db}/{self.db_name}?charset=utf8"
+                    f"mysql+pymysql://{self.user_db}:{self.password_db}@{self.host_db}:{self.port_db}/{self.db_name}?charset=utf8",
+                    pool_recycle=60, pool_pre_ping=True
                 )
-                # Database.connection = mysql.connector.connect(host="127.0.0.1", user="root", password="", database="db_test")
                 database_metadata = db.MetaData(bind=Database.engine)
                 database_metadata.reflect()
                 Session = sessionmaker(bind=Database.engine)
                 Database.session = Session()
+                # Database.connection = mysql.connector.connect(host="127.0.0.1", user="root", password="", database="db_test")
             except Exception as error:
                 print("Error: Connection not established {}".format(error))
             else:
                 print("Connection established")
-
+        else:
+            print("db already connected")
         self.engine = Database.engine
         self.session = Database.session
 
+
+    def manage_session(f):
+        def inner(*args, **kwargs):
+
+            # MANUAL PRE PING
+            try:
+                Database.session.execute("SELECT 1;")
+                Database.session.commit()
+            except Exception as e:
+                print("rolling back")
+                Database.session.rollback()
+            finally:
+                print("closing db")
+                Database.session.close()
+
+            # SESSION COMMIT, ROLLBACK, CLOSE
+            try:
+                res = f(*args, **kwargs)
+                Database.session.commit()
+                return res
+            except Exception as e:
+                Database.session.rollback()
+                raise e
+                # OR return traceback.format_exc()
+            finally:
+                Database.session.close()
+        return inner
+    @manage_session
     def df_from_execute_statement(self, query):
+
         actual_data_rows = self.session.execute(query)
         result = [dict(row) for row in actual_data_rows]
         df = pd.DataFrame(result)

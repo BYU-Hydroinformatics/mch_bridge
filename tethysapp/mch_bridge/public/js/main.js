@@ -205,7 +205,16 @@
         for(var pair of formData.entries()) {
             console.log(pair[0]+', '+pair[1]);
         }
-
+        let protocol = "ws"
+        if (location.protocol === "https:") {
+            protocol = "wss"
+        }
+        let ws_url = `${protocol}://${window.location.host}`
+        let app_path = mchHomeUrl.replace("/apps", "")
+        console.log(mchHomeUrl);
+        ws_url = `${ws_url}${app_path}upload-data/notifications/ws/`
+        startWS(ws_url);
+        
         $.ajax({
             url: `upload-files/`,
             type: "POST",
@@ -349,15 +358,15 @@
          });
         
       
-        let protocol = "ws"
-        if (location.protocol === "https:") {
-            protocol = "wss"
-        }
-        let ws_url = `${protocol}://${window.location.host}`
-        let app_path = mchHomeUrl.replace("/apps", "")
-        console.log(mchHomeUrl);
-        ws_url = `${ws_url}${app_path}upload-data/notifications/ws/`
-        startWS(ws_url);
+        // let protocol = "ws"
+        // if (location.protocol === "https:") {
+        //     protocol = "wss"
+        // }
+        // let ws_url = `${protocol}://${window.location.host}`
+        // let app_path = mchHomeUrl.replace("/apps", "")
+        // console.log(mchHomeUrl);
+        // ws_url = `${ws_url}${app_path}upload-data/notifications/ws/`
+        // startWS(ws_url);
 
         $('#show_instructions').change(function(){
 

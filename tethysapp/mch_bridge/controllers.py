@@ -73,6 +73,7 @@ def home(request):
         mydb = Database()
         query_string = "SELECT * FROM stations;"
         df = mydb.df_from_execute_statement(query_string)
+        print(df)
         df = df[df["Station"].notna()]
 
         df_dict_string2 = {}
@@ -95,48 +96,51 @@ def home(request):
         context = {"isStationView": True, "summary_data": {}, "plot_data": {}}
         return render(request, "mch_bridge/stations.html", context)
 
-
 @login_required()
 def stations(request):
     """
     Controller for the app home page.
     """
-    mydb = Database()
+    try:
+        mydb = Database()
 
-    # host_db = app.get_custom_setting("Database host")
-    # port_db = app.get_custom_setting("Database Port")
-    # user_db = app.get_custom_setting("Database User")
-    # password_db = app.get_custom_setting("Database Password")
-    # db_name = app.get_custom_setting("Database Name")
-    # engine = db.create_engine(f'mysql+pymysql://{user_db}:{password_db}@{host_db}:{port_db}/{db_name}?charset=utf8')
-    # database_metadata = db.MetaData(bind=engine)
-    # database_metadata.reflect()
-    # Session = sessionmaker(bind=engine)
-    # session = Session()
-    # actual_data_rows = session.execute('SELECT * FROM stations;')
-    # result = [dict(row) for row in actual_data_rows]
-    # df = pd.DataFrame(result)
-    query_string = "SELECT * FROM stations;"
-    df = mydb.df_from_execute_statement(query_string)
-    df = df[df["Station"].notna()]
+        # host_db = app.get_custom_setting("Database host")
+        # port_db = app.get_custom_setting("Database Port")
+        # user_db = app.get_custom_setting("Database User")
+        # password_db = app.get_custom_setting("Database Password")
+        # db_name = app.get_custom_setting("Database Name")
+        # engine = db.create_engine(f'mysql+pymysql://{user_db}:{password_db}@{host_db}:{port_db}/{db_name}?charset=utf8')
+        # database_metadata = db.MetaData(bind=engine)
+        # database_metadata.reflect()
+        # Session = sessionmaker(bind=engine)
+        # session = Session()
+        # actual_data_rows = session.execute('SELECT * FROM stations;')
+        # result = [dict(row) for row in actual_data_rows]
+        # df = pd.DataFrame(result)
+        query_string = "SELECT * FROM stations;"
+        df = mydb.df_from_execute_statement(query_string)
+        df = df[df["Station"].notna()]
 
-    df_dict_string2 = {}
+        df_dict_string2 = {}
 
-    if len(df) > 0:
-        new_dict_df = stations_reload(df)
-        df_dict_string2 = json.dumps(new_dict_df)
+        if len(df) > 0:
+            new_dict_df = stations_reload(df)
+            df_dict_string2 = json.dumps(new_dict_df)
 
-    total_count_dict = {"Total Number of Stations": len(df)}
-    df_dict_string = json.dumps(total_count_dict)
+        total_count_dict = {"Total Number of Stations": len(df)}
+        df_dict_string = json.dumps(total_count_dict)
 
-    context = {
-        "isStationView": True,
-        "summary_data": df_dict_string,
-        "plot_data": df_dict_string2,
-    }
+        context = {
+            "isStationView": True,
+            "summary_data": df_dict_string,
+            "plot_data": df_dict_string2,
+        }
 
-    return render(request, "mch_bridge/stations.html", context)
-
+        return render(request, "mch_bridge/stations.html", context)
+    except Exception as e:
+        print(e)
+        context = {"isStationView": True, "summary_data": {}, "plot_data": {}}
+        return render(request, "mch_bridge/stations.html", context)
 
 @login_required()
 def groupStations(request):
@@ -156,20 +160,25 @@ def groupStations(request):
     # actual_data_rows = session.execute('SELECT * FROM stngroups;')
     # result = [dict(row) for row in actual_data_rows]
     # df = pd.DataFrame(result)
-    mydb = Database()
-    query_string = "SELECT * FROM stngroups;"
-    df = mydb.df_from_execute_statement(query_string)
-    df = df[df["StnGroup"].notna()]
+    try:
+        mydb = Database()
+        query_string = "SELECT * FROM stngroups;"
+        df = mydb.df_from_execute_statement(query_string)
+        df = df[df["StnGroup"].notna()]
 
-    df_count = df["StnGroup"].value_counts()
-    # print(df_count)
-    df_dict = df_count.to_dict()
-    df_dict_string = json.dumps(df_dict)
+        df_count = df["StnGroup"].value_counts()
+        # print(df_count)
+        df_dict = df_count.to_dict()
+        df_dict_string = json.dumps(df_dict)
+        # df_dict_string={}
+        context = {"summary_data": df_dict_string}
 
-    context = {"summary_data": df_dict_string}
 
-    return render(request, "mch_bridge/groupStations.html", context)
-
+        return render(request, "mch_bridge/groupStations.html", context)
+    except Exception as e:
+        print(e)
+        context = {"summary_data": {}}
+        return render(request, "mch_bridge/groupStations.html", context)
 
 @login_required()
 def variableStationTypes(request):
@@ -189,21 +198,23 @@ def variableStationTypes(request):
     # actual_data_rows = session.execute('SELECT * FROM variablestationtype;')
     # result = [dict(row) for row in actual_data_rows]
     # df = pd.DataFrame(result)
+    try:
+        mydb = Database()
+        query_string = "SELECT * FROM variablestationtype;"
+        df = mydb.df_from_execute_statement(query_string)
+        df = df[df["StationType"].notna()]
 
-    mydb = Database()
-    query_string = "SELECT * FROM variablestationtype;"
-    df = mydb.df_from_execute_statement(query_string)
-    df = df[df["StationType"].notna()]
+        df_count = df["StationType"].value_counts()
+        # print(df_count)
+        df_dict = df_count.to_dict()
+        df_dict_string = json.dumps(df_dict)
 
-    df_count = df["StationType"].value_counts()
-    # print(df_count)
-    df_dict = df_count.to_dict()
-    df_dict_string = json.dumps(df_dict)
+        context = {"summary_data": df_dict_string}
 
-    context = {"summary_data": df_dict_string}
-
-    return render(request, "mch_bridge/variableStationTypes.html", context)
-
+        return render(request, "mch_bridge/variableStationTypes.html", context)
+    except Exception as e:
+        context = {"summary_data": {}}
+        return render(request, "mch_bridge/variableStationTypes.html", context)
 
 @login_required()
 def timeSeries(request):
@@ -220,35 +231,39 @@ def timeSeries(request):
     # database_metadata.reflect()
     # Session = sessionmaker(bind=engine)
     # session = Session()
-    sql_query = "SELECT table_name, table_rows FROM information_schema.tables WHERE table_name like 'da_%' or table_name like 'dc_%' or table_name like 'dd_%' or table_name like 'de_%' or table_name like 'dm_%' or table_name like 'ds_%' or table_name like 'na_%' or table_name like 'nc_%' or table_name like 'nd_%' or table_name like 'nm_%' or table_name like 'ns_%' AND TABLE_SCHEMA = 'mch';"
-    exclude_list = ["data_locks", "data_lock_waits", "default_roles", "ddavailability"]
+    try:
+        sql_query = "SELECT table_name, table_rows FROM information_schema.tables WHERE table_name like 'da_%' or table_name like 'dc_%' or table_name like 'dd_%' or table_name like 'de_%' or table_name like 'dm_%' or table_name like 'ds_%' or table_name like 'na_%' or table_name like 'nc_%' or table_name like 'nd_%' or table_name like 'nm_%' or table_name like 'ns_%' AND TABLE_SCHEMA = 'mch';"
+        exclude_list = ["data_locks", "data_lock_waits", "default_roles", "ddavailability"]
 
-    # actual_data_rows = session.execute(sql_query)
-    # result = [dict(row) for row in actual_data_rows]
-    # df = pd.DataFrame(result)
-    mydb = Database()
-    df = mydb.df_from_execute_statement(sql_query)
+        # actual_data_rows = session.execute(sql_query)
+        # result = [dict(row) for row in actual_data_rows]
+        # df = pd.DataFrame(result)
+        mydb = Database()
+        df = mydb.df_from_execute_statement(sql_query)
+        df.columns = map(str.lower, df.columns)
 
-    # print(df)
-    mycolrow = "table_rows"
-    # if "TABLE_ROWS" in df:
-    #     mycolrow = "TABLE_ROWS"
-    mycolname = "table_name"
-    # if "TABLE_NAME" in df:
-    #     mycolname = "TABLE_NAME"
-    df_with_vals = df.loc[df[mycolrow] > 0]
-    df_excluded_tables = df_with_vals.loc[~df_with_vals[mycolname].isin(exclude_list)]
+        print(df)
+        mycolrow = "table_rows"
 
-    # print(df)
-    # print(df_excluded_tables)
+        mycolname = "table_name"
 
-    df_dict = df_excluded_tables.to_dict(orient="list")
-    df_dict_string = json.dumps(df_dict)
-    # print(df_dict_string)
+        df_with_vals = df.loc[df[mycolrow] > 0]
+        df_excluded_tables = df_with_vals.loc[~df_with_vals[mycolname].isin(exclude_list)]
 
-    context = {"summary_data": df_dict_string}
+        # print(df)
+        # print(df_excluded_tables)
 
-    return render(request, "mch_bridge/timeSeries.html", context)
+        df_dict = df_excluded_tables.to_dict(orient="list")
+        df_dict_string = json.dumps(df_dict)
+        # print(df_dict_string)
+
+        context = {"summary_data": df_dict_string}
+
+        return render(request, "mch_bridge/timeSeries.html", context)
+    except Exception as e:
+        print(e)
+        context = {"summary_data": {}}
+        return render(request, "mch_bridge/timeSeries.html", context)
 
 
 def upload__files(request):
