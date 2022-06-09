@@ -270,7 +270,7 @@
     
             // handle a non-successful response
             error: function (xhr, errmsg, err) {
-                $.notify( `${xhr.responseText}`, "error");
+                $.notify( `There was an error while uploading the data to the MCH database`, "error");
 
                 // $('#raw_data_results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: " + errmsg + ".</div>"); // add the error to the dom
                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console

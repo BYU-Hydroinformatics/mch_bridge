@@ -74,6 +74,11 @@
     }
     summary_data_load = function(){
         var summ_obj = JSON.parse(summary_String);
+
+        if(summ_obj.length > 0){
+            let warning_et = "The MCH instance do not have any station"
+            $.notify(warning_et, "warn");
+        }
         console.log(summ_obj);
         $('#stations_summary__table_content').empty();
 
@@ -277,54 +282,6 @@
             $('.hide_bar2').removeClass("hidden");
 
     })
-
-        // $('.hide_bar2').click(function(){
-        //         if($("#app-content-wrapper").hasClass("show-nav")){
-        //             console.log("nav bar showing menu apearing");
-
-        //             // $("#sidebar").addClass("side_zero");
-        //             $("#sidebar").removeClass("side_out");
-        //             if($("#sidebar").hasClass("side_out_double")){
-        //                 $("#sidebar").removeClass("side_out_double");
-        //             }
-
-
-        //         }
-        //         //nav_bar not showing
-        //         else{
-        //             console.log("nav bar not showing menu apearing");
-
-        //             // $("#sidebar").addClass("side_zero");
-        //             $("#sidebar").removeClass("side_out_double");
-        //         }
-        //         $('.hide_bar2').addClass("hidden");
-        //         $('.horizontal__div').addClass("margin_side");
-
-        // })
-
-        // $(".hide_bar").click(function(){
-        //     // if($("#app-content-wrapper").hasClass("show-nav")){
-        //         //nav bar showing
-        //         if($("#app-content-wrapper").hasClass("show-nav")){
-        //             console.log("nav bar showing menu dissapearing");
-
-        //             // $("#sidebar").removeClass("side_zero");
-        //             $("#sidebar").addClass("side_out");
-        //         }
-        //         //nav_bar not showing
-        //         else{
-        //             console.log("nav bar not showing menu dissapearing");
-        //             // if($("#sidebar").hasClass("side_out_double")){
-        //             //     $('#sidebar').removeClass("site_out");
-        //             // }
-        //             // $("#sidebar").removeClass("side_zero");
-        //             $("#sidebar").addClass("side_out_double");
-        //         }
-
-        //         $('.horizontal__div').removeClass("margin_side");
-        //         $('.hide_bar2').removeClass("hidden");
- 
-        // })
 
 
         // Make tab available and active

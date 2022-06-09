@@ -34,7 +34,10 @@
         var summ_obj = JSON.parse(summary_String);
         console.log(summ_obj);
         $('#variablestationtype_summary__table_content').empty();
-
+        if(summ_obj.length > 0){
+            let warning_et = "The MCH instance do not have any variable station type"
+            $.notify(warning_et, "warn");
+        }
         var html_string = '';
         for (const [key, value] of Object.entries(summ_obj)) {
             html_string += '<tr>'

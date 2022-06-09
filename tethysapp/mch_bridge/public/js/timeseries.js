@@ -46,6 +46,10 @@
      summary_data_load = function(){
         var summ_obj = JSON.parse(summary_String);
         console.log(summ_obj);
+        if(summ_obj.length > 0){
+            let warning_et = "The MCH instance do not have any variables with data available"
+            $.notify(warning_et, "warn");
+        }
         $('#timeseries_summary__table_content').empty();
 
         var html_string = '';

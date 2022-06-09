@@ -7,18 +7,6 @@ from sqlalchemy.orm import sessionmaker
 
 from .app import MchBridge as app
 
-
-# host_db = app.get_custom_setting("Database host")
-# port_db = app.get_custom_setting("Database Port")
-# user_db = app.get_custom_setting("Database User")
-# password_db = app.get_custom_setting("Database Password")
-# db_name = app.get_custom_setting("Database Name")
-# engine = db.create_engine(f'mysql+pymysql://{user_db}:{password_db}@{host_db}:{port_db}/{db_name}?charset=utf8')
-# database_metadata = db.MetaData(bind=engine)
-# database_metadata.reflect()
-# Session = sessionmaker(bind=engine)
-# session = Session()
-# actual_data_rows = session.execute('SELECT * FROM stations;')
 class Database(object):
 
     engine = None

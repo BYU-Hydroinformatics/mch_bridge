@@ -116,10 +116,7 @@
                         // $('#go_up_var').addClass("hidden");
                         $('#go_back_stn_menu').addClass("hidden");
 
-                        // go_back_var_menu
-                        // if(!$("#comodin__div__variable__type").hasClass("hidden")){
-                        //     $('#go_up_var').removeClass("hidden");
-                        // }
+  
                     }
                     else{
                         $('#go_back_stn_menu').removeClass("hidden");
@@ -129,20 +126,7 @@
                     $('#comodin__div').removeClass("hidden");
                 // },300);
             });
-            // $('#go_up_stn_gr_backup').removeClass("hidden");
 
-            // $('.hide_bar2').click(function(){
-            //     $('.vertical__div').addClass("margin_side");
-            //     $(".hide_bar_div").show();
-    
-            //         if($("#comodin__div").is(":hidden")){
-    
-            //             $("#go_up_stn_gr").addClass("hidden");
-            //         }
-            //         else{    
-            //             $(".hide_bar2").addClass("hidden");
-            //         }
-            // })
 
             $('#go_back_stn_menu').click(function(){
                 if($("#app-content-wrapper").hasClass("show-nav")){
@@ -178,6 +162,10 @@
     summary_data_load = function(){
         var summ_obj = JSON.parse(summary_String);
         console.log(summ_obj);
+        if(summ_obj.length > 0){
+            let warning_et = "The MCH instance do not have any station group"
+            $.notify(warning_et, "warn");
+        }
         $('#stngroups_summary__table_content').empty();
 
         var html_string = '';

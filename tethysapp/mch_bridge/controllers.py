@@ -23,21 +23,6 @@ def get_stations_var(request):
 
     station_selected = request.POST.get("variable")
     response_obj = {}
-
-    # host_db = app.get_custom_setting("Database host")
-    # port_db = app.get_custom_setting("Database Port")
-    # user_db = app.get_custom_setting("Database User")
-    # password_db = app.get_custom_setting("Database Password")
-    # db_name = app.get_custom_setting("Database Name")
-    # engine = db.create_engine(f'mysql+pymysql://{user_db}:{password_db}@{host_db}:{port_db}/{db_name}')
-    # database_metadata = db.MetaData(bind=engine)
-    # database_metadata.reflect()
-    # Session = sessionmaker(bind=engine)
-    # session = Session()
-    # actual_data_rows = session.execute(f'SELECT * FROM {station_selected};')
-    # result = [dict(row) for row in actual_data_rows]
-    # df = pd.DataFrame(result)
-
     mydb = Database()
     query_string = f"SELECT * FROM {station_selected};"
     df = mydb.df_from_execute_statement(query_string)
@@ -56,19 +41,6 @@ def home(request):
     """
     Controller for the app home page.
     """
-    # host_db = app.get_custom_setting("Database host")
-    # port_db = app.get_custom_setting("Database Port")
-    # user_db = app.get_custom_setting("Database User")
-    # password_db = app.get_custom_setting("Database Password")
-    # db_name = app.get_custom_setting("Database Name")
-    # engine = db.create_engine(f'mysql+pymysql://{user_db}:{password_db}@{host_db}:{port_db}/{db_name}?charset=utf8')
-    # database_metadata = db.MetaData(bind=engine)
-    # database_metadata.reflect()
-    # Session = sessionmaker(bind=engine)
-    # session = Session()
-    # actual_data_rows = session.execute('SELECT * FROM stations;')
-    # result = [dict(row) for row in actual_data_rows]
-    # df = pd.DataFrame(result)
     try:
         mydb = Database()
         query_string = "SELECT * FROM stations;"
@@ -103,20 +75,6 @@ def stations(request):
     """
     try:
         mydb = Database()
-
-        # host_db = app.get_custom_setting("Database host")
-        # port_db = app.get_custom_setting("Database Port")
-        # user_db = app.get_custom_setting("Database User")
-        # password_db = app.get_custom_setting("Database Password")
-        # db_name = app.get_custom_setting("Database Name")
-        # engine = db.create_engine(f'mysql+pymysql://{user_db}:{password_db}@{host_db}:{port_db}/{db_name}?charset=utf8')
-        # database_metadata = db.MetaData(bind=engine)
-        # database_metadata.reflect()
-        # Session = sessionmaker(bind=engine)
-        # session = Session()
-        # actual_data_rows = session.execute('SELECT * FROM stations;')
-        # result = [dict(row) for row in actual_data_rows]
-        # df = pd.DataFrame(result)
         query_string = "SELECT * FROM stations;"
         df = mydb.df_from_execute_statement(query_string)
         df = df[df["Station"].notna()]
@@ -147,19 +105,7 @@ def groupStations(request):
     """
     Controller for the app home page.
     """
-    # host_db = app.get_custom_setting("Database host")
-    # port_db = app.get_custom_setting("Database Port")
-    # user_db = app.get_custom_setting("Database User")
-    # password_db = app.get_custom_setting("Database Password")
-    # db_name = app.get_custom_setting("Database Name")
-    # engine = db.create_engine(f'mysql+pymysql://{user_db}:{password_db}@{host_db}:{port_db}/{db_name}?charset=utf8')
-    # database_metadata = db.MetaData(bind=engine)
-    # database_metadata.reflect()
-    # Session = sessionmaker(bind=engine)
-    # session = Session()
-    # actual_data_rows = session.execute('SELECT * FROM stngroups;')
-    # result = [dict(row) for row in actual_data_rows]
-    # df = pd.DataFrame(result)
+
     try:
         mydb = Database()
         query_string = "SELECT * FROM stngroups;"
@@ -185,19 +131,7 @@ def variableStationTypes(request):
     """
     Controller for the app home page.
     """
-    # host_db = app.get_custom_setting("Database host")
-    # port_db = app.get_custom_setting("Database Port")
-    # user_db = app.get_custom_setting("Database User")
-    # password_db = app.get_custom_setting("Database Password")
-    # db_name = app.get_custom_setting("Database Name")
-    # engine = db.create_engine(f'mysql+pymysql://{user_db}:{password_db}@{host_db}:{port_db}/{db_name}?charset=utf8')
-    # database_metadata = db.MetaData(bind=engine)
-    # database_metadata.reflect()
-    # Session = sessionmaker(bind=engine)
-    # session = Session()
-    # actual_data_rows = session.execute('SELECT * FROM variablestationtype;')
-    # result = [dict(row) for row in actual_data_rows]
-    # df = pd.DataFrame(result)
+
     try:
         mydb = Database()
         query_string = "SELECT * FROM variablestationtype;"
@@ -221,16 +155,6 @@ def timeSeries(request):
     """
     Controller for the app home page.
     """
-    # host_db = app.get_custom_setting("Database host")
-    # port_db = app.get_custom_setting("Database Port")
-    # user_db = app.get_custom_setting("Database User")
-    # password_db = app.get_custom_setting("Database Password")
-    # db_name = app.get_custom_setting("Database Name")
-    # engine = db.create_engine(f'mysql+pymysql://{user_db}:{password_db}@{host_db}:{port_db}/{db_name}?charset=utf8')
-    # database_metadata = db.MetaData(bind=engine)
-    # database_metadata.reflect()
-    # Session = sessionmaker(bind=engine)
-    # session = Session()
     try:
         sql_query = "SELECT table_name, table_rows FROM information_schema.tables WHERE table_name like 'da_%' or table_name like 'dc_%' or table_name like 'dd_%' or table_name like 'de_%' or table_name like 'dm_%' or table_name like 'ds_%' or table_name like 'na_%' or table_name like 'nc_%' or table_name like 'nd_%' or table_name like 'nm_%' or table_name like 'ns_%' AND TABLE_SCHEMA = 'mch';"
         exclude_list = ["data_locks", "data_lock_waits", "default_roles", "ddavailability"]
