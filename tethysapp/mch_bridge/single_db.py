@@ -7,10 +7,11 @@ from sqlalchemy.orm import sessionmaker
 
 from .app import MchBridge as app
 
+
 class Database(object):
 
     engine = None
-    session=None
+    session = None
     imcomplete_settings = False
     try:
         host_db = app.get_custom_setting("Database host")
@@ -54,7 +55,8 @@ class Database(object):
             try:
                 Database.engine = db.create_engine(
                     f"mysql+pymysql://{self.user_db}:{self.password_db}@{self.host_db}:{self.port_db}/{self.db_name}?charset=utf8",
-                    pool_recycle=60, pool_pre_ping=True
+                    pool_recycle=60,
+                    pool_pre_ping=True,
                 )
                 database_metadata = db.MetaData(bind=Database.engine)
                 database_metadata.reflect()
@@ -70,7 +72,6 @@ class Database(object):
         self.engine = Database.engine
         self.session = Database.session
 
-
     def manage_session(f):
         def inner(*args, **kwargs):
 
@@ -79,7 +80,7 @@ class Database(object):
                 Database.session.execute("SELECT 1;")
                 Database.session.commit()
             except Exception as e:
-                print("rolling back")
+                print("rolling back", e)
                 Database.session.rollback()
             finally:
                 print("closing db")
@@ -96,7 +97,9 @@ class Database(object):
                 # OR return traceback.format_exc()
             finally:
                 Database.session.close()
+
         return inner
+
     @manage_session
     def df_from_execute_statement(self, query):
 

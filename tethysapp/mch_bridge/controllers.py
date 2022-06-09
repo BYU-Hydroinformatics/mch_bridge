@@ -68,6 +68,7 @@ def home(request):
         context = {"isStationView": True, "summary_data": {}, "plot_data": {}}
         return render(request, "mch_bridge/stations.html", context)
 
+
 @login_required()
 def stations(request):
     """
@@ -100,6 +101,7 @@ def stations(request):
         context = {"isStationView": True, "summary_data": {}, "plot_data": {}}
         return render(request, "mch_bridge/stations.html", context)
 
+
 @login_required()
 def groupStations(request):
     """
@@ -119,12 +121,12 @@ def groupStations(request):
         # df_dict_string={}
         context = {"summary_data": df_dict_string}
 
-
         return render(request, "mch_bridge/groupStations.html", context)
     except Exception as e:
         print(e)
         context = {"summary_data": {}}
         return render(request, "mch_bridge/groupStations.html", context)
+
 
 @login_required()
 def variableStationTypes(request):
@@ -147,8 +149,10 @@ def variableStationTypes(request):
 
         return render(request, "mch_bridge/variableStationTypes.html", context)
     except Exception as e:
+        print(e)
         context = {"summary_data": {}}
         return render(request, "mch_bridge/variableStationTypes.html", context)
+
 
 @login_required()
 def timeSeries(request):
@@ -157,7 +161,12 @@ def timeSeries(request):
     """
     try:
         sql_query = "SELECT table_name, table_rows FROM information_schema.tables WHERE table_name like 'da_%' or table_name like 'dc_%' or table_name like 'dd_%' or table_name like 'de_%' or table_name like 'dm_%' or table_name like 'ds_%' or table_name like 'na_%' or table_name like 'nc_%' or table_name like 'nd_%' or table_name like 'nm_%' or table_name like 'ns_%' AND TABLE_SCHEMA = 'mch';"
-        exclude_list = ["data_locks", "data_lock_waits", "default_roles", "ddavailability"]
+        exclude_list = [
+            "data_locks",
+            "data_lock_waits",
+            "default_roles",
+            "ddavailability",
+        ]
 
         # actual_data_rows = session.execute(sql_query)
         # result = [dict(row) for row in actual_data_rows]
@@ -172,7 +181,9 @@ def timeSeries(request):
         mycolname = "table_name"
 
         df_with_vals = df.loc[df[mycolrow] > 0]
-        df_excluded_tables = df_with_vals.loc[~df_with_vals[mycolname].isin(exclude_list)]
+        df_excluded_tables = df_with_vals.loc[
+            ~df_with_vals[mycolname].isin(exclude_list)
+        ]
 
         # print(df)
         # print(df_excluded_tables)
