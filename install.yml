@@ -3,7 +3,7 @@ version: 1.2.0
 name: mch_bridge
 
 requirements:
-  skip: true
+  skip: false
   conda:
     channels:
       - conda-forge
