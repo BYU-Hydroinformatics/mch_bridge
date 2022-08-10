@@ -1,5 +1,5 @@
 <p align="center">
-<img align= "center" src="https://drive.google.com/uc?export=view&id=1VODc4nvMDsI33R_OyIQ38QWpB_sfZitB" width="20%" height="20%"/>
+<img align= "center" src="https://drive.google.com/uc?export=view&id=1VODc4nvMDsI33R_OyIQ38QWpB_sfZitB" width="20%" height="20%" style="background-color:white;padding:20px;"/>
 </p>
 
 <h1 align="center"> MCH Bridge </h1>
