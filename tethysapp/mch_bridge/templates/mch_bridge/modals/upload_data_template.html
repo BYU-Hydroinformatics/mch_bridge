@@ -9,8 +9,13 @@
         // assuming there is a file input with the ID `my-input`...
           var files = document.getElementById("{{ csv_id }}").files;
           var str_file = '';
-          for (var i = 0; i < files.length; i++){
-            str_file += files[i].name + ' ';
+          if(files.length > 1){
+            str_file = `${files.length} files selected`;
+          }
+          else{
+            for (var i = 0; i < files.length; i++){
+              str_file += files[i].name + ' ';
+            }
           }
           console.log($("#{{ csv_id }}").val())
           const label = str_file;

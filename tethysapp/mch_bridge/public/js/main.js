@@ -59,7 +59,8 @@ var MAIN_OBJECT = (function () {
 
       $(`#${id_file}`).empty();
       html_string = `
-                <td>${name_file}</td>
+                <td class="width_fix"><span>${name_file}</span></td>
+
                 <td>${count_rows}/${total_count}</td>`;
       if (data.status == "Failed") {
         console.log("failed");
@@ -201,7 +202,7 @@ var MAIN_OBJECT = (function () {
           var id_html = item_["id"];
           id_lists.push(id_html);
           html_string += `<tr id=${id_html}>
-                        <td>${name_file}</td>
+                        <td class="width_fix"><span>${name_file}</span></td>
                         <td>0/${count_rows}</td>
                         <td> <i class="fas fa-sync fa-spin process"></i></i></td>
                     </tr>`;

@@ -290,6 +290,13 @@ var TIMESERIES_OBJECT = (function () {
               html_string += "</tr>";
             }
           });
+          if(html_string ==""){
+            $("#example").hide();
+            $("#warning_prompt").removeClass("hidden")
+          }
+          else{
+            $("#example").show();
+          }
           $(html_string).appendTo("#tables_stn_vars");
           $(".loader").addClass("hidden");
 

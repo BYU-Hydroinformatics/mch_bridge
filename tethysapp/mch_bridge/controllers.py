@@ -27,7 +27,9 @@ def get_stations_var(request):
     mydb = Database()
     query_string = f"SELECT * FROM {station_selected};"
     df = mydb.df_from_execute_statement(query_string)
-    # print(df)
+    print(df)
+    if df.empty:
+        df['Station'] = []
     df_grouped_by_station = df.groupby(["Station"]).size().reset_index(name="totals")
 
     # print(df_grouped_by_station)
@@ -459,7 +461,7 @@ async def quicker_upload(loop, table_name, csv_file, ids):
 
 
 def delete_file_workspaces(filename):
-    # print("sfasf")
+    print("delete_files_workspaces")
     app_workspace_path = os.path.join(
         os.path.dirname(os.path.realpath(__file__)), "workspaces", "app_workspace"
     )
