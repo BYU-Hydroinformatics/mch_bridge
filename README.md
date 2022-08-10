@@ -22,6 +22,54 @@ The application MCH bridge allows users to upload and preview csv files of:
 
 4. Time Series (e.g. detail, daily data)
 
+## Overview
+
+There are two main menus: MCH Database Tables and Data menus
+
+MCH Database Tables Menu provides information about the data in the MCH instance that is connected to the app while the Data menu allows to upload and preview data in each of the MCH tables of the MCH Database Tables Menu.
+
+### MCH Database Tables Menu
+
+MCH Database Tables Menu provides information about the data in the MCH instance that is connected to the app while the Data menu allows to upload and preview data in each of the MCH tables of the MCH Database Tables Menu.
+
+#### Stations Tab
+
+Provides visualization and total count of the current stations found in the MCH instance (specifically in the stations table)
+
+#### Stations Group Tab
+
+Provides a summary table with a count of the stations in the different station groups
+
+#### Variable Station Types Tab
+
+Provides a summary table with a count of the station groups in the different variable station types
+
+#### Time Series tab
+
+Provides a total count of data points and table details for the variable tables containing data
+
+### Data Menu
+
+The Data menu allows to upload data asynchronously using a the right data menu (through web sockets and django channels)
+
+Data is uploaded to an MCH instance concurrently, and the user can track the progress of the upload.
+
+Only time series data uploading allows for multiple csv files. Data uploading of Stations, Station groups, and variable station types only allows one csv file at a time.
+
+Similarly data can be previewed for the different data files:
+
+#### Stations
+
+Data file containing stations can be previewed in a map that shows the name of the each stations after clicking on each of them.
+
+#### Station Groups and Variable Types Stations
+
+Data file containing stations groups or variable types stations are previewed by providing a table with the content of the file.
+
+#### Time Series
+
+Data files for each time series are plotted in order to be previewed.
+
 ## Data Preparation
 
 The CSV files must have the following header columns for the stations, station groups, variable types stations, and time series tables. Otherwise, data will not be uplaoded properly.Sample files can be found [here](https://github.com/BYU-Hydroinformatics/mch_bridge/tree/main/tethysapp/mch_bridge/data_test) for the different tables
