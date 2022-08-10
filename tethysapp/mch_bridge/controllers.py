@@ -16,6 +16,7 @@ from tethys_sdk.permissions import login_required
 from .app import MchBridge as app
 from .auxiliary import stations_reload
 from .single_db import Database
+from django.core.serializers.json import DjangoJSONEncoder
 
 
 @login_required()
@@ -160,7 +161,7 @@ def timeSeries(request):
     Controller for the app home page.
     """
     try:
-        sql_query = "SELECT table_name, table_rows FROM information_schema.tables WHERE table_name like 'da_%' or table_name like 'dc_%' or table_name like 'dd_%' or table_name like 'de_%' or table_name like 'dm_%' or table_name like 'ds_%' or table_name like 'na_%' or table_name like 'nc_%' or table_name like 'nd_%' or table_name like 'nm_%' or table_name like 'ns_%' AND TABLE_SCHEMA = 'mch';"
+        sql_query = "SELECT table_name, sum(table_rows) FROM information_schema.tables WHERE table_name like 'da_%' or table_name like 'dc_%' or table_name like 'dd_%' or table_name like 'de_%' or table_name like 'dm_%' or table_name like 'ds_%' or table_name like 'na_%' or table_name like 'nc_%' or table_name like 'nd_%' or table_name like 'nm_%' or table_name like 'ns_%' AND TABLE_SCHEMA = 'mch'  GROUP BY TABLE_NAME;"
         exclude_list = [
             "data_locks",
             "data_lock_waits",
@@ -175,8 +176,8 @@ def timeSeries(request):
         df = mydb.df_from_execute_statement(sql_query)
         df.columns = map(str.lower, df.columns)
 
-        print(df)
-        mycolrow = "table_rows"
+        # print(df)
+        mycolrow = "sum(table_rows)"
 
         mycolname = "table_name"
 
@@ -189,8 +190,8 @@ def timeSeries(request):
         # print(df_excluded_tables)
 
         df_dict = df_excluded_tables.to_dict(orient="list")
-        df_dict_string = json.dumps(df_dict)
-        # print(df_dict_string)
+        df_dict_string = json.dumps(df_dict,cls=DjangoJSONEncoder)
+        print(df_dict_string)
 
         context = {"summary_data": df_dict_string}
 
