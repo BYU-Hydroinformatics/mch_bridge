@@ -273,8 +273,15 @@ var TIMESERIES_OBJECT = (function () {
         success: function (resp) {
           $("#stn_var_modal").modal("show");
           $("#tables_stn_vars").empty();
+          $("#table_sumary").empty();
+
+
           var list_Stations = resp["list_stations"];
           var html_string = "";
+          var number_stations = `${list_Stations.length}`;
+          console.log(number_stations);
+          $("#table_sumary").html(number_stations);
+
           list_Stations.forEach(function (stn_inp) {
             if (stn_inp["Station"] != "") {
               html_string += "<tr>";
