@@ -22,11 +22,41 @@ The application MCH bridge allows users to upload and preview csv files of:
 
 4. Time Series (e.g. detail, daily data)
 
-There are two main menus: MCH Database Tables and Data menus
+## Data Preparation
 
-MCH Database Tables Menu provides information about the data in the MCH instance that is connected to the app while the Data menu allows to upload and preview data in each of the MCH tables of the MCH Database Tables Menu.
+The CSV files must have the following header columns for the stations, station groups, variable types stations, and time series tables. Otherwise, data will not be uplaoded properly.Sample files can be found [here](https://github.com/BYU-Hydroinformatics/mch_bridge/tree/main/tethysapp/mch_bridge/data_test) for the different tables
 
-![](./menu1.svg)
+### Stations
+
+The data file containing the stations data should have the following columns
+
+StationName2, Longitude, Latitude, Altitude, Longitude2, Latitude2, DMSLongitude, DMSLatitude, Statee, Catchment, Subcatchment, RegManagmt, OperatnlRegion, HydroReg, RH, Municipality, CodeB, CodeG, CodeCB, CodePB, CodeE, CodeCL, CodeHG, CodePG, CodeNw, Code1, Code2, Code3, MaxOrdStrgLvl, MaxOrdStrgVol, MaxExtStrgLvl, MaxExtStrgVol, SpillwayLevel, SpillwayStorage, FreeSpillwayLevel, FreeSpillwayStorage, DeadStrgLevel, DeadStrgCapac, UsableStorageCapLev, UsableStorage, Key1fil, Key2fil, Key3fil, CritLevelSta, CritLevelSta, MinLevelSta, MaxLevelSta, CritFlow, MinDischarge, MaxDischarge, Distance, Infrastructure, Type, Usee
+
+### Stations Groups
+
+The data file containing the stations groups data should have the following columns
+
+1. StnGroup
+
+1. Sequen
+
+1. Station
+
+### Variable Types Stations
+
+The data file containing the variable types stations data should have the following columns
+
+1. StationType
+
+1. Sequen
+
+1. Variable
+
+### Time Series
+
+The data files containing the time series might have different columns, but all of them should have a column called **table_name** with at least the first cell containing the name of the table to insert in the MCH database. For example, for daily precipitation data the name of the table is **ddprecipitation**.
+
+**_It is strongly suggested that the user knows the name of the table associated with the type of variable that one wants to uploads_**
 
 ## Built With
 
