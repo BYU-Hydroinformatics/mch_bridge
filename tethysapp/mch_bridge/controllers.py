@@ -175,6 +175,7 @@ def timeSeries(request):
         # result = [dict(row) for row in actual_data_rows]
         # df = pd.DataFrame(result)
         mydb = Database()
+        mydb.update_db() 
         df = mydb.df_from_execute_statement(sql_query)
         df.columns = map(str.lower, df.columns)
 

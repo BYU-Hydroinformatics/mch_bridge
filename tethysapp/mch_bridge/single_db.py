@@ -107,3 +107,10 @@ class Database(object):
         result = [dict(row) for row in actual_data_rows]
         df = pd.DataFrame(result)
         return df
+    @manage_session
+    def update_db(self):
+        sql_prep1 = "OPTIMIZE TABLE Log;"
+        sql_prep2 ="ANALYZE TABLE ddprecipitation;"
+        self.session.execute(sql_prep1)
+        self.session.execute(sql_prep2)
+        pass
