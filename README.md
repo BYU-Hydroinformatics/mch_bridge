@@ -22,6 +22,38 @@ The application MCH bridge allows users to upload and preview csv files of:
 
 4. Time Series (e.g. detail, daily data)
 
+## Installation
+
+**You will need to have Tethys pre-installed**. You can install tethys [here](http://docs.tethysplatform.org/en/stable/installation.html)
+
+The steps to install the application are the following:
+
+- Setup the backend that channels will use
+
+  `tethys settings --set CHANNEL_LAYERS.default.BACKEND channels.layers.InMemoryChannelLayer`
+
+- Install the application running:
+  ```bash
+  conda install --file requirements.txt -c conda-forge
+  tethys install -d -w
+  ```
+- When asked for the custom settings please use your default mch database.
+
+## Develop
+
+The following instructions can be used to create a **MCH** mock database for testing and developing the app.
+
+- Clone Data from **MCH** to docker container
+
+  `mysqldump -u root -p mch --single-transaction > C:\mch_tables_sample.sql`
+
+- Run docker container
+  ```bash
+  cd docker_developer
+  docker-compose up --build
+  ```
+- Connect to a some database viewer such as _dbeaver_
+
 ## Overview
 
 There are two main menus: MCH Database Tables and Data menus
