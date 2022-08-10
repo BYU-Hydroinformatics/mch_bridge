@@ -32,21 +32,13 @@ MCH Database Tables Menu provides information about the data in the MCH instance
 
 MCH Database Tables Menu provides information about the data in the MCH instance that is connected to the app while the Data menu allows to upload and preview data in each of the MCH tables of the MCH Database Tables Menu.
 
-#### Stations Tab
+1. **Stations Tab**: Provides visualization and total count of the current stations found in the MCH instance (specifically in the stations table)
 
-Provides visualization and total count of the current stations found in the MCH instance (specifically in the stations table)
+1. **Stations Group Tab**: Provides a summary table with a count of the stations in the different station groups
 
-#### Stations Group Tab
+1. **Variable Station Types Tab**: Provides a summary table with a count of the station groups in the different variable station types
 
-Provides a summary table with a count of the stations in the different station groups
-
-#### Variable Station Types Tab
-
-Provides a summary table with a count of the station groups in the different variable station types
-
-#### Time Series tab
-
-Provides a total count of data points and table details for the variable tables containing data
+1. **Time Series Tab**: Provides a total count of data points and table details for the variable tables containing data
 
 ### Data Menu
 
@@ -58,17 +50,11 @@ Only time series data uploading allows for multiple csv files. Data uploading of
 
 Similarly data can be previewed for the different data files:
 
-#### Stations
+1. **Stations**: Data file containing stations can be previewed in a map that shows the name of the each stations after clicking on each of them.
 
-Data file containing stations can be previewed in a map that shows the name of the each stations after clicking on each of them.
+1. **Station Groups and Variable Types Stations**: Data file containing stations groups or variable types stations are previewed by providing a table with the content of the file.
 
-#### Station Groups and Variable Types Stations
-
-Data file containing stations groups or variable types stations are previewed by providing a table with the content of the file.
-
-#### Time Series
-
-Data files for each time series are plotted in order to be previewed.
+1. **Time Series**: Data files for each time series are plotted in order to be previewed.
 
 ## Data Preparation
 
