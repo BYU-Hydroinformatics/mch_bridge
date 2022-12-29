@@ -8,7 +8,7 @@ class MchBridge(TethysAppBase):
     """
 
     name = "Mch Bridge"
-    index = "mch_bridge:home"
+    index = "home"
     icon = "mch_bridge/images/logo.svg"
     package = "mch_bridge"
     root_url = "mch-bridge"
