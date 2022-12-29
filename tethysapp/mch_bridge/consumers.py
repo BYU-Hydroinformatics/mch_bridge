@@ -12,7 +12,7 @@ logger = logging.getLogger("tethys.apps.mch_bridge")
 logger.setLevel(logging.INFO)
 
 
-@consumer(name='adding_data_notifications',url='mch-bridge/upload-data/notifications/')
+@consumer(name='adding_data_notifications',url='mch-bridge/upload-data/notifications')
 class AddingDataConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         await self.accept()
