@@ -20,11 +20,11 @@
 {% block header_buttons %}
   {{ block.super }} 
 
-  <div class="header-button glyphicon-button" data-toggle="tooltip" data-placement="bottom" title="Getting Started">
-    <a data-toggle="modal" data-target="#help-modal"><i class="fa-solid fa-question"></i></a>
+  <div class="header-button glyphicon-button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Getting Started">
+    <a data-bs-toggle="modal" data-bs-target="#help-modal"><i class="fa-solid fa-question"></i></a>
   </div>
-  <div class="header-button glyphicon-button" data-toggle="tooltip" data-placement="bottom" title="Data Prep">
-    <a data-toggle="modal" data-target="#data-prep-modal"><i class="fa-solid fa-file-signature"></i></span></a>
+  <div class="header-button glyphicon-button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Data Prep">
+    <a data-bs-toggle="modal" data-bs-target="#data-prep-modal"><i class="fa-solid fa-file-signature"></i></span></a>
   </div>
 {% endblock %}
 
@@ -34,7 +34,7 @@
 {% url 'mch_bridge:variableStationTypes' as variableStationTypes_url %}
 {% url 'mch_bridge:timeSeries' as timeSeries_url %}
 
-<h3 class="title__app__content">MCH Database Tables</h3>
+<h4 class="title__app__content">MCH Database Tables</h4>
   <div class="vertical__flex">
 
     <div class="horizontal__flex active_tab" id="stations_tab">

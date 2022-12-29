@@ -30,9 +30,9 @@ var STATIONGROUP_OBJECT = (function () {
 
   preview_stnGroups = function () {
     $("#comodin__div").empty();
-    var html_title = `<p class="p__font__h1 my_flex">Group Stations Preview <span class="flex_buttons"> <span id="go_back_stn_gr_prev" class="fake__btn hide_bar_color"> <i class="fa-solid fa-xmark"></i></span> <span id="go_back_stn_menu" class="fake__btn hidden button_icon">Menu <i class="fa-solid fa-chevron-right "></i></span> </span></p>`;
+    var html_title = `<p class="p__font__h1 my_flex">Group Stations Preview <span class="flex_buttons"> <span id="go_back_stn_gr_prev" class="fake__btn hide_bar_color"> <i class="fa-solid fa-xmark"></i></span> <span id="go_back_stn_menu" class="fake__btn d-none button_icon">Menu <i class="fa-solid fa-chevron-right "></i></span> </span></p>`;
 
-    // var html_title = `<p class="p__font__h1 my_flex">Group Stations Preview <span> <i id="go_back_stn_gr_prev"class="fa-solid fa-chevron-right fake__btn"></i> <span id="go_back_stn_menu" class="fake__btn hidden">Menu <i class="fa-solid fa-chevron-right "></i></span> </span></p>`;
+    // var html_title = `<p class="p__font__h1 my_flex">Group Stations Preview <span> <i id="go_back_stn_gr_prev"class="fa-solid fa-chevron-right fake__btn"></i> <span id="go_back_stn_menu" class="fake__btn d-none">Menu <i class="fa-solid fa-chevron-right "></i></span> </span></p>`;
     // var html_title = `<p class="p__font__h1 my_flex">Group Stations Preview<i id="go_back_stn_gr"class="fa-solid fa-chevron-right fake__btn"></i></p>`;
 
     // var html_title = `<p class="p__font__h1 my_flex">Group Stations Preview<i id="go_up_stn_gr_backup" class="fa-solid fa-chevron-left fake__btn"></i></p>`;
@@ -68,45 +68,45 @@ var STATIONGROUP_OBJECT = (function () {
       console.log(html_string);
       // $(html_string).appendTo('#csv_table')
       $("#csv_table").html(html_string);
-      $("#comodin__div").removeClass("hidden");
+      $("#comodin__div").removeClass("d-none");
 
       $("#go_back_stn_gr_prev").click(function () {
         $("#comodin__div").addClass("fadeout");
         //
         // setTimeout(function(){
-        // $('#go_up_stn_gr').removeClass("hidden");
-        $("#go_show_prev_stn").removeClass("hidden");
+        // $('#go_up_stn_gr').removeClass("d-none");
+        $("#go_show_prev_stn").removeClass("d-none");
 
         //not sure
-        if ($("#sidebar").hasClass("side_hidden")) {
-          // $('#go_up_stn_gr').addClass("hidden");
-          if (!$("#comodin__div").hasClass("hidden")) {
-            $("#go_up_stn_gr").removeClass("hidden");
+        if ($("#sidebar").hasClass("side_d-none")) {
+          // $('#go_up_stn_gr').addClass("d-none");
+          if (!$("#comodin__div").hasClass("d-none")) {
+            $("#go_up_stn_gr").removeClass("d-none");
           } else {
-            $("#go_up_stn_gr").addClass("hidden");
-            $("#go_back_stn_menu").removeClass("hidden");
+            $("#go_up_stn_gr").addClass("d-none");
+            $("#go_back_stn_menu").removeClass("d-none");
           }
         }
 
-        $("#comodin__div").addClass("hidden");
+        $("#comodin__div").addClass("d-none");
         // },300);
       });
 
       $("#go_show_prev_stn").click(function () {
         $("#comodin__div").removeClass("fadeout");
 
-        $("#go_up_stn_gr").addClass("hidden");
+        $("#go_up_stn_gr").addClass("d-none");
 
         // setTimeout(function(){
-        if (!$("#sidebar").hasClass("side_hidden")) {
-          // $('#go_up_var').addClass("hidden");
-          $("#go_back_stn_menu").addClass("hidden");
+        if (!$("#sidebar").hasClass("side_d-none")) {
+          // $('#go_up_var').addClass("d-none");
+          $("#go_back_stn_menu").addClass("d-none");
         } else {
-          $("#go_back_stn_menu").removeClass("hidden");
+          $("#go_back_stn_menu").removeClass("d-none");
         }
-        $("#go_show_prev_stn").addClass("hidden");
+        $("#go_show_prev_stn").addClass("d-none");
 
-        $("#comodin__div").removeClass("hidden");
+        $("#comodin__div").removeClass("d-none");
         // },300);
       });
 
@@ -116,8 +116,8 @@ var STATIONGROUP_OBJECT = (function () {
           $("#sidebar").removeClass("side_out");
           $("#sidebar").removeClass("side_out_double");
           $("#sidebar").addClass("side_margin");
-          // $("#sidebar").addClass("side_hidden");
-          $("#sidebar").removeClass("side_hidden");
+          // $("#sidebar").addClass("side_d-none");
+          $("#sidebar").removeClass("side_d-none");
         }
         //nav_bar not showing
         else {
@@ -125,10 +125,10 @@ var STATIONGROUP_OBJECT = (function () {
           $("#sidebar").removeClass("side_out_double");
           $("#sidebar").addClass("side_margin");
           $("#sidebar").addClass("side_out");
-          // $("#sidebar").addClass("side_hidden");
-          $("#sidebar").removeClass("side_hidden");
+          // $("#sidebar").addClass("side_d-none");
+          $("#sidebar").removeClass("side_d-none");
         }
-        $("#go_back_stn_menu").addClass("hidden");
+        $("#go_back_stn_menu").addClass("d-none");
         $(".vertical__div").addClass("margin_side");
       });
     });
@@ -172,7 +172,7 @@ var STATIONGROUP_OBJECT = (function () {
         $("#sidebar").removeClass("side_out");
         $("#sidebar").removeClass("side_out_double");
         $("#sidebar").addClass("side_margin");
-        $("#sidebar").removeClass("side_hidden");
+        $("#sidebar").removeClass("side_d-none");
       }
       //nav_bar not showing
       else {
@@ -180,9 +180,9 @@ var STATIONGROUP_OBJECT = (function () {
         $("#sidebar").removeClass("side_out_double");
         $("#sidebar").addClass("side_margin");
         $("#sidebar").addClass("side_out");
-        $("#sidebar").removeClass("side_hidden");
+        $("#sidebar").removeClass("side_d-none");
       }
-      $("#go_up_stn_gr").addClass("hidden");
+      $("#go_up_stn_gr").addClass("d-none");
       $(".vertical__div").addClass("margin_side");
     });
 
@@ -193,7 +193,7 @@ var STATIONGROUP_OBJECT = (function () {
         $("#sidebar").addClass("side_margin");
         $("#sidebar").addClass("side_out_double");
         $("#sidebar").removeClass("side_out");
-        $("#sidebar").addClass("side_hidden");
+        $("#sidebar").addClass("side_d-none");
       }
       //nav_bar not showing
       else {
@@ -202,21 +202,21 @@ var STATIONGROUP_OBJECT = (function () {
         $("#sidebar").addClass("side_out_double");
         $("#sidebar").addClass("side_margin");
         $("#sidebar").addClass("side_out");
-        $("#sidebar").addClass("side_hidden");
+        $("#sidebar").addClass("side_d-none");
       }
 
       $(".vertical__div").removeClass("margin_side");
-      // $('.hide_bar2').removeClass("hidden");
+      // $('.hide_bar2').removeClass("d-none");
 
-      if ($("#comodin__div").hasClass("hidden")) {
-        console.log("preview widnow is hidden");
-        $("#go_up_stn_gr").removeClass("hidden");
+      if ($("#comodin__div").hasClass("d-none")) {
+        console.log("preview widnow is d-none");
+        $("#go_up_stn_gr").removeClass("d-none");
       }
       //if preview is showing
       else {
         console.log("preview widnow is showing");
-        $("#go_up_stn_gr").addClass("hidden");
-        $("#go_back_stn_menu").removeClass("hidden");
+        $("#go_up_stn_gr").addClass("d-none");
+        $("#go_back_stn_menu").removeClass("d-none");
       }
     });
 

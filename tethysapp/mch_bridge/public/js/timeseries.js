@@ -65,7 +65,7 @@ var TIMESERIES_OBJECT = (function () {
   };
   preview_time_series = function () {
     // $('#comodin__div__timeseries').empty();
-    $("#comodin__div__timeseries").css("visibility", "hidden");
+    $("#comodin__div__timeseries").css("visibility", "d-none");
     $("#next_plot").hide();
     $("#last_plot").hide();
     var userFiles = document.getElementById("timeseries_csv_preview").files;
@@ -98,7 +98,7 @@ var TIMESERIES_OBJECT = (function () {
           "comodin__div__timeseries"
         );
       }
-      $("#content_divided_ts").removeClass("hidden");
+      $("#content_divided_ts").removeClass("d-none");
 
       $("#next_plot").show();
       $("#last_plot").show();
@@ -189,7 +189,7 @@ var TIMESERIES_OBJECT = (function () {
         $("#sidebar").addClass("side_margin");
         $("#sidebar").addClass("side_out");
       }
-      $(".hide_bar2").addClass("hidden");
+      $(".hide_bar2").addClass("d-none");
       $(".horizontal__div").addClass("margin_side");
     });
     $(".hide_bar3").click(function () {
@@ -206,7 +206,7 @@ var TIMESERIES_OBJECT = (function () {
         $("#sidebar").addClass("side_margin");
         $("#sidebar").addClass("side_out");
       }
-      $(".hide_bar3").addClass("hidden");
+      $(".hide_bar3").addClass("d-none");
       $(".horizontal__div").addClass("margin_side");
     });
     $(".hide_bar").click(function () {
@@ -227,10 +227,10 @@ var TIMESERIES_OBJECT = (function () {
       }
 
       $(".horizontal__div").removeClass("margin_side");
-      if ($("#content_divided_ts").hasClass("hidden")) {
-        $(".hide_bar2").removeClass("hidden");
+      if ($("#content_divided_ts").hasClass("d-none")) {
+        $(".hide_bar2").removeClass("d-none");
       } else {
-        $(".hide_bar3").removeClass("hidden");
+        $(".hide_bar3").removeClass("d-none");
       }
     });
 
@@ -262,7 +262,7 @@ var TIMESERIES_OBJECT = (function () {
       var request_oj = {
         variable: variable_stn,
       };
-      $(".loader").removeClass("hidden");
+      $(".loader").removeClass("d-none");
       $.ajax({
         url: `get-stations-var/`,
         type: "POST",
@@ -292,13 +292,13 @@ var TIMESERIES_OBJECT = (function () {
           });
           if(html_string ==""){
             $("#example").hide();
-            $("#warning_prompt").removeClass("hidden")
+            $("#warning_prompt").removeClass("d-none")
           }
           else{
             $("#example").show();
           }
           $(html_string).appendTo("#tables_stn_vars");
-          $(".loader").addClass("hidden");
+          $(".loader").addClass("d-none");
 
           console.log(resp);
         },
@@ -306,7 +306,7 @@ var TIMESERIES_OBJECT = (function () {
         // handle a non-successful response
         error: function (xhr, errmsg, err) {
           $.notify(`${xhr.responseText}`, "error");
-          $(".loader").addClass("hidden");
+          $(".loader").addClass("d-none");
 
           console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
         },

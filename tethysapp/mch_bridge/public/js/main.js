@@ -286,7 +286,7 @@ var MAIN_OBJECT = (function () {
     });
 
     window.addEventListener("beforeunload", function (event) {
-      $(".loader").removeClass("hidden");
+      $(".loader").removeClass("d-none");
     });
 
     $("#show_instructions").change(function () {

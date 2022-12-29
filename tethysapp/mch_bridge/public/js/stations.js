@@ -233,7 +233,7 @@ var STATION_OBJECT = (function () {
 
     //     $('.horizontal__div').removeClass("margin_side");
     //     $(".hide_bar_div").hide();
-    //     $('.hide_bar2').removeClass("hidden");
+    //     $('.hide_bar2').removeClass("d-none");
 
     // })
 
@@ -251,7 +251,7 @@ var STATION_OBJECT = (function () {
         $("#sidebar").addClass("side_margin");
         $("#sidebar").addClass("side_out");
       }
-      $(".hide_bar2").addClass("hidden");
+      $(".hide_bar2").addClass("d-none");
       $(".horizontal__div").addClass("margin_side");
     });
 
@@ -273,7 +273,7 @@ var STATION_OBJECT = (function () {
       }
 
       $(".horizontal__div").removeClass("margin_side");
-      $(".hide_bar2").removeClass("hidden");
+      $(".hide_bar2").removeClass("d-none");
     });
 
     // Make tab available and active
