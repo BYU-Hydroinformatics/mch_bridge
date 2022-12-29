@@ -7,11 +7,12 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 
 # trunk-ignore(flake8/F401)
 from .controllers import delete_file_workspaces, upload__data
-
+from tethys_sdk.routing import consumer
 logger = logging.getLogger("tethys.apps.mch_bridge")
 logger.setLevel(logging.INFO)
 
 
+@consumer(name='adding_data_notifications',url='mch-bridge/upload-data/notifications/')
 class AddingDataConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         await self.accept()

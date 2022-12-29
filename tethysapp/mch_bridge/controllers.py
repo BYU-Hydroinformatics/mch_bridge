@@ -11,15 +11,15 @@ from channels.layers import get_channel_layer
 from django.http.response import JsonResponse
 from django.shortcuts import render
 from sqlalchemy.exc import ProgrammingError
-from tethys_sdk.permissions import login_required
+# from tethys_sdk.permissions import login_required
 
 from .app import MchBridge as app
 from .auxiliary import stations_reload
 from .single_db import Database
 from django.core.serializers.json import DjangoJSONEncoder
+from tethys_sdk.routing import controller
 
-
-@login_required()
+@controller(name='get-stations-var',url='mch-bridge/timeSeries/get-stations-var')
 def get_stations_var(request):
 
     station_selected = request.POST.get("variable")
@@ -39,7 +39,7 @@ def get_stations_var(request):
     return JsonResponse(response_obj)
 
 
-@login_required()
+@controller(name='home',url='mch-bridge')
 def home(request):
     """
     Controller for the app home page.
@@ -72,7 +72,7 @@ def home(request):
         return render(request, "mch_bridge/stations.html", context)
 
 
-@login_required()
+@controller(name='stations',url='mch-bridge/stations')
 def stations(request):
     """
     Controller for the app home page.
@@ -105,7 +105,7 @@ def stations(request):
         return render(request, "mch_bridge/stations.html", context)
 
 
-@login_required()
+@controller(name='groupStations',url='mch-bridge/groupStations')
 def groupStations(request):
     """
     Controller for the app home page.
@@ -131,7 +131,7 @@ def groupStations(request):
         return render(request, "mch_bridge/groupStations.html", context)
 
 
-@login_required()
+@controller(name='variableStationTypes',url='mch-bridge/variableStationTypes')
 def variableStationTypes(request):
     """
     Controller for the app home page.
@@ -157,7 +157,7 @@ def variableStationTypes(request):
         return render(request, "mch_bridge/variableStationTypes.html", context)
 
 
-@login_required()
+@controller(name='timeSeries',url='mch-bridge/timeSeries')
 def timeSeries(request):
     """
     Controller for the app home page.
@@ -204,7 +204,12 @@ def timeSeries(request):
         context = {"summary_data": {}}
         return render(request, "mch_bridge/timeSeries.html", context)
 
-
+@controller(url={
+    'home-stations-upload_files':'mch-bridge/upload-files',
+    'stations-upload_files':'mch-bridge/stations/upload-files',
+    'variableStationTypes-upload_files':'mch-bridge/variableStationTypes/upload-files',
+    'timeSeries-upload_files':'mch-bridge/timeSeries/upload-files',
+    'groupStations-upload_files':'mch-bridge/groupStations/upload-files'})
 def upload__files(request):
     # upload_type = request.POST.get("type_upload")
     csv_file = request.FILES.getlist("csv_file", None)
@@ -223,7 +228,6 @@ def upload__files(request):
         respose_list.append(respose_single)
 
     return JsonResponse({"data": respose_list})
-
 
 def upload__data(upload_type, csv_file, ids, channel_layer):
 
