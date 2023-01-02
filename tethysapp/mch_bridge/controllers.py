@@ -6,7 +6,7 @@ from random import randint
 import aiomysql
 import pandas as pd
 import pymysql
-from asgiref.sync import async_to_sync
+from asgiref.sync import async_to_sync, sync_to_async
 from channels.layers import get_channel_layer
 from django.http.response import JsonResponse
 from django.shortcuts import render
@@ -237,13 +237,13 @@ def upload__data(upload_type, csv_file, ids, channel_layer):
     res_obj = {}
     channel_layer = get_channel_layer()
 
-    async_to_sync(channel_layer.group_send)(
-        "notifications",
-        {
-            "type": "simple_notifications",
-            "message": "Uploading process starting . . .",
-        },
-    )
+    # async_to_sync(channel_layer.group_send)(
+    #     "notifications",
+    #     {
+    #         "type": "simple_notifications",
+    #         "message": "Uploading process starting . . .",
+    #     },
+    # )
 
     try:
         # upload_type = request.POST.get("type_upload")
@@ -255,7 +255,16 @@ def upload__data(upload_type, csv_file, ids, channel_layer):
         # loop.run_until_complete(quicker_upload(loop, upload_type, csv_file))
 
         res_obj["success"] = "data is being uploaded .."
+    except RuntimeError as e:
+        # breakpoint()
+        if str(e).startswith('There is no current event loop in thread'):
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            loop.run_until_complete(quicker_upload(loop, upload_type, csv_file, ids))
+            res_obj["success"] = "data is being uploaded .."
 
+        else:
+            raise
     except Exception as e:
         print(e, "opa")
         res_obj[
@@ -444,11 +453,18 @@ async def upload_data_tables(cur, table_name, csv_file, ids):
 
 
 async def quicker_upload(loop, table_name, csv_file, ids):
-    host_db = app.get_custom_setting("Database host")
-    port_db = app.get_custom_setting("Database Port")
-    user_db = app.get_custom_setting("Database User")
-    password_db = app.get_custom_setting("Database Password")
-    db_name = app.get_custom_setting("Database Name")
+    # breakpoint()
+    host_db = await sync_to_async(app.get_custom_setting, thread_sensitive=True)("Database host")
+    port_db = await sync_to_async(app.get_custom_setting, thread_sensitive=True)("Database Port")
+    user_db = await sync_to_async(app.get_custom_setting, thread_sensitive=True)("Database User")
+    password_db = await sync_to_async(app.get_custom_setting, thread_sensitive=True)("Database Password")
+    db_name = await sync_to_async(app.get_custom_setting, thread_sensitive=True)("Database Name")
+
+    # host_db = await sync_to_async(app.get_custom_setting("Database host"))
+    # port_db = await sync_to_async(app.get_custom_setting("Database Port"))
+    # user_db = await sync_to_async(app.get_custom_setting("Database User"))
+    # password_db = await sync_to_async(app.get_custom_setting("Database Password"))
+    # db_name = await sync_to_async(app.get_custom_setting("Database Name"))
 
     pool = await aiomysql.create_pool(
         host=host_db,

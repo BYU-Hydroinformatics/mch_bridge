@@ -173,9 +173,9 @@ var MAIN_OBJECT = (function () {
       protocol = "wss";
     }
     let ws_url = `${protocol}://${window.location.host}`;
-    let app_path = mchHomeUrl.replace("/apps", "");
+    // let app_path = mchHomeUrl.replace("/apps", "");
     console.log(mchHomeUrl);
-    ws_url = `${ws_url}${app_path}upload-data/notifications/ws/`;
+    ws_url = `${ws_url}${mchHomeUrl}upload-data/notifications/ws/`;
     startWS(ws_url);
 
     $.ajax({

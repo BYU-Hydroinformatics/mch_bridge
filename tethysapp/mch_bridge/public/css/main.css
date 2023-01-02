@@ -133,7 +133,7 @@
 #summary__stn {
   width: 100%;
   /* flex: 1 1 0; */
-  padding: 10px;
+  padding-top: 25px;
 }
 #summary__timeseries {
   width: 100%;
