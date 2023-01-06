@@ -23,9 +23,9 @@ resource_files += find_resource_files(
 setup(
     name=release_package,
     version="1.2.0",
-    description="",
+    description="Application to upload data to MCH database instances",
     long_description="",
-    keywords="",
+    keywords="WMO, MCH",
     author="Giovanni Romero",
     author_email="gio.busrom@gmail.com",
     url="",
