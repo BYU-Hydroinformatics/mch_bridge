@@ -209,15 +209,31 @@ var MAIN_OBJECT = (function () {
         });
 
         $(html_string).appendTo(`#${type_upload}_table_content`);
+        if(notification_ws.readyState)
+        {
+          notification_ws.send(
+            JSON.stringify({
+              type: "upload__data",
+              type_upload: type_upload,
+              csv_file: files_list,
+              id: id_lists,
+            })
+          );
+        }
+        else
+        {
+            setTimeout(function(){
+              notification_ws.send(
+                JSON.stringify({
+                  type: "upload__data",
+                  type_upload: type_upload,
+                  csv_file: files_list,
+                  id: id_lists,
+                })
+              );
+            }, 1000);
+        }  
 
-        notification_ws.send(
-          JSON.stringify({
-            type: "upload__data",
-            type_upload: type_upload,
-            csv_file: files_list,
-            id: id_lists,
-          })
-        );
       },
 
       // handle a non-successful response
